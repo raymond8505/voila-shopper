@@ -1,14 +1,15 @@
-import { GlobalStyles } from "./components/common/styles/GlobalStyles";
-import { ConfigProvider } from "antd";
-import { App as InnerApp } from "./app/App";
+import { GlobalStyles } from "./components/common/styles/GlobalStyles"
+import { ConfigProvider } from "antd"
+
+import { Client } from "./components/Client"
 
 function App() {
-  return (
-    <ConfigProvider>
-      <GlobalStyles />
-      <InnerApp />
-    </ConfigProvider>
-  );
+	return (
+		<ConfigProvider>
+			<GlobalStyles />
+			<Client />
+		</ConfigProvider>
+	)
 }
 
-export default App;
+export default App

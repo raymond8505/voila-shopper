@@ -17,7 +17,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         client: resolve(__dirname, "src/main.tsx"),
-
       },
       output: {
         entryFileNames: chunk => {
