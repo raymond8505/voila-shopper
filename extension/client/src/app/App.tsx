@@ -6,5 +6,5 @@ export const App = () => {
     console.log(msg);
   });
 
-  return readyState === ReadyState.OPEN ? <></> : null;
+  return readyState === ReadyState.OPEN ? <>test</> : <>null</>;
 };

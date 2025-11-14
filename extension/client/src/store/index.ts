@@ -5,7 +5,7 @@ export interface Store {
   setCount: (n: number) => void;
 }
 export const useStore = create<Store>(
-  (set, get): Store => ({
+  (set): Store => ({
     count: 0,
     setCount: (n) =>
       set({
