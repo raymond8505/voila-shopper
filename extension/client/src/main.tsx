@@ -21,6 +21,7 @@ styleElement.textContent = `
 body > div#app
 {
 width: calc(75vw - 16px) !important;
+margin-left: 25vw !important;
 }
 `
 document.head.appendChild(styleElement)

@@ -1,0 +1,127 @@
+export namespace Voila {
+	export interface Product {
+		productId: string
+		retailerProductId: string
+		type: string
+		name: string
+		brand: string
+		packSizeDescription: string
+		price: {
+			amount: string
+			currency: string
+		}
+		unitPrice: {
+			price: {
+				amount: string
+				currency: string
+			}
+			unit: string
+		}
+		available: boolean
+		isVerifiedPurchase: boolean
+		quantityInBasket: number
+		maxQuantityReached: boolean
+		promotions: {
+			promoId: string
+			retailerPromotionId: string
+			description: string
+			type: string
+			presentationMode: string
+			limitReached: boolean
+		}[]
+		taxCodesDisplayNames: string[]
+		promoPrice?: {
+			amount: string
+			currency: string
+		}
+		promoUnitPrice?: {
+			price: {
+				amount: string
+				currency: string
+			}
+			unit: string
+		}
+		imageConfig: {
+			availableFormats: string[]
+			availableResolutions: string[]
+		}
+		image: {
+			src: string
+			description: string
+			fopSrcset: string
+			bopSrcset: string
+			imageId: string
+		}
+		images: {
+			src: string
+			description: string
+			fopSrcset: string
+			bopSrcset: string
+			imageId: string
+		}[]
+		imageIds: string[]
+		imagePaths: string[]
+		iconAttributes: {
+			label: string
+			file: string
+		}[]
+		icons: any[]
+		basketLines: any[]
+		timeRestricted: boolean
+		alternatives: any[]
+		isInShoppingList: boolean
+		isInCurrentCatalog: boolean
+		retailerFinancingPlanIds: any[]
+		alcohol: boolean
+		categoryPath: string[]
+		isNew: boolean
+	}
+
+	export type ProductImpression = Pick<
+		Voila.Product,
+		"productId" | "name" | "brand" | "price"
+	> & {
+		id: string
+		category: string
+		variant: string
+		quantity: number
+		isFeatured: boolean
+		isFavorite: boolean
+		canAddToBasket: boolean
+		promotionIds: string[]
+		promotionNames: string[]
+		position: number
+		isOnPromotion: boolean
+		isPersonalised: boolean
+		list: string
+	}
+
+	export interface ViewItemListEvent {
+		eventAction: "view_item_list"
+		ecommerce?: {
+			impressions?: ProductImpression[]
+		}
+	}
+
+	export interface FetchProductsResponse {
+		products: Product[]
+		missedPromotions: unknown[]
+		restrictedGroups: Record<string, unknown>
+	}
+}
+export namespace Job {
+	export type Product = Pick<
+		Voila.Product,
+		| "productId"
+		| "brand"
+		| "categoryPath"
+		| "name"
+		| "price"
+		| "promoPrice"
+		| "promoUnitPrice"
+		| "unitPrice"
+	>
+	export type ShopperJob = {
+		products: Product[]
+	}
+}
