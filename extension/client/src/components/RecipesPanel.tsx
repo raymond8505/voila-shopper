@@ -1,33 +1,21 @@
-import { useCallback, useMemo, useRef, useState } from "react"
+import { useCallback } from "react"
 
-import { Button, Collapse, Input } from "antd"
-import { ShoppingCartOutlined } from "@ant-design/icons"
-import { useShopper } from "../hooks/useShopper"
-import type { Voila } from "../types"
+import { Button, List } from "antd"
+
 import { css } from "@emotion/react"
-import { mapProductsToCategories } from "../helpers"
-import { ProductCardGrid } from "./ProductCardGrid"
+import { fetchCartProducts } from "../api/voila"
+import { useStore } from "../store"
+import { CloseOutlined } from "@ant-design/icons"
+import { UnstyledButton } from "./common/elements.styles"
 
 export function RecipesPanel() {
-	const { getRecommendations } = useShopper()
-	const gettingRecommendations = useRef(false)
-	const [recommendedProducts, setRecommendedProducts] = useState<
-		Voila.Product[]
-	>([])
-	const [jobId, setJobId] = useState("")
+	const handleGetRecipesClick = useCallback(() => {
+		fetchCartProducts().then((products) => {
+			console.log("Cart products:", products)
+		})
+	}, [])
 
-	const handleGetJobClick = useCallback(() => {
-		if (!gettingRecommendations.current) {
-			gettingRecommendations.current = true
-			getRecommendations("7900dba4-fc24-4f56-b8b9-378fde6915e1").then(
-				(products) => {
-					console.log("Recommended products:", products)
-					gettingRecommendations.current = false
-					setRecommendedProducts(products)
-				}
-			)
-		}
-	}, [getRecommendations, setRecommendedProducts])
+	const { ingredients, removeIngredient } = useStore()
 
 	return (
 		<div
@@ -44,17 +32,9 @@ export function RecipesPanel() {
 					gap: 8px;
 				`}
 			>
-				<Input
-					type="text"
-					placeholder="Job ID"
-					value={jobId}
-					onChange={(e) => setJobId(e.target.value)}
-				/>
-				<Button
-					type="primary"
-					icon={<ShoppingCartOutlined />}
-					onClick={handleGetJobClick}
-				/>
+				<Button type="primary" onClick={handleGetRecipesClick}>
+					Get Recipes
+				</Button>
 			</div>
 			<div
 				css={css`
@@ -62,7 +42,41 @@ export function RecipesPanel() {
 					padding: 8px;
 				`}
 			>
-				recipes
+				<strong>Ingredients</strong>
+				<List
+					itemLayout="horizontal"
+					dataSource={ingredients}
+					renderItem={(product) => (
+						<List.Item
+							actions={[
+								<UnstyledButton
+									onClick={() => removeIngredient(product.productId)}
+								>
+									<CloseOutlined />
+								</UnstyledButton>,
+							]}
+						>
+							<List.Item.Meta
+								avatar={
+									product.images && product.images.length > 0 ? (
+										<img
+											alt={product.name}
+											src={product.images[0].src}
+											style={{ width: 50, height: 50, objectFit: "cover" }}
+										/>
+									) : null
+								}
+								title={product.name}
+								description={`Price: ${
+									product.promoPrice
+										? product.promoPrice.amount
+										: product.price.amount
+								}`}
+							/>
+						</List.Item>
+					)}
+				></List>
+				<strong>Recipes</strong>
 			</div>
 		</div>
 	)

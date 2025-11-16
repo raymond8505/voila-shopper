@@ -5,7 +5,15 @@ import { Client } from "./components/Client"
 
 function App() {
 	return (
-		<ConfigProvider>
+		<ConfigProvider
+			theme={{
+				token: {
+					colorHighlight: "#00d6ff",
+					colorPrimaryActive: "#00d6ff",
+					colorText: "#004740",
+				},
+			}}
+		>
 			<GlobalStyles />
 			<Client />
 		</ConfigProvider>

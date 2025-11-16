@@ -5,8 +5,12 @@ const isLocal = window.location.hostname === "localhost"
 
 export async function voilaRequest({
 	fetchOpts,
-}: { fetchOpts?: RequestInit } = {}) {
-	return fetch("https://voila.ca/api/webproductpagews/v6/products", {
+	url,
+}: {
+	fetchOpts?: RequestInit
+	url: string
+}) {
+	return fetch(url, {
 		method: fetchOpts?.method || "GET",
 		credentials: "include",
 		...fetchOpts,
@@ -45,6 +49,7 @@ export async function fetchProducts(
 	}
 
 	const resp = await voilaRequest({
+		url: "https://voila.ca/api/webproductpagews/v6/products",
 		fetchOpts: {
 			method: "PUT",
 			body: JSON.stringify(ids),
@@ -52,4 +57,34 @@ export async function fetchProducts(
 	})
 
 	return await resp.json()
+}
+
+export async function addToCart({
+	productId,
+	quantity,
+}: {
+	productId: string
+	quantity: number
+}) {
+	return await voilaRequest({
+		url: "https://voila.ca/api/cart/v1/carts/active/add-items",
+		fetchOpts: {
+			method: "POST",
+			body: JSON.stringify([
+				{
+					productId,
+					quantity,
+				},
+			]),
+		},
+	})
+}
+
+export async function fetchCartProducts() {
+	const resp = await voilaRequest({
+		url: "https://voila.ca/api/cart/v1/meta/carts/active/products",
+	})
+
+	const ids = (await resp.json()).items.map((item) => item.productId)
+	return await fetchProducts(ids)
 }
