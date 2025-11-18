@@ -11,10 +11,14 @@ export function useShopper() {
 		const jobData = await getJobData<Job.ShopperJob>(jobId)
 
 		const voilaProducts = await getProducts(
-			jobData.flatMap((job) => job.products.map((p) => p.productId))
+			jobData.flatMap((job) =>
+				job.products
+					.filter((id) => id !== null)
+					.filter((id, i) => job.products.indexOf(id) === i)
+			)
 		)
 
-		console.log("Voila Products:", voilaProducts)
+		console.log("Voila Products:", { voilaProducts, jobData })
 
 		return voilaProducts.products
 	}, [])

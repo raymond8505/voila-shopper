@@ -1,11 +1,15 @@
 import { useCallback, useState } from "react"
 
-import { Button, Collapse, List, Splitter } from "antd"
+// import { Button, Collapse, List,
+import Splitter from "antd/es/splitter"
+import Button from "antd/es/button"
+import Collapse from "antd/es/collapse"
+import List from "antd/es/list"
 
 import { css } from "@emotion/react"
 
 import { useStore } from "../store"
-import { CloseOutlined } from "@ant-design/icons"
+import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import Markdown from "react-markdown"
 export function RecipesPanel() {

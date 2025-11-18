@@ -11,6 +11,8 @@ export function useJobManager() {
 
 			const json = await resp.json()
 
+			console.log({ json })
+
 			return json.map((item) => JSON.parse(item.data))
 		},
 		[]

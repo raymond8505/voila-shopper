@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from "react"
-
-import { Button, Collapse, Input } from "antd"
-import { ShoppingCartOutlined } from "@ant-design/icons"
+import Button from "antd/es/button"
+import Collapse from "antd/es/collapse"
+import Input from "antd/es/input"
+import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import { useShopper } from "../hooks/useShopper"
-import type { Voila } from "../types"
+import type { CategoryTree, Voila } from "../types"
 import { css } from "@emotion/react"
-import { mapProductsToCategories } from "../helpers"
+import { categoryTreeFromProducts } from "../helpers"
 import { ProductCardGrid } from "./ProductCardGrid"
 
 export function ProductsPanel() {
@@ -19,20 +20,56 @@ export function ProductsPanel() {
 	const handleGetJobClick = useCallback(() => {
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
-			getRecommendations("7900dba4-fc24-4f56-b8b9-378fde6915e1").then(
-				(products) => {
+			getRecommendations(jobId)
+				.then((products) => {
 					console.log("Recommended products:", products)
 					gettingRecommendations.current = false
 					setRecommendedProducts(products)
-				}
-			)
+				})
+				.catch((e) => {
+					console.log("Recommended products:", e)
+					gettingRecommendations.current = false
+				})
 		}
-	}, [getRecommendations, setRecommendedProducts])
+	}, [getRecommendations, setRecommendedProducts, jobId])
 
 	const categorizedProducts = useMemo(
-		() => mapProductsToCategories(recommendedProducts),
+		() => categoryTreeFromProducts(recommendedProducts, 1),
 		[recommendedProducts]
 	)
+
+	function createCategoryCollapse(
+		input: CategoryTree | Voila.Product[],
+		name?: string
+	) {
+		if (Array.isArray(input)) {
+			console.log({ input }, name)
+			return (
+				<Collapse>
+					<Collapse.Panel
+						header={`${name} (${input.length})`}
+						key={name || Math.random()}
+					>
+						<ProductCardGrid products={input} key={name} />
+					</Collapse.Panel>
+				</Collapse>
+			)
+		} else {
+			return (
+				<Collapse>
+					<Collapse.Panel header={`${name}`} key={name || Math.random()}>
+						{Object.entries(input)
+							.sort(([categoryA], [categoryB]) =>
+								categoryA.localeCompare(categoryB)
+							)
+							.map(([categoryName, pOrC]) => {
+								return createCategoryCollapse(pOrC, categoryName)
+							})}
+					</Collapse.Panel>
+				</Collapse>
+			)
+		}
+	}
 	return (
 		<div
 			css={css`
@@ -66,24 +103,9 @@ export function ProductsPanel() {
 					padding: 8px;
 				`}
 			>
-				<Collapse
-					defaultActiveKey={
-						categorizedProducts ? Object.keys(categorizedProducts)[0] : 0
-					}
-				>
-					{Object.entries(categorizedProducts)
-						.sort(([categoryA], [categoryB]) =>
-							categoryA.localeCompare(categoryB)
-						)
-						.map(([category, products]) => (
-							<Collapse.Panel
-								header={`${category} (${products.length})`}
-								key={category}
-							>
-								<ProductCardGrid products={products} key={category} />
-							</Collapse.Panel>
-						))}
-				</Collapse>
+				{Object.entries(categorizedProducts).map(([category, val]) =>
+					createCategoryCollapse(val, category)
+				)}
 			</div>
 		</div>
 	)

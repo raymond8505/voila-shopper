@@ -1,6 +1,6 @@
 import { css } from "@emotion/react"
-import { Tabs } from "antd"
-import type { TabsProps } from "antd"
+import Tabs from "antd/es/tabs"
+import type { TabsProps } from "antd/es/tabs"
 import { ProductsPanel } from "./ProductsPanel"
 import { RecipesPanel } from "./RecipesPanel"
 

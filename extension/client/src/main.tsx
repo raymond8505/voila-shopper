@@ -24,7 +24,11 @@ width: calc(75vw - 16px) !important;
 margin-left: 25vw !important;
 }
 `
-document.head.appendChild(styleElement)
+window.addEventListener("message", (msg) => {
+	if (msg.data.type === "VOILA_INITIAL_STATE_FROM_PAGE") {
+		window.__INITIAL_STATE__ = msg.data.payload
+	}
+})
 ReactDOM.createRoot(shadowRoot).render(
 	<React.StrictMode>
 		<CacheProvider value={emotionCache}>
@@ -34,3 +38,10 @@ ReactDOM.createRoot(shadowRoot).render(
 		</CacheProvider>
 	</React.StrictMode>
 )
+
+const injectScript = document.createElement("script")
+injectScript.id = "dispatch-initial-state"
+
+injectScript.src = chrome.runtime.getURL("client/dist/dispatchInitialState.js")
+
+document.head.appendChild(injectScript)

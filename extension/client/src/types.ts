@@ -1,4 +1,61 @@
 export namespace Voila {
+	export interface InitialState {
+		session: {
+			csrf: {
+				token: string
+			}
+			features: {
+				enabledFeatures: string[]
+			}
+			metadata: {
+				visitorId: string
+				customerId: string
+				sessionId: string
+				contentExperienceUserId: string
+				requestId: string
+				serverLoadTime: number
+				isServerRendered: boolean
+				locationChangeCount: number
+				isFullPageLoad: boolean
+				hasPageBeenHidden: boolean
+				assetVersion: string
+				bannerId: string
+				retailerBannerId: string
+				bannerName: string
+				bannerBusinessModel: string
+				fqdn: string
+				regionId: string
+				retailerRegionId: string
+				regionName: string
+				environment: string
+				reportingLevel: number
+				isFetching: boolean
+				fetchError: boolean
+				retailerCustomerId: string
+			}
+			additionalDetails: {
+				isFetching: boolean
+				fetchError: boolean
+				didInvalidate: boolean
+				lastUpdated: null | string // Assuming null or string for date/timestamp
+				required: boolean
+			}
+			isSuperuser: boolean
+			isLoggedIn: boolean
+			ageConfirmed: boolean
+			linkTypeDetector: {
+				type: "ALL_SPA_LINKS"
+			}
+			customerSession: {
+				isFetching: boolean
+				fetchError: boolean
+				didInvalidate: boolean
+				lastUpdated: null | string // Assuming null or string for date/timestamp
+				data: null | Record<string, unknown> // Placeholder for potential data structure
+				error: null | Record<string, unknown> // Placeholder for potential error structure
+			}
+		}
+	}
 	export interface Product {
 		productId: string
 		retailerProductId: string
@@ -122,6 +179,10 @@ export namespace Job {
 		| "unitPrice"
 	>
 	export type ShopperJob = {
-		products: Product[]
+		products: Voila.Product["productId"][]
 	}
+}
+
+export interface CategoryTree {
+	[categoryName: string]: CategoryTree | Voila.Product[]
 }
