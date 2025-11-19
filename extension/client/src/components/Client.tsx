@@ -20,6 +20,11 @@ export function Client() {
 			label: "Recipes",
 			children: <RecipesPanel />,
 		},
+		{
+			key: "settings",
+			label: "Settings",
+			children: null,
+		},
 	]
 	return (
 		<div

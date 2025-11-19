@@ -1,20 +1,24 @@
 import { useCallback } from "react"
 import { useVoila } from "./useVoila"
 import { useJobManager } from "./useJobManager"
-import type { Job } from "../types"
+import type { Job, Voila } from "../types"
+import { useWorkflow } from "./useWorkflow"
 
 export function useShopper() {
 	const { getProducts } = useVoila()
-	const { getJobData } = useJobManager()
+	const { fetchJob } = useJobManager()
+	const { call: callRecommendationsWorkflow } = useWorkflow(
+		import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
+	)
 
 	const getRecommendations = useCallback(async (jobId: string) => {
-		const jobData = await getJobData<Job.ShopperJob>(jobId)
+		const jobData = await fetchJob<Job.ShopperJob>(jobId)
 
 		const voilaProducts = await getProducts(
 			jobData.flatMap((job) =>
-				job.products
+				job.data.products
 					.filter((id) => id !== null)
-					.filter((id, i) => job.products.indexOf(id) === i)
+					.filter((id, i) => job.data.products.indexOf(id) === i)
 			)
 		)
 
@@ -23,5 +27,12 @@ export function useShopper() {
 		return voilaProducts.products
 	}, [])
 
-	return { getRecommendations }
+	const generateRecommendations = useCallback(() => {
+		return callRecommendationsWorkflow({
+			payload: {},
+			responseType: "job",
+		})
+	}, [])
+
+	return { getRecommendations, generateRecommendations }
 }

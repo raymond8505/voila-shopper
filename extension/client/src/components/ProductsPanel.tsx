@@ -1,21 +1,32 @@
-import { useCallback, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
-import Input from "antd/es/input"
+
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import { useShopper } from "../hooks/useShopper"
-import type { CategoryTree, Voila } from "../types"
+import type { CategoryTree, Job, Voila } from "../types"
 import { css } from "@emotion/react"
 import { categoryTreeFromProducts } from "../helpers"
 import { ProductCardGrid } from "./ProductCardGrid"
+import { useJobManager } from "../hooks/useJobManager"
+import Divider from "antd/es/divider"
 
 export function ProductsPanel() {
 	const { getRecommendations } = useShopper()
+	const { getJobIds } = useJobManager()
 	const gettingRecommendations = useRef(false)
 	const [recommendedProducts, setRecommendedProducts] = useState<
 		Voila.Product[]
 	>([])
 	const [jobId, setJobId] = useState("")
+	const [jobs, setJobs] = useState<Pick<Job.JobItem, "id" | "created_at">[]>([])
+
+	useEffect(() => {
+		getJobIds().then((allJobs) => {
+			console.log(allJobs)
+			setJobs(allJobs)
+		})
+	}, [setJobs])
 
 	const handleGetJobClick = useCallback(() => {
 		if (!gettingRecommendations.current) {
@@ -43,7 +54,6 @@ export function ProductsPanel() {
 		name?: string
 	) {
 		if (Array.isArray(input)) {
-			console.log({ input }, name)
 			return (
 				<Collapse>
 					<Collapse.Panel
@@ -76,26 +86,56 @@ export function ProductsPanel() {
 				display: grid;
 				gap: 8px;
 				height: 100%;
-				grid-template-rows: auto 1fr;
+				grid-template-rows: auto auto 1fr;
 			`}
 		>
-			<div
-				css={css`
-					display: flex;
-					gap: 8px;
-				`}
-			>
-				<Input
-					type="text"
-					placeholder="Job ID"
-					value={jobId}
-					onChange={(e) => setJobId(e.target.value)}
-				/>
-				<Button
-					type="primary"
-					icon={<ShoppingCartOutlined />}
-					onClick={handleGetJobClick}
-				/>
+			<div>
+				<strong>Old Trips</strong>
+				<div
+					css={css`
+						display: flex;
+						gap: 8px;
+						width: 100%;
+						align-items: stretch;
+					`}
+				>
+					<select
+						placeholder="Job ID"
+						onChange={(e) => {
+							setJobId(e.target.value)
+						}}
+						css={css`
+							flex-grow: 1;
+							display: block;
+						`}
+					>
+						<option disabled>Job ID</option>
+						{jobs.map(({ id, created_at }) => {
+							console.log({ id, created_at })
+							return (
+								<option value={id}>
+									{created_at.toDateString()} {created_at.toLocaleTimeString()}
+								</option>
+							)
+						})}
+					</select>
+					<Button
+						type="primary"
+						icon={<ShoppingCartOutlined />}
+						onClick={handleGetJobClick}
+						css={css`
+							flex-shrink: 0;
+							display: block;
+							height: unset !important;
+							aspect-ratio: 1;
+						`}
+					/>
+				</div>
+				<Divider />
+			</div>
+			<div>
+				<strong>New Trip</strong>
+				<Divider />
 			</div>
 			<div
 				css={css`

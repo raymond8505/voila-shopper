@@ -167,6 +167,12 @@ export namespace Voila {
 	}
 }
 export namespace Job {
+	export type JobItem<T = Record<string, unknown>> = {
+		id: string
+		created_at: Date
+		status: string
+		data: T
+	}
 	export type Product = Pick<
 		Voila.Product,
 		| "productId"
@@ -181,8 +187,54 @@ export namespace Job {
 	export type ShopperJob = {
 		products: Voila.Product["productId"][]
 	}
+
+	export type UnknownData = Record<string, unknown>
+}
+export namespace Workflow {
+	/**
+	 * "job" - The workflow responds with a job id
+	 */
+	export type ResponseType = "job" | "hook"
 }
 
 export interface CategoryTree {
 	[categoryName: string]: CategoryTree | Voila.Product[]
+}
+export namespace Recipe {
+	export interface Recipe {
+		RecipeId: number
+		Name: string
+		AuthorId: number
+		AuthorName: string
+		CookTime: string
+		PrepTime: string
+		TotalTime: string
+		DatePublished: string
+		Description: string
+		Images: null
+		RecipeCategory: string
+		Keywords: string
+		RecipeIngredientQuantities: string
+		RecipeIngredientParts: string
+		AggregatedRating: string
+		ReviewCount: string
+		Calories: string
+		FatContent: string
+		SaturatedFatContent: string
+		CholesterolContent: string
+		SodiumContent: string
+		CarbohydrateContent: string
+		FiberContent: string
+		SugarContent: string
+		ProteinContent: string
+		RecipeServings: string
+		RecipeYield: string
+		RecipeInstructions: string
+	}
+
+	export interface ApiResponse {
+		recipe: Recipe
+		ingredients_used: string
+		ingredients_needed: string
+	}
 }

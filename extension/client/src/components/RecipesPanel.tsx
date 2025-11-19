@@ -11,15 +11,18 @@ import { css } from "@emotion/react"
 import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { UnstyledButton } from "./common/elements.styles"
-import Markdown from "react-markdown"
+import TextArea from "antd/es/input/TextArea"
+import type { Recipe } from "../types"
 export function RecipesPanel() {
 	const { ingredients, removeIngredient } = useStore()
-	const [recipes, setRecipes] = useState<Record<string, unknown>[]>([])
+	const [recipes, setRecipes] = useState<Recipe.ApiResponse[]>([])
+	const [extraCriteria, setExtraCriteria] = useState("")
 	const handleGetRecipesClick = useCallback(() => {
 		fetch(
 			"https://raymond8505.app.n8n.cloud/webhook-test/voila-shopper-recipes",
 			{
 				body: JSON.stringify({
+					extraCriteria,
 					ingredients: ingredients.map((ingredient) => {
 						return [
 							"productId",
@@ -39,9 +42,9 @@ export function RecipesPanel() {
 				method: "POST",
 			}
 		).then(async (resp) => {
-			setRecipes(JSON.parse((await resp.json()).content.parts[0].text))
+			setRecipes((await resp.json()).recipes)
 		})
-	}, [setRecipes])
+	}, [setRecipes, ingredients, extraCriteria])
 
 	return (
 		<div
@@ -123,14 +126,20 @@ export function RecipesPanel() {
 							`}
 						>
 							<strong>Recipes</strong>
+							<TextArea
+								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
+								onChange={(e) => setExtraCriteria(e.target.value)}
+							></TextArea>
 							<Collapse>
 								{recipes.map((recipe) => {
 									return (
 										<Collapse.Panel
-											header={recipe.title as string}
-											key={recipe.title as string}
+											header={recipe.recipe.Name as string}
+											key={recipe.recipe.Name as string}
 										>
-											<div
+											<div>Used: {recipe.ingredients_used as string}</div>
+											<div>Needed: {recipe.ingredients_needed as string}</div>
+											{/* <div
 												css={css`
 													line-height: 1.2;
 
@@ -165,7 +174,7 @@ export function RecipesPanel() {
 												`}
 											>
 												<Markdown>{recipe.content as string}</Markdown>
-											</div>
+											</div> */}
 										</Collapse.Panel>
 									)
 								})}
