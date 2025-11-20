@@ -27,8 +27,6 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 
 			const fetchOptions = hookOptions ? hookOptions : {}
 
-			console.log({ fetchOptions })
-
 			try {
 				const hookResp = await fetch(url, {
 					body: JSON.stringify(payload),
@@ -45,8 +43,7 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 					setResult(hookJSON)
 				} else {
 					setResult(
-						(await pollJobData<T>(JSON.stringify(hookJSON), respondOnStatus))
-							.data
+						(await pollJobData<T>(hookJSON.jobId, respondOnStatus)).data
 					)
 				}
 				return true

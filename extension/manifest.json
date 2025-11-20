@@ -13,5 +13,11 @@
       "js": ["client/dist/client.js"],
       "run_at": "document_end"
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["client/dist/dispatchInitialState.js"], 
+      "matches": ["https://voila.ca/*"] 
+    }
   ]
 }

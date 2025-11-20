@@ -7,8 +7,8 @@ import { useWorkflow } from "./useWorkflow"
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
 	const { fetchJob } = useJobManager()
-	const { call: callRecommendationsWorkflow, result: recommendedProducts } =
-		useWorkflow<Voila.Product["productId"][]>(
+	const { call: callRecommendationsWorkflow, result: recommendationResult } =
+		useWorkflow<Job.ShopperJob>(
 			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
 		)
 
@@ -71,7 +71,11 @@ export function useShopper() {
 				method: "POST",
 			},
 		})
-	}, [recommendedProducts, callRecommendationsWorkflow, getPromotionProducts])
+
+		return recommendationResult?.products?.length
+			? (await getProducts(recommendationResult.products)).products
+			: []
+	}, [recommendationResult, callRecommendationsWorkflow, getPromotionProducts])
 
 	return { getRecommendations, generateRecommendations }
 }

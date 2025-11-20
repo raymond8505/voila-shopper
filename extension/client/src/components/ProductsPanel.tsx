@@ -45,19 +45,19 @@ export function ProductsPanel() {
 	}, [getRecommendations, setRecommendedProducts, jobId])
 
 	const handleGetNewJobClick = useCallback(async () => {
-		//if (!gettingRecommendations.current) {
-		//gettingRecommendations.current = true
-		await generateRecommendations()
-		// .then((products) => {
-		// 	console.log("Recommended products:", products)
-		// 	gettingRecommendations.current = false
-		// 	setRecommendedProducts(products)
-		// })
-		// .catch((e) => {
-		// 	console.log("Recommended products:", e)
-		// 	gettingRecommendations.current = false
-		// })
-		//}
+		if (!gettingRecommendations.current) {
+			gettingRecommendations.current = true
+			generateRecommendations()
+				.then((products) => {
+					console.log("Recommended products:", products)
+					gettingRecommendations.current = false
+					setRecommendedProducts(products)
+				})
+				.catch((e) => {
+					console.log("Recommended products:", e)
+					gettingRecommendations.current = false
+				})
+		}
 	}, [generateRecommendations])
 	const categorizedProducts = useMemo(
 		() => categoryTreeFromProducts(recommendedProducts, 1),

@@ -33,9 +33,11 @@ export function useJobManager() {
 		): Promise<Job.JobItem<T>> => {
 			return new Promise(async (resolve) => {
 				async function checkJob() {
-					const job = await fetchJobInner(id, { status: resolveOnStatus })
+					const job = await fetchJobInner(id, {
+						status: `eq.${resolveOnStatus}`,
+					})
 
-					if (job[0].status === resolveOnStatus) {
+					if (job?.[0]?.status === resolveOnStatus) {
 						resolve(job[0] as Job.JobItem<T>)
 					} else {
 						setTimeout(checkJob, 5000)
