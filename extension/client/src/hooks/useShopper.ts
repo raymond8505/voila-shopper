@@ -49,6 +49,8 @@ export function useShopper() {
 			}
 		)
 
+		console.log({ promoProducts })
+
 		await callRecommendationsWorkflow({
 			payload: {
 				products: promoProducts.map((decoratedProduct) => {
