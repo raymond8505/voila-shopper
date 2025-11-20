@@ -12,7 +12,7 @@ import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
 
 export function ProductsPanel() {
-	const { getRecommendations } = useShopper()
+	const { getRecommendations, generateRecommendations } = useShopper()
 	const { getJobIds } = useJobManager()
 	const gettingRecommendations = useRef(false)
 	const [recommendedProducts, setRecommendedProducts] = useState<
@@ -23,12 +23,12 @@ export function ProductsPanel() {
 
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
-			console.log(allJobs)
 			setJobs(allJobs)
+			setJobId(allJobs[0].id)
 		})
 	}, [setJobs])
 
-	const handleGetJobClick = useCallback(() => {
+	const handleGetOldJobClick = useCallback(() => {
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
 			getRecommendations(jobId)
@@ -44,6 +44,21 @@ export function ProductsPanel() {
 		}
 	}, [getRecommendations, setRecommendedProducts, jobId])
 
+	const handleGetNewJobClick = useCallback(async () => {
+		//if (!gettingRecommendations.current) {
+		//gettingRecommendations.current = true
+		await generateRecommendations()
+		// .then((products) => {
+		// 	console.log("Recommended products:", products)
+		// 	gettingRecommendations.current = false
+		// 	setRecommendedProducts(products)
+		// })
+		// .catch((e) => {
+		// 	console.log("Recommended products:", e)
+		// 	gettingRecommendations.current = false
+		// })
+		//}
+	}, [generateRecommendations])
 	const categorizedProducts = useMemo(
 		() => categoryTreeFromProducts(recommendedProducts, 1),
 		[recommendedProducts]
@@ -60,26 +75,41 @@ export function ProductsPanel() {
 						header={`${name} (${input.length})`}
 						key={name || Math.random()}
 					>
-						<ProductCardGrid products={input} key={name} />
+						<ProductCardGrid products={input} />
 					</Collapse.Panel>
 				</Collapse>
 			)
 		} else {
 			return (
 				<Collapse>
-					<Collapse.Panel header={`${name}`} key={name || Math.random()}>
+					<Collapse.Panel
+						header={`${name}`}
+						key={`parent-category-${name}-${Math.random()}`}
+					>
 						{Object.entries(input)
 							.sort(([categoryA], [categoryB]) =>
 								categoryA.localeCompare(categoryB)
 							)
-							.map(([categoryName, pOrC]) => {
-								return createCategoryCollapse(pOrC, categoryName)
+							.map(([categoryName, pOrC], i) => {
+								return (
+									<span key={i}>
+										{createCategoryCollapse(pOrC, categoryName)}
+									</span>
+								)
 							})}
 					</Collapse.Panel>
 				</Collapse>
 			)
 		}
 	}
+
+	const oldJobs = jobs.map(({ id, created_at }) => {
+		return (
+			<option value={id} key={id}>
+				{created_at.toDateString()} {created_at.toLocaleTimeString()}
+			</option>
+		)
+	})
 	return (
 		<div
 			css={css`
@@ -96,6 +126,7 @@ export function ProductsPanel() {
 						display: flex;
 						gap: 8px;
 						width: 100%;
+						height: 32px;
 						align-items: stretch;
 					`}
 				>
@@ -108,33 +139,42 @@ export function ProductsPanel() {
 							flex-grow: 1;
 							display: block;
 						`}
+						defaultValue={jobs[0]?.id}
 					>
 						<option disabled>Job ID</option>
-						{jobs.map(({ id, created_at }) => {
-							console.log({ id, created_at })
-							return (
-								<option value={id}>
-									{created_at.toDateString()} {created_at.toLocaleTimeString()}
-								</option>
-							)
-						})}
+						{oldJobs}
 					</select>
 					<Button
-						type="primary"
-						icon={<ShoppingCartOutlined />}
-						onClick={handleGetJobClick}
+						type="default"
+						onClick={handleGetOldJobClick}
 						css={css`
 							flex-shrink: 0;
-							display: block;
+							display: flex;
+							gap: 4px;
 							height: unset !important;
 							aspect-ratio: 1;
 						`}
-					/>
+					>
+						<ShoppingCartOutlined />
+						<span>{`Get Previous Trip`}</span>
+					</Button>
 				</div>
 				<Divider />
 			</div>
 			<div>
 				<strong>New Trip</strong>
+				<Button
+					type="primary"
+					onClick={handleGetNewJobClick}
+					css={css`
+						display: flex;
+						gap: 4px;
+						aspect-ratio: 1;
+					`}
+				>
+					<ShoppingCartOutlined />
+					<span>{`Find Promotions`}</span>
+				</Button>
 				<Divider />
 			</div>
 			<div
@@ -143,9 +183,9 @@ export function ProductsPanel() {
 					padding: 8px;
 				`}
 			>
-				{Object.entries(categorizedProducts).map(([category, val]) =>
-					createCategoryCollapse(val, category)
-				)}
+				{Object.entries(categorizedProducts).map(([category, val], i) => (
+					<span key={i}>{createCategoryCollapse(val, category)}</span>
+				))}
 			</div>
 		</div>
 	)

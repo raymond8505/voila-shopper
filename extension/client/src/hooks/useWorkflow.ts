@@ -12,10 +12,12 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 			payload,
 			responseType = "hook",
 			respondOnStatus = "done",
+			hookOptions = {},
 		}: {
 			payload: Job.UnknownData
 			responseType?: Workflow.ResponseType
 			respondOnStatus?: string
+			hookOptions?: RequestInit
 		}) => {
 			if (loading) {
 				return false
@@ -23,8 +25,18 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 
 			setLoading(true)
 
+			const fetchOptions = hookOptions ? hookOptions : {}
+
+			console.log({ fetchOptions })
+
 			try {
-				const hookResp = await fetch(url, { body: JSON.stringify(payload) })
+				const hookResp = await fetch(url, {
+					body: JSON.stringify(payload),
+					...fetchOptions,
+					headers: {
+						...(fetchOptions.headers ? fetchOptions.headers : {}),
+					},
+				})
 				const hookJSON = await hookResp.json()
 
 				setLoading(false)

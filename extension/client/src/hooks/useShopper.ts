@@ -5,11 +5,12 @@ import type { Job, Voila } from "../types"
 import { useWorkflow } from "./useWorkflow"
 
 export function useShopper() {
-	const { getProducts } = useVoila()
+	const { getProducts, getPromotionProducts } = useVoila()
 	const { fetchJob } = useJobManager()
-	const { call: callRecommendationsWorkflow } = useWorkflow(
-		import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
-	)
+	const { call: callRecommendationsWorkflow, result: recommendedProducts } =
+		useWorkflow<Voila.Product["productId"][]>(
+			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
+		)
 
 	const getRecommendations = useCallback(async (jobId: string) => {
 		const jobData = await fetchJob<Job.ShopperJob>(jobId)
@@ -27,12 +28,48 @@ export function useShopper() {
 		return voilaProducts.products
 	}, [])
 
-	const generateRecommendations = useCallback(() => {
-		return callRecommendationsWorkflow({
-			payload: {},
+	const generateRecommendations = useCallback(async () => {
+		const relevantFields = [
+			"brand",
+			"categoryPath",
+			"countryOfOrigin",
+			"favourite",
+			"guaranteedProductLife",
+			"name",
+			"packSizeDescription",
+			"price",
+			"productId",
+			"promoPrice",
+			"promoUnitPrice",
+			"unitPrice",
+		]
+		const promoProducts = (await getPromotionProducts()).filter(
+			(prod, i, arr) => {
+				return arr.findIndex((p) => p.productId === prod.productId) === i
+			}
+		)
+
+		await callRecommendationsWorkflow({
+			payload: {
+				products: promoProducts.map((decoratedProduct) => {
+					const trimmedProduct = {}
+
+					relevantFields.forEach((field) => {
+						const val = decoratedProduct[field]
+
+						if (val !== null && val !== undefined) {
+							trimmedProduct[field] = val
+						}
+					})
+					return trimmedProduct
+				}),
+			},
 			responseType: "job",
+			hookOptions: {
+				method: "POST",
+			},
 		})
-	}, [])
+	}, [recommendedProducts, callRecommendationsWorkflow, getPromotionProducts])
 
 	return { getRecommendations, generateRecommendations }
 }

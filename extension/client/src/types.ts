@@ -134,6 +134,117 @@ export namespace Voila {
 		isNew: boolean
 	}
 
+	export interface FetchPromotionPageResponse {
+		productGroups: {
+			decoratedProducts: DecoratedProduct[]
+		}[]
+		metadata: {
+			nextPageToken?: string
+		}
+	}
+
+	export interface DecoratedProduct {
+		productId: string
+		retailerProductId: string
+		type: string
+		name: string
+		brand: string | null
+		packSizeDescription: string | null
+		countryOfOrigin: string | null
+		seller: string | null
+		isNew: boolean
+		price: {
+			amount: number
+			currency: string
+		}
+		grossPrice: number | null
+		unitPrice: {
+			price: {
+				amount: number
+				currency: string
+			}
+			unit: string
+			pricePerSuffix: string | null
+		}
+		referencePrice: number | null
+		depositPrice: number | null
+		additionalProductCharge: number | null
+		promoPrice: {
+			amount: number
+			currency: string
+		} | null
+		promoUnitPrice: {
+			price: {
+				amount: number
+				currency: string
+			}
+			unit: string
+			pricePerSuffix: string | null
+		} | null
+		promotions: Array<{
+			promoId: string
+			retailerPromotionId: string
+			description: string
+			type: string
+			presentationMode: string
+			requiredProductQuantity: number | null
+		}>
+		unavailablePromotions: any | null
+		favorite: any | null
+		regular: any | null
+		available: boolean
+		isVerifiedPurchase: boolean
+		quantityInBasket: number
+		maxQuantityReached: boolean
+		quantityRestrictionGroup: any | null
+		maxAvailableQuantity: number | null
+		alternatives: any[]
+		isInShoppingList: boolean
+		isInCurrentCatalog: boolean
+		ratingSummary: any | null
+		restrictedVisibility: any | null
+		verifyMode: any | null
+		categoryPath: string[]
+		retailerFinancingPlanIds: any[]
+		hfssDisplayRestrictionGroup: any | null
+		medicalQuestionnaireRequired: any | null
+		taxCodesDisplayNames: any[]
+		imageConfig: {
+			availableFormats: string[]
+			availableResolutions: string[]
+		}
+		image: {
+			src: string
+			description: string
+			fopSrcset: string
+			bopSrcset: string
+			imageId: string
+		}
+		images: Array<{
+			src: string
+			description: string
+			fopSrcset: string
+			bopSrcset: string
+			imageId: string
+		}>
+		imageIds: string[]
+		imagePaths: string[]
+		iconAttributes: any[]
+		icons: any[]
+		basketLines: any[]
+		ageRestriction: any | null
+		alcohol: boolean
+		catchweight: any | null
+		guaranteedProductLife: any | null
+		temperatureRegime: any | null
+		timeRestriction: any | null
+		timeRestricted: boolean
+		checkoutTimeRestriction: any | null
+		checkoutTimeRestricted: any | null
+		deliveryTimeRestrictionMessage: string | null
+		checkoutTimeRestrictionMessage: string | null
+	}
+
 	export type ProductImpression = Pick<
 		Voila.Product,
 		"productId" | "name" | "brand" | "price"

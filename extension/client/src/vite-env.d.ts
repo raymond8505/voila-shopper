@@ -8,6 +8,6 @@ declare global {
 			push?: (...args: any[]) => any
 			[key: string]: any
 		}
-		__INITIAL_STATE__: Voila.InitialState
+		__INITIAL_STATE__?: Voila.InitialState
 	}
 }

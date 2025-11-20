@@ -31,12 +31,34 @@ export async function voilaRequest({
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"x-csrf-token": window.__INITIAL_STATE__.session.csrf.token,
+			"x-csrf-token": window.__INITIAL_STATE__?.session.csrf.token ?? "",
 			...fetchOpts?.headers,
 		},
 	})
 }
+export async function fetchPromotionPage(
+	pageToken?: string
+): Promise<Voila.FetchPromotionPageResponse> {
+	const url = new URL(
+		"https://voila.ca/api/product-listing-pages/v1/pages/promotions"
+	)
+	url.searchParams.append("maxPageSize", "300")
+	url.searchParams.append("maxProductsToDecorate", "150")
+	url.searchParams.append(
+		"regionId",
+		window.__INITIAL_STATE__?.session.metadata.regionId ?? ""
+	)
 
+	if (pageToken) {
+		url.searchParams.append("pageToken", pageToken)
+	}
+	const resp = await voilaRequest({
+		url: url.toString(),
+		fetchOpts: {},
+	})
+
+	return await resp.json()
+}
 export async function fetchProducts(
 	ids: string[]
 ): Promise<Voila.FetchProductsResponse> {
