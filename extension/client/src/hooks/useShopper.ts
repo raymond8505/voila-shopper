@@ -1,8 +1,9 @@
 import { useCallback } from "react"
 import { useVoila } from "./useVoila"
 import { useJobManager } from "./useJobManager"
-import type { Job, Voila } from "../types"
+import type { Job } from "../types"
 import { useWorkflow } from "./useWorkflow"
+import { getMinimalPrice } from "../helpers"
 
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
@@ -30,18 +31,18 @@ export function useShopper() {
 
 	const generateRecommendations = useCallback(async () => {
 		const relevantFields = [
-			"brand",
+			//"brand",
 			"categoryPath",
-			"countryOfOrigin",
-			"favourite",
+			//"countryOfOrigin",
+			//"favourite",
 			"guaranteedProductLife",
 			"name",
 			"packSizeDescription",
-			"price",
-			"productId",
-			"promoPrice",
-			"promoUnitPrice",
-			"unitPrice",
+			// "price",
+			// "productId",
+			// "promoPrice",
+			// "promoUnitPrice",
+			// "unitPrice",
 		]
 		const promoProducts = (await getPromotionProducts()).filter(
 			(prod, i, arr) => {
@@ -63,6 +64,9 @@ export function useShopper() {
 							trimmedProduct[field] = val
 						}
 					})
+
+					trimmedProduct["price"] = getMinimalPrice(decoratedProduct)
+
 					return trimmedProduct
 				}),
 			},

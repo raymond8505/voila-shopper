@@ -11,13 +11,15 @@
     {
       "matches": ["https://voila.ca/*"],
       "js": ["client/dist/client.js"],
-      "run_at": "document_end"
+      "run_at": "document_end",
+      "type":"module"
     }
   ],
   "web_accessible_resources": [
     {
       "resources": ["client/dist/dispatchInitialState.js"], 
-      "matches": ["https://voila.ca/*"] 
+      "matches": ["https://voila.ca/*"] ,
+      "type":"module"
     }
   ]
 }

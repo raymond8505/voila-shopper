@@ -1,5 +1,13 @@
-import type { CategoryTree, Voila } from "./types"
+import type { CategoryTree, MinimalPrice, Voila } from "./types"
 
+export function getMinimalPrice(product: Voila.DecoratedProduct): MinimalPrice {
+	return {
+		currentPrice: product.promoPrice
+			? product.promoPrice.amount
+			: product.price.amount,
+		originalPrice: product.price.amount,
+	}
+}
 export function categoryTreeFromProducts(
 	products: Voila.Product[],
 	depthIndex = 0

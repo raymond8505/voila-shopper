@@ -311,6 +311,11 @@ export namespace Workflow {
 export interface CategoryTree {
 	[categoryName: string]: CategoryTree | Voila.Product[]
 }
+
+export interface MinimalPrice {
+	currentPrice: number
+	originalPrice: number
+}
 export namespace Recipe {
 	export interface Recipe {
 		RecipeId: number
