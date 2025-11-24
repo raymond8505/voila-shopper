@@ -42,14 +42,18 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 				if (responseType === "hook") {
 					setResult(hookJSON)
 				} else {
-					setResult(
-						(await pollJobData<T>(hookJSON.jobId, respondOnStatus)).data
-					)
+					try {
+						const job = await pollJobData<T>(hookJSON.jobId, respondOnStatus)
+						setResult(job?.data)
+						return true
+					} catch (e) {
+						setResult(undefined)
+						return false
+					}
 				}
-				return true
 			} catch (e) {
 				setLoading(false)
-				console.error(e)
+				console.error("WORKFLOW ERROR", e)
 				return false
 			}
 		},

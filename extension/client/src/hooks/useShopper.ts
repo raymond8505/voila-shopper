@@ -8,10 +8,13 @@ import { getMinimalPrice } from "../helpers"
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
 	const { fetchJob } = useJobManager()
-	const { call: callRecommendationsWorkflow, result: recommendationResult } =
-		useWorkflow<Job.ShopperJob>(
-			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
-		)
+	const {
+		call: callRecommendationsWorkflow,
+		result: recommendationResult,
+		loading: recommendationsLoading,
+	} = useWorkflow<Job.ShopperJob>(
+		import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
+	)
 
 	const getRecommendations = useCallback(async (jobId: string) => {
 		const jobData = await fetchJob<Job.ShopperJob>(jobId)
@@ -83,5 +86,5 @@ export function useShopper() {
 			: []
 	}, [recommendationResult, callRecommendationsWorkflow, getPromotionProducts])
 
-	return { getRecommendations, generateRecommendations }
+	return { getRecommendations, generateRecommendations, recommendationsLoading }
 }

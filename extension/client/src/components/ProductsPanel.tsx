@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
+import LoadingOutlined from "antd/es/collapse"
 
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import { useShopper } from "../hooks/useShopper"
@@ -12,19 +13,27 @@ import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
 
 export function ProductsPanel() {
-	const { getRecommendations, generateRecommendations } = useShopper()
+	const {
+		getRecommendations,
+		generateRecommendations,
+		recommendationsLoading,
+	} = useShopper()
 	const { getJobIds } = useJobManager()
 	const gettingRecommendations = useRef(false)
 	const [recommendedProducts, setRecommendedProducts] = useState<
 		Voila.Product[]
 	>([])
 	const [jobId, setJobId] = useState("")
-	const [jobs, setJobs] = useState<Pick<Job.JobItem, "id" | "created_at">[]>([])
+	const [jobs, setJobs] = useState<
+		Pick<Job.JobItem<Record<string, unknown>>, "id" | "created_at" | "status">[]
+	>([])
 
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
-			setJobs(allJobs)
-			setJobId(allJobs[0].id)
+			console.log({ allJobs })
+			const doneJobs = allJobs.filter((job) => job.status === "done")
+			setJobs(doneJobs)
+			setJobId(doneJobs[0].id)
 		})
 	}, [setJobs])
 
@@ -38,7 +47,7 @@ export function ProductsPanel() {
 					setRecommendedProducts(products)
 				})
 				.catch((e) => {
-					console.log("Recommended products:", e)
+					console.error("Recommended products ERROR:", e)
 					gettingRecommendations.current = false
 				})
 		}
@@ -54,7 +63,7 @@ export function ProductsPanel() {
 					setRecommendedProducts(products)
 				})
 				.catch((e) => {
-					console.log("Recommended products:", e)
+					console.error("Recommended products ERROR:", e)
 					gettingRecommendations.current = false
 				})
 		}
@@ -171,8 +180,13 @@ export function ProductsPanel() {
 						gap: 4px;
 						aspect-ratio: 1;
 					`}
+					disabled={recommendationsLoading}
 				>
-					<ShoppingCartOutlined />
+					{recommendationsLoading ? (
+						<LoadingOutlined />
+					) : (
+						<ShoppingCartOutlined />
+					)}
 					<span>{`Find Promotions`}</span>
 				</Button>
 				<Divider />

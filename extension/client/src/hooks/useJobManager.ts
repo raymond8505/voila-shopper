@@ -30,17 +30,21 @@ export function useJobManager() {
 		async <T = Job.JobItem<Job.UnknownData>>(
 			id: Job.JobItem["id"],
 			resolveOnStatus: string
-		): Promise<Job.JobItem<T>> => {
-			return new Promise(async (resolve) => {
+		): Promise<Job.JobItem<T> | undefined> => {
+			return new Promise(async (resolve, reject) => {
 				async function checkJob() {
-					const job = await fetchJobInner(id, {
-						status: `eq.${resolveOnStatus}`,
-					})
+					try {
+						const job = await fetchJobInner(id, {
+							status: `eq.${resolveOnStatus}`,
+						})
 
-					if (job?.[0]?.status === resolveOnStatus) {
-						resolve(job[0] as Job.JobItem<T>)
-					} else {
-						setTimeout(checkJob, 5000)
+						if (job?.[0]?.status === resolveOnStatus) {
+							resolve(job[0] as Job.JobItem<T>)
+						} else {
+							setTimeout(checkJob, 5000)
+						}
+					} catch (e) {
+						reject(undefined)
 					}
 				}
 
@@ -50,20 +54,25 @@ export function useJobManager() {
 		[]
 	)
 
-	const getJobIds: () => Promise<Pick<Job.JobItem, "id" | "created_at">[]> =
-		useCallback(async () => {
-			const resp = await supabaseRequest({
-				table: "jobs",
-				tableParams: { select: "id,created_at", order: `created_at.desc` },
-			})
+	const getJobIds: () => Promise<
+		Pick<Job.JobItem, "id" | "created_at" | "status">[]
+	> = useCallback(async () => {
+		const resp = await supabaseRequest({
+			table: "jobs",
+			tableParams: {
+				select: "id,created_at,status",
+				order: `created_at.desc`,
+			},
+		})
 
-			const json = await resp.json()
+		const json = await resp.json()
 
-			return json.map((item) => ({
-				id: item.id,
-				created_at: new Date(item.created_at),
-			}))
-		}, [])
+		return json.map((item) => ({
+			id: item.id,
+			created_at: new Date(item.created_at),
+			status: item.status,
+		}))
+	}, [])
 
 	return { getJobIds, pollJobData, fetchJob }
 }
