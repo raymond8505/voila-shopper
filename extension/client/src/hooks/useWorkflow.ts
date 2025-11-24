@@ -1,14 +1,14 @@
 import { useCallback, useState } from "react"
 import { Job, Workflow } from "../types"
 import { useJobManager } from "./useJobManager"
+import { fixture } from "../api/helpers"
 
 export function useWorkflow<T = Job.UnknownData>(url: string) {
 	const [loading, setLoading] = useState(false)
-	const [result, setResult] = useState<T | undefined>(undefined)
 	const { pollJobData } = useJobManager()
 
 	const call = useCallback(
-		async ({
+		async <CallT = T>({
 			payload,
 			responseType = "hook",
 			respondOnStatus = "done",
@@ -21,6 +21,20 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 		}) => {
 			if (loading) {
 				return false
+			}
+
+			const isLocal = location.hostname === "localhost"
+
+			console.log({ url, isLocal })
+
+			if (isLocal) {
+				console.log("LOCAL")
+				switch (url) {
+					case import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES:
+						return fixture<CallT>("recipeRecommendationsResponse")
+					default:
+						break
+				}
 			}
 
 			setLoading(true)
@@ -40,14 +54,15 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 				setLoading(false)
 
 				if (responseType === "hook") {
-					setResult(hookJSON)
+					return hookJSON as CallT
 				} else {
 					try {
-						const job = await pollJobData<T>(hookJSON.jobId, respondOnStatus)
-						setResult(job?.data)
-						return true
+						const job = await pollJobData<CallT>(
+							hookJSON.jobId,
+							respondOnStatus
+						)
+						return job?.data
 					} catch (e) {
-						setResult(undefined)
 						return false
 					}
 				}
@@ -59,5 +74,5 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 		},
 		[url, loading, setLoading]
 	)
-	return { loading, result, call }
+	return { loading, call }
 }

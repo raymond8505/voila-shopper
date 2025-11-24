@@ -349,8 +349,10 @@ export namespace Recipe {
 	}
 
 	export interface ApiResponse {
-		recipe: Recipe
-		ingredients_used: string
-		ingredients_needed: string
+		recipes: {
+			recipe: Recipe
+			ingredients_used: string
+			ingredients_needed: string
+		}[]
 	}
 }

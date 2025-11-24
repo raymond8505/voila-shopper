@@ -4,45 +4,33 @@ import { useCallback, useState } from "react"
 import Splitter from "antd/es/splitter"
 import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
+
 import List from "antd/es/list"
 
 import { css } from "@emotion/react"
 
 import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
+import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
+import { useRecipes } from "../hooks/useRecipes"
 export function RecipesPanel() {
 	const { ingredients, removeIngredient } = useStore()
-	const [recipes, setRecipes] = useState<Recipe.ApiResponse[]>([])
+	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipes"]>()
 	const [extraCriteria, setExtraCriteria] = useState("")
+	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
+		useRecipes()
+
 	const handleGetRecipesClick = useCallback(() => {
-		fetch(
-			"https://raymond8505.app.n8n.cloud/webhook-test/voila-shopper-recipes",
-			{
-				body: JSON.stringify({
-					extraCriteria,
-					ingredients: ingredients.map((ingredient) => {
-						return [
-							"productId",
-							"name",
-							"packageSizeDescription",
-							"price",
-							"promoPrice",
-							"unitPrice",
-							"promoUnitPrice",
-							"categoryPath",
-						].reduce((acc, key) => {
-							acc[key] = ingredient[key]
-							return acc
-						}, {})
-					}),
-				}),
-				method: "POST",
+		generateRecipeRecommendations({
+			ingredients,
+			extraCriteria,
+		}).then((resp) => {
+			if (resp) {
+				setRecipes(resp.recipes ?? [])
 			}
-		).then(async (resp) => {
-			setRecipes((await resp.json()).recipes)
 		})
 	}, [setRecipes, ingredients, extraCriteria])
 
@@ -61,7 +49,12 @@ export function RecipesPanel() {
 					gap: 8px;
 				`}
 			>
-				<Button type="primary" onClick={handleGetRecipesClick}>
+				<Button
+					type="primary"
+					onClick={handleGetRecipesClick}
+					disabled={recipeRecommendationsLoading}
+					icon={recipeRecommendationsLoading ? <LoadingOutlined /> : undefined}
+				>
 					Get Recipes
 				</Button>
 			</div>
@@ -131,7 +124,7 @@ export function RecipesPanel() {
 								onChange={(e) => setExtraCriteria(e.target.value)}
 							></TextArea>
 							<Collapse>
-								{recipes.map((recipe) => {
+								{recipes?.map((recipe) => {
 									return (
 										<Collapse.Panel
 											header={recipe.recipe.Name as string}
