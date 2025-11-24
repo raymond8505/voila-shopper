@@ -27,6 +27,7 @@ export function useVoila() {
 				)
 
 				products = [...products, ...pageProducts]
+
 				if (nextPageToken) {
 					pageToken = nextPageToken
 					setTimeout(getPromoPageProds, 2000)

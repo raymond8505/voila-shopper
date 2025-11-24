@@ -39,7 +39,7 @@ export function useShopper() {
 			"name",
 			"packSizeDescription",
 			// "price",
-			// "productId",
+			"productId",
 			// "promoPrice",
 			// "promoUnitPrice",
 			// "unitPrice",
@@ -50,25 +50,27 @@ export function useShopper() {
 			}
 		)
 
-		console.log({ promoProducts })
+		const trimmedProducts = promoProducts.map((decoratedProduct) => {
+			const trimmedProduct = {}
+
+			relevantFields.forEach((field) => {
+				const val = decoratedProduct[field]
+
+				if (val !== null && val !== undefined) {
+					trimmedProduct[field] = val
+				}
+			})
+
+			trimmedProduct["price"] = getMinimalPrice(decoratedProduct)
+
+			return trimmedProduct
+		})
+
+		console.log(trimmedProducts)
 
 		await callRecommendationsWorkflow({
 			payload: {
-				products: promoProducts.map((decoratedProduct) => {
-					const trimmedProduct = {}
-
-					relevantFields.forEach((field) => {
-						const val = decoratedProduct[field]
-
-						if (val !== null && val !== undefined) {
-							trimmedProduct[field] = val
-						}
-					})
-
-					trimmedProduct["price"] = getMinimalPrice(decoratedProduct)
-
-					return trimmedProduct
-				}),
+				products: trimmedProducts,
 			},
 			responseType: "job",
 			hookOptions: {

@@ -24,6 +24,7 @@ width: calc(75vw - 16px) !important;
 margin-left: 25vw !important;
 }
 `
+document.head.append(styleElement)
 
 if (chrome?.runtime?.getURL) {
 	window.addEventListener("message", (msg) => {
