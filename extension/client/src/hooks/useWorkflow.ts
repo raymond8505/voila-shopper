@@ -51,9 +51,8 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 				})
 				const hookJSON = await hookResp.json()
 
-				setLoading(false)
-
 				if (responseType === "hook") {
+					setLoading(false)
 					return hookJSON as CallT
 				} else {
 					try {
@@ -61,6 +60,7 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 							hookJSON.jobId,
 							respondOnStatus
 						)
+						setLoading(false)
 						return job?.data
 					} catch (e) {
 						return false

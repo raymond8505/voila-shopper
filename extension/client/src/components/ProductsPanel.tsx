@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
-import LoadingOutlined from "antd/es/collapse"
 
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
+import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
+
 import { useShopper } from "../hooks/useShopper"
 import type { CategoryTree, Job, Voila } from "../types"
 import { css } from "@emotion/react"
@@ -197,9 +198,13 @@ export function ProductsPanel() {
 					padding: 8px;
 				`}
 			>
-				{Object.entries(categorizedProducts).map(([category, val], i) => (
-					<span key={i}>{createCategoryCollapse(val, category)}</span>
-				))}
+				{recommendationsLoading ? (
+					<LoadingOutlined />
+				) : (
+					Object.entries(categorizedProducts).map(([category, val], i) => (
+						<span key={i}>{createCategoryCollapse(val, category)}</span>
+					))
+				)}
 			</div>
 		</div>
 	)

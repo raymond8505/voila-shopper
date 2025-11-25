@@ -8,6 +8,7 @@ import { getMinimalPrice } from "../helpers"
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
 	const { fetchJob } = useJobManager()
+
 	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
 		useWorkflow<Job.ShopperJob>(
 			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
@@ -65,8 +66,6 @@ export function useShopper() {
 
 			return trimmedProduct
 		})
-
-		console.log(trimmedProducts)
 
 		const recommendations = await callRecommendationsWorkflow({
 			payload: {
