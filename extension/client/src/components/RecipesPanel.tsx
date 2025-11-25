@@ -37,32 +37,17 @@ export function RecipesPanel() {
 	return (
 		<div
 			css={css`
-				display: grid;
+				//display: grid;
 				gap: 8px;
 				height: 100%;
-				grid-template-rows: auto 1fr;
+				//grid-template-rows: auto 1fr;
 			`}
 		>
 			<div
 				css={css`
-					display: flex;
-					gap: 8px;
-				`}
-			>
-				<Button
-					type="primary"
-					onClick={handleGetRecipesClick}
-					disabled={recipeRecommendationsLoading}
-					icon={recipeRecommendationsLoading ? <LoadingOutlined /> : undefined}
-				>
-					Get Recipes
-				</Button>
-			</div>
-
-			<div
-				css={css`
 					overflow: auto;
 					padding: 8px;
+					height: 100%;
 				`}
 			>
 				<Splitter layout="vertical">
@@ -112,7 +97,7 @@ export function RecipesPanel() {
 							></List>
 						</div>
 					</Splitter.Panel>
-					<Splitter.Panel>
+					<Splitter.Panel min={192}>
 						<div
 							css={css`
 								margin: 8px 0;
@@ -120,9 +105,23 @@ export function RecipesPanel() {
 						>
 							<strong>Recipes</strong>
 							<TextArea
+								rows={5}
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
 								onChange={(e) => setExtraCriteria(e.target.value)}
 							></TextArea>
+							<Button
+								type="primary"
+								onClick={handleGetRecipesClick}
+								disabled={recipeRecommendationsLoading}
+								css={css`
+									margin: 8px 0;
+								`}
+								icon={
+									recipeRecommendationsLoading ? <LoadingOutlined /> : undefined
+								}
+							>
+								Get Recipes
+							</Button>
 							<Collapse>
 								{recipes?.map((recipe) => {
 									return (
@@ -132,42 +131,6 @@ export function RecipesPanel() {
 										>
 											<div>Used: {recipe.ingredients_used as string}</div>
 											<div>Needed: {recipe.ingredients_needed as string}</div>
-											{/* <div
-												css={css`
-													line-height: 1.2;
-
-													h2 {
-														font-size: 1.5em;
-														font-weight: 100;
-
-														&:not(:first-of-type) {
-															margin-top: 1.5em;
-															padding-top: 0.5em;
-															border-top: 1px solid rgba(0, 0, 0, 0.4);
-														}
-													}
-													h3 {
-														font-size: 1.2em;
-														font-weight: bold;
-													}
-
-													ul,
-													ol {
-														margin: 8px 0;
-														padding-left: 1.5em;
-													}
-
-													ul {
-														list-style: disc;
-													}
-
-													ol {
-														list-style: decimal;
-													}
-												`}
-											>
-												<Markdown>{recipe.content as string}</Markdown>
-											</div> */}
 										</Collapse.Panel>
 									)
 								})}

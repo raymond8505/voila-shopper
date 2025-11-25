@@ -3,6 +3,7 @@ import Tabs from "antd/es/tabs"
 import type { TabsProps } from "antd/es/tabs"
 import { ProductsPanel } from "./ProductsPanel"
 import { RecipesPanel } from "./RecipesPanel"
+import { SettingsPanel } from "./SettingsPanel"
 
 export function Client() {
 	const onChange = (key: string) => {
@@ -23,7 +24,7 @@ export function Client() {
 		{
 			key: "settings",
 			label: "Settings",
-			children: null,
+			children: <SettingsPanel />,
 		},
 	]
 	return (
