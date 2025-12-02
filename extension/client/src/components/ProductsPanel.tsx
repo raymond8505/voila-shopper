@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
-
-import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
+import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 
 import { useShopper } from "../hooks/useShopper"
 import type { CategoryTree, Job, Voila } from "../types"
@@ -13,6 +11,7 @@ import { ProductCardGrid } from "./ProductCardGrid"
 import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
 import Select from "antd/es/select"
+import { LoaderButton } from "./common/LoaderButton"
 
 export function ProductsPanel() {
 	const {
@@ -29,6 +28,7 @@ export function ProductsPanel() {
 	const [jobs, setJobs] = useState<
 		Pick<Job.JobItem<Record<string, unknown>>, "id" | "created_at" | "status">[]
 	>([])
+	const [oldJobLoading, setOldJobLoading] = useState(false)
 
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
@@ -42,18 +42,22 @@ export function ProductsPanel() {
 	const handleGetOldJobClick = useCallback(() => {
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
+			setOldJobLoading(true)
+
 			getRecommendations(jobId)
 				.then((products) => {
 					console.log("Recommended products:", products)
 					gettingRecommendations.current = false
+					setOldJobLoading(false)
 					setRecommendedProducts(products)
 				})
 				.catch((e) => {
 					console.error("Recommended products ERROR:", e)
 					gettingRecommendations.current = false
+					setOldJobLoading(false)
 				})
 		}
-	}, [getRecommendations, setRecommendedProducts, jobId])
+	}, [getRecommendations, setRecommendedProducts, jobId, setOldJobLoading])
 
 	const handleGetNewJobClick = useCallback(async () => {
 		if (!gettingRecommendations.current) {
@@ -114,14 +118,6 @@ export function ProductsPanel() {
 		}
 	}
 
-	const oldJobs = jobs.map(({ id, created_at }) => {
-		return (
-			<option value={id} key={id}>
-				{created_at.toDateString()} {created_at.toLocaleTimeString()}
-			</option>
-		)
-	})
-
 	const selectWrapper = useRef<HTMLDivElement>(null)
 	return (
 		<div
@@ -143,7 +139,12 @@ export function ProductsPanel() {
 						align-items: stretch;
 					`}
 				>
-					<div ref={selectWrapper}>
+					<div
+						ref={selectWrapper}
+						css={css`
+							flex-grow: 1;
+						`}
+					>
 						<Select
 							placeholder="Job ID"
 							onChange={(e) => {
@@ -161,8 +162,7 @@ export function ProductsPanel() {
 							}))}
 						/>
 					</div>
-					<Button
-						type="default"
+					<LoaderButton
 						onClick={handleGetOldJobClick}
 						css={css`
 							flex-shrink: 0;
@@ -171,31 +171,27 @@ export function ProductsPanel() {
 							height: unset !important;
 							aspect-ratio: 1;
 						`}
-					>
-						<ShoppingCartOutlined />
-						<span>{`Get Previous Trip`}</span>
-					</Button>
+						label="Get Previous Trip"
+						loading={oldJobLoading}
+						icon={<ShoppingCartOutlined />}
+					/>
 				</div>
 				<Divider />
 			</div>
 			<div>
 				<strong>New Trip</strong>
-				<Button
-					type="primary"
+				<LoaderButton
+					label="Find Promotions"
+					loadingLabel="Finding Promotions..."
+					loading={recommendationsLoading}
+					icon={<ShoppingCartOutlined />}
 					onClick={handleGetNewJobClick}
+					type="primary"
 					css={css`
 						display: flex;
 						gap: 4px;
 					`}
-					disabled={recommendationsLoading}
-				>
-					{recommendationsLoading ? (
-						<LoadingOutlined />
-					) : (
-						<ShoppingCartOutlined />
-					)}
-					<span>{`Find Promotions`}</span>
-				</Button>
+				/>
 				<Divider />
 			</div>
 			<div

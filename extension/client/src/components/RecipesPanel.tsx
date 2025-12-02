@@ -1,8 +1,6 @@
 import { useCallback, useState } from "react"
 
-// import { Button, Collapse, List,
 import Splitter from "antd/es/splitter"
-import Button from "antd/es/button"
 import Collapse from "antd/es/collapse"
 
 import List from "antd/es/list"
@@ -11,11 +9,11 @@ import { css } from "@emotion/react"
 
 import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
-import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
+import { LoaderButton } from "./common/LoaderButton"
 export function RecipesPanel() {
 	const { ingredients, removeIngredient } = useStore()
 	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipes"]>()
@@ -37,10 +35,8 @@ export function RecipesPanel() {
 	return (
 		<div
 			css={css`
-				//display: grid;
 				gap: 8px;
 				height: 100%;
-				//grid-template-rows: auto 1fr;
 			`}
 		>
 			<div
@@ -109,19 +105,15 @@ export function RecipesPanel() {
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
 								onChange={(e) => setExtraCriteria(e.target.value)}
 							></TextArea>
-							<Button
+							<LoaderButton
+								loading={recipeRecommendationsLoading}
 								type="primary"
 								onClick={handleGetRecipesClick}
-								disabled={recipeRecommendationsLoading}
 								css={css`
 									margin: 8px 0;
 								`}
-								icon={
-									recipeRecommendationsLoading ? <LoadingOutlined /> : undefined
-								}
-							>
-								Get Recipes
-							</Button>
+								label="Get Recipes"
+							/>
 							<Collapse>
 								{recipes?.map((recipe) => {
 									return (
