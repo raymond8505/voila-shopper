@@ -1,0 +1,1478 @@
+[
+    {
+        "categoryPath": [
+            "Household Products",
+            "Gifts & Cards"
+        ],
+        "name": "Scene+ Sign-Up Kit",
+        "productId": "4269836b-addb-4806-b043-560c4e786b05",
+        "price": {
+            "currentPrice": 0,
+            "originalPrice": 0.05
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Chicken & Turkey",
+            "Frozen Chicken Nuggets & Strips"
+        ],
+        "name": "Janes Fully Cooked Frozen Chicken Breast Strips Pub Style 700 g",
+        "packSizeDescription": "700g",
+        "productId": "ee3fabdc-dc86-4489-bd5e-86758863b69b",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 16.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Cheese",
+            "Block Cheese",
+            "Block Cheddar Cheese"
+        ],
+        "name": "Armstrong Cheese Cheddar Marble 400 g",
+        "packSizeDescription": "400g",
+        "productId": "e4de69cd-d19a-4618-b8e1-fef1041f79ed",
+        "price": {
+            "currentPrice": 4.77,
+            "originalPrice": 8.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Grapes"
+        ],
+        "name": "Grapes Seedless Green 907 g",
+        "packSizeDescription": "907g",
+        "productId": "a0f50798-2ad5-426b-a225-67496b0c4828",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 11.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Household Products",
+            "Paper Products",
+            "Toilet Paper"
+        ],
+        "name": "Royale Toilet Paper Original 2-Ply 12 Rolls x 242 Sheets ",
+        "packSizeDescription": "12 per pack",
+        "productId": "3f6396a8-befc-478c-ba3d-a20e6ac89668",
+        "price": {
+            "currentPrice": 7.49,
+            "originalPrice": 13.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Avocados"
+        ],
+        "name": "Hass Avocados 5 Count (Ripe in 3-5 days)",
+        "packSizeDescription": "5 per pack",
+        "productId": "7303ad59-ca10-4598-bce2-5d58e6f74df0",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 5.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Butter & Margarine",
+            "Butter"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 2,
+            "unit": "WEEK"
+        },
+        "name": "Compliments Salted Butter 454 g",
+        "packSizeDescription": "454g",
+        "productId": "c6432225-1279-4212-856c-d6fd14e49f11",
+        "price": {
+            "currentPrice": 4.67,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Chips & Salted Snacks",
+            "Potato Chips"
+        ],
+        "name": "Ruffles Potato Chips Regular 200 g",
+        "packSizeDescription": "200g",
+        "productId": "ed5a7305-4d89-4156-aba3-82fe7e3995bf",
+        "price": {
+            "currentPrice": 2.5,
+            "originalPrice": 5.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Fish & Seafood",
+            "Frozen Seafood"
+        ],
+        "name": "Compliments Frozen Pacific White Shrimp Raw Peeled Deveined 340 g",
+        "packSizeDescription": "340g",
+        "productId": "61ba2230-9684-420a-89af-6a2339058013",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 11.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Meat & Seafood",
+            "Beef & Veal",
+            "Steak Cuts"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 5,
+            "unit": "DAY"
+        },
+        "name": "Sterling Silver Prime Rib Steak",
+        "packSizeDescription": "0.5kg - 0.6kg",
+        "productId": "53389b65-5201-46af-887f-da8a183c59ff",
+        "price": {
+            "currentPrice": 28.85,
+            "originalPrice": 33.94
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Citrus Fruits"
+        ],
+        "name": "Clementines / Mandarins 907 g",
+        "packSizeDescription": "907g",
+        "productId": "70ca44bb-3db2-4103-badc-ee523d9d1090",
+        "price": {
+            "currentPrice": 4.99,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Fruits & Vegetables",
+            "Frozen Fruits"
+        ],
+        "name": "Compliments Frozen Blueberries 1.5 kg",
+        "packSizeDescription": "1.5kg",
+        "productId": "25f1aa9b-d1e4-492a-8e8e-9ce708d34c0a",
+        "price": {
+            "currentPrice": 13.99,
+            "originalPrice": 15.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Drinkable Yogurt"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "iÖGO nanö 1% Drinkable Yogurt Strawberry 6 x 93 ml",
+        "packSizeDescription": "6 x 93ml",
+        "productId": "e6c44568-971a-422f-b5ab-821409ddb37a",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Deli Meats",
+            "Deli Turkey"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "Maple Leaf Natural Selections Deli Sliced Turkey Breast Oven Roasted 175 g",
+        "packSizeDescription": "175g",
+        "productId": "330c4f16-9218-48ba-a310-c4008e616c20",
+        "price": {
+            "currentPrice": 9.49,
+            "originalPrice": 9.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Deli Meats",
+            "Deli Kolbassa & Sausage"
+        ],
+        "name": "Schneiders Dry Summer Sausage 150 g",
+        "packSizeDescription": "150g",
+        "productId": "29a6fa2c-7eb6-4063-a03e-d2974ee2725f",
+        "price": {
+            "currentPrice": 9.49,
+            "originalPrice": 9.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Dips, Hummus & Sauces",
+            "Hummus"
+        ],
+        "name": "Fontaine Santé Vegan Hummus Traditional 260 g",
+        "packSizeDescription": "260g",
+        "productId": "e1fdef92-618a-4e60-a792-3b558ffc15e9",
+        "price": {
+            "currentPrice": 4.49,
+            "originalPrice": 5.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Easy Prep Meals & Sides",
+            "Macaroni & Cheese"
+        ],
+        "name": "Annie's Macaroni & Cheese Shells & White cheddar 170 g",
+        "packSizeDescription": "170g",
+        "productId": "5c4c1362-de46-4ae1-84f2-93f0dd757a56",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 4.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Cream & Creamers"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "Silk Almond Coffee Creamer Vanilla 890 ml",
+        "packSizeDescription": "890ml",
+        "productId": "16816bbb-8c4e-4f1d-8de3-33fd7328fc0a",
+        "price": {
+            "currentPrice": 5.49,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Tomatoes"
+        ],
+        "name": "Compliments Grape Tomato 283 g",
+        "packSizeDescription": "283g",
+        "productId": "99072a56-c854-4e71-bf1d-a0e02a176ef5",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 4.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Mushrooms"
+        ],
+        "name": "Compliments Organic Mushrooms Whole Cremini 227 g",
+        "packSizeDescription": "227g",
+        "productId": "082e6cfc-ea6a-4328-bfdb-483911784311",
+        "price": {
+            "currentPrice": 1.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Potatoes"
+        ],
+        "name": "The Little Potato Company Fresh Potatoes Little Yellows 1.36 kg",
+        "packSizeDescription": "1.36kg",
+        "productId": "2ec0d39d-105c-49b5-a78a-a775e7f9857b",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 7.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Broccoli"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 4,
+            "unit": "DAY"
+        },
+        "name": "GoodLeaf Hero Greens Magic Micro Broccoli 50 g",
+        "packSizeDescription": "50g",
+        "productId": "9c62a36e-36d6-4279-bf57-5e2344f6731a",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Cereal & Breakfast Foods",
+            "Cold Cereal"
+        ],
+        "name": "Cheerios Cereal Honey Nut Whole Grains Family Size 725 g",
+        "packSizeDescription": "725g",
+        "productId": "dc4949ad-e595-4d0f-a172-8035e0a5b171",
+        "price": {
+            "currentPrice": 5.47,
+            "originalPrice": 8.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Soup & Broth",
+            "Soup & Soup Mixes"
+        ],
+        "name": "Campbell's Condensed Soup Cream Of Mushroom 284 ml",
+        "packSizeDescription": "284ml",
+        "productId": "742e4832-92a4-4d42-8326-a02c64affd2a",
+        "price": {
+            "currentPrice": 1.25,
+            "originalPrice": 2.69
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Deli Meats",
+            "Deli Ham & Pork"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "Compliments Smoked Ham Black Forest Extra Lean Thinly Sliced 400 g",
+        "packSizeDescription": "400g",
+        "productId": "ce234a6e-fe85-4eb7-aa05-c053a6de8ec3",
+        "price": {
+            "currentPrice": 10.99,
+            "originalPrice": 12.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Cheese",
+            "Soft & Spreadable Cheese"
+        ],
+        "name": "OKA Original Cheese 190 g",
+        "packSizeDescription": "190g",
+        "productId": "64715ac2-b152-4d54-b1e1-02ae0ff8652c",
+        "price": {
+            "currentPrice": 8.99,
+            "originalPrice": 10.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bread",
+            "Wheat & Grain Bread"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments 12 Grain Bread 600 g",
+        "packSizeDescription": "600g",
+        "productId": "93166641-6142-4d38-9abc-9b70925b91a0",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Household Products",
+            "Food Wraps & Containers",
+            "Sandwich & Freezer Bags"
+        ],
+        "name": "Ziploc Freezer Bags Grip 'n Seal Technology Large 14 Bags",
+        "packSizeDescription": "14 per pack",
+        "productId": "665a2891-aba8-46d8-badb-eca3a2b06458",
+        "price": {
+            "currentPrice": 4.99,
+            "originalPrice": 7.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Health & Beauty",
+            "Body, Skin & Lip Care",
+            "Cotton Pads & Swabs"
+        ],
+        "name": "Q-Tips Cotton Swabs Original For Your Everyday Needs 400 Count",
+        "packSizeDescription": "400 per pack",
+        "productId": "a001c4e3-8d2f-4264-989b-472229baa79f",
+        "price": {
+            "currentPrice": 4.49,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Household Products",
+            "Cleaning",
+            "Dishwasher Detergent"
+        ],
+        "name": "Finish Dishwasher Cleaner Jet Dry Rinse Agent 621 ml",
+        "packSizeDescription": "621ml",
+        "productId": "74b1806b-7bfb-4aac-a7bf-26d4d754c6de",
+        "price": {
+            "currentPrice": 11.49,
+            "originalPrice": 12.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Health & Beauty",
+            "Diet & Fitness",
+            "Protein Powders & Shakes"
+        ],
+        "name": "Vega Protein & Greens Salted Caramel 17 Servings 510 g",
+        "packSizeDescription": "510g",
+        "productId": "b89e55d6-c56f-403c-83ae-cd67daa37d3d",
+        "price": {
+            "currentPrice": 24.99,
+            "originalPrice": 32.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Health & Beauty",
+            "Medicine & Health",
+            "Pain Relief"
+        ],
+        "name": "Advil Liqui-Gels 200 mg Ibuprofen Capsules 72 Count",
+        "packSizeDescription": "72 per pack",
+        "productId": "478e332e-edd5-48f6-ac44-afaac7443250",
+        "price": {
+            "currentPrice": 14.39,
+            "originalPrice": 15.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Baby",
+            "Wipes"
+        ],
+        "name": "Pampers Baby Wipes Sensitive Perfume-Free Pop-Top 4 Packs 336 Count",
+        "packSizeDescription": "336 per pack",
+        "productId": "414ef360-4a21-43be-a2a1-c770a6c9b5a7",
+        "price": {
+            "currentPrice": 13.99,
+            "originalPrice": 16.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Pasta, Noodles & Sauce",
+            "Dry Pasta & Noodles"
+        ],
+        "name": "Panache Broad Egg Noodles 375 g",
+        "packSizeDescription": "375g",
+        "productId": "c96466fe-c8cc-4e99-8dff-ef5f1806d12a",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 4.19
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Pears"
+        ],
+        "name": "Pear Bartlett 1 Count ",
+        "productId": "7c1883c6-73ba-4774-af24-0c2560ade272",
+        "price": {
+            "currentPrice": 1.29,
+            "originalPrice": 1.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Cereal & Breakfast Foods",
+            "Cold Cereal"
+        ],
+        "name": "Compliments Cereal Fruity Hoops 794 g",
+        "packSizeDescription": "794g",
+        "productId": "b3888703-1b54-4bf0-bfeb-0b37087d9bca",
+        "price": {
+            "currentPrice": 5.47,
+            "originalPrice": 7.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Deli Meats",
+            "Deli Turkey"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "Compliments Extra Lean Thinly Sliced Smoked Turkey Breast 400 g",
+        "packSizeDescription": "400g",
+        "productId": "ed8e6bc8-06d9-47ee-a324-98a2587ef22e",
+        "price": {
+            "currentPrice": 10.99,
+            "originalPrice": 12.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Wraps, Pita & Flatbread",
+            "Tortillas & Wraps"
+        ],
+        "name": "Farm Boy Original 10 in Tortilla Wrap 680 g (frozen)",
+        "packSizeDescription": "680g",
+        "productId": "726a5f59-e766-4433-92f3-187d5ab42192",
+        "price": {
+            "currentPrice": 4.99,
+            "originalPrice": 4.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Cucumbers"
+        ],
+        "name": "Mini Cucumbers Seedless 6 Pack",
+        "packSizeDescription": "6 per pack",
+        "productId": "e1244c33-cb06-4aab-a3cf-9728e05774de",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 4.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Tomatoes"
+        ],
+        "name": "Tomatoes On A Vine 454 g",
+        "packSizeDescription": "454g",
+        "productId": "9addcbe9-44b6-45ca-88bb-71c0b579704d",
+        "price": {
+            "currentPrice": 1.99,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Bell Peppers"
+        ],
+        "name": "Green Pepper Extra Large 1 Count",
+        "productId": "b73d7ef6-450f-4319-a4b1-0211be9ecb4e",
+        "price": {
+            "currentPrice": 1.49,
+            "originalPrice": 1.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Cut Fruits & Vegetables",
+            "Fresh Cut Vegetables"
+        ],
+        "name": "Mini Peeled Carrot 340 g",
+        "packSizeDescription": "340g",
+        "productId": "c2eaf1b7-aa07-4eb1-9249-a6745edb8f98",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Root Vegetables"
+        ],
+        "name": "Compliments Carrots 1.36 kg",
+        "packSizeDescription": "1.36kg",
+        "productId": "6c9f8cc7-8861-4202-bf42-9e9eba86a795",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Onions & Shallots"
+        ],
+        "name": "Compliments Onions Yellow 1.36 kg",
+        "packSizeDescription": "1.362kg",
+        "productId": "79eb3f2c-b098-4d1c-b998-57a8fa32c9f7",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "English Muffins"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments English Muffins Plain 6 Pack 342 g",
+        "packSizeDescription": "6 x 57g",
+        "productId": "0abe1240-f9cd-41c0-8cda-21693a4cfde8",
+        "price": {
+            "currentPrice": 2.29,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bread",
+            "White Bread"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Villaggio White Bread Classico Italian Style Thick Slice 675 g",
+        "packSizeDescription": "675g",
+        "productId": "1f65afe7-e6d3-47be-a9c1-14b2400f34d9",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Pears"
+        ],
+        "name": "Pears Bosc Large 1 Count",
+        "productId": "50773088-7f54-4c5f-bb8a-ee5aab0e49b3",
+        "price": {
+            "currentPrice": 1.29,
+            "originalPrice": 1.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Melons"
+        ],
+        "name": "Cantaloupe Large 1 Count",
+        "productId": "e2e987ed-a1fa-4497-8bc7-415d5c5bec2a",
+        "price": {
+            "currentPrice": 4.99,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Meals, Entrees & Sides",
+            "Frozen Fries & Potatoes"
+        ],
+        "name": "McCain Frozen Fries Masala 650 g",
+        "packSizeDescription": "650g",
+        "productId": "1363feea-4977-455c-b8a7-626776f50e2e",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Greek Yogurt"
+        ],
+        "name": "Liberté Greek 0% Yogurt Plain High Protein 750 g",
+        "packSizeDescription": "750g",
+        "productId": "9e0f62a2-00d0-4b81-a845-f9f138ea1c06",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 7.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Mushrooms"
+        ],
+        "name": "Compliments Organic Mushrooms Whole White 227 g",
+        "packSizeDescription": "227g",
+        "productId": "5ee1c565-8424-4883-b61b-5a6f8abf9b8b",
+        "price": {
+            "currentPrice": 1.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Packaged Salads & Dressing",
+            "Fresh Salad Kits & Mixes"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 4,
+            "unit": "DAY"
+        },
+        "name": "Taylor Farms Chopped Salad Kit Sweet Kale 340 g",
+        "packSizeDescription": "340g",
+        "productId": "0829f7ec-f8b6-4f79-ad46-cbf148d18522",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 6.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "English Muffins"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments English Muffins Whole Wheat 342 g",
+        "packSizeDescription": "342g",
+        "productId": "ab743dd1-2197-49a1-a120-47d59645c8c4",
+        "price": {
+            "currentPrice": 2.29,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Soup & Broth",
+            "Soup & Soup Mixes"
+        ],
+        "name": "Campbell's Canned Condensed Soup Tomato 284 ml",
+        "packSizeDescription": "284ml",
+        "productId": "eb785cb9-f503-4678-b87b-82f32d183f1e",
+        "price": {
+            "currentPrice": 1.25,
+            "originalPrice": 2.69
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Packaged Salads & Dressing",
+            "Fresh Salad Kits & Mixes"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 4,
+            "unit": "DAY"
+        },
+        "name": "Taylor Farms Chopped Salad Kit Caesar 316 g",
+        "packSizeDescription": "316g",
+        "productId": "165fb3c3-e82d-4302-8a90-22f7b7a47909",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 6.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Beverages",
+            "Fruit & Vegetable Juice",
+            "Orange Juice"
+        ],
+        "name": "Oasis Juice Orange Pure Breakfast 960 ml",
+        "packSizeDescription": "960ml",
+        "productId": "f19ecc28-ca8e-4e60-a7d0-1b644bcfb949",
+        "price": {
+            "currentPrice": 2.79,
+            "originalPrice": 3.19
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Root Vegetables"
+        ],
+        "name": "Organic Carrots 908 g ",
+        "packSizeDescription": "908g",
+        "productId": "4c91b698-65da-4452-8e23-aae077b5c139",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Herbs"
+        ],
+        "name": "Compliments Basil 20 g",
+        "packSizeDescription": "20g",
+        "productId": "0e47a1da-d5df-4e75-9bd0-e5901868472d",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Baking",
+            "Sugar & Sweeteners"
+        ],
+        "name": "Lantic Natural Brown Sugar Old Fashioned 1 kg",
+        "packSizeDescription": "1kg",
+        "productId": "8ee7f0b2-63b7-4c26-9e1f-5c17a5e113e8",
+        "price": {
+            "currentPrice": 3.29,
+            "originalPrice": 3.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Plain Yogurt"
+        ],
+        "name": "Liberté Greek 2% Yogurt Plain High Protein 750 g",
+        "packSizeDescription": "750g",
+        "productId": "a9d932e8-3be0-4b90-9f76-fd0804c37205",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 7.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Berries"
+        ],
+        "name": "Driscoll Blueberries Sweetest Batch 312 g",
+        "packSizeDescription": "312g",
+        "productId": "843fab26-bc38-4b8c-b12f-310210d9822f",
+        "price": {
+            "currentPrice": 8.77,
+            "originalPrice": 10.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Flavoured Yogurt"
+        ],
+        "name": "Activia Probiotic Yogurt Strawberry Blueberry Raspberry Peach 12 x 100 g",
+        "packSizeDescription": "12 x 100g",
+        "productId": "377b12c8-7282-4641-90a2-c02da1f2859f",
+        "price": {
+            "currentPrice": 7.49,
+            "originalPrice": 8.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Fruits",
+            "Lemons"
+        ],
+        "name": "Lemons Bag 908 g ",
+        "packSizeDescription": "908g",
+        "productId": "504b3740-d85c-4ca6-9ff4-34829252222d",
+        "price": {
+            "currentPrice": 4.99,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bagels"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments Bagels Plain Original 6 x 75 g",
+        "packSizeDescription": "6 x 75g",
+        "productId": "5567d164-048b-49c5-b14d-b4b2d8731e00",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Greek Yogurt"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 2,
+            "unit": "WEEK"
+        },
+        "name": "Liberté Greek Lactose-Free 0% Yogurt Plain 750 g",
+        "packSizeDescription": "750g",
+        "productId": "8fd871c8-f740-4fa0-b6eb-92e08bb7d045",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 7.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Energy, Granola & Cereal Bars",
+            "Granola Bars"
+        ],
+        "name": "MadeGood Granola Bars Chocolate Chip 5 x 24 g",
+        "packSizeDescription": "120g",
+        "productId": "228cc7ab-9b1e-465f-9c6f-080b4f8f0105",
+        "price": {
+            "currentPrice": 2.5,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Apple Sauce"
+        ],
+        "name": "Compliments Apple Sauce Unsweetened 620 ml",
+        "packSizeDescription": "620ml",
+        "productId": "f8a325f9-c308-4d3d-89d0-6d17a928bbf3",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.69
+        }
+    },
+    {
+        "categoryPath": [
+            "Beverages",
+            "Water",
+            "Bottled Water"
+        ],
+        "name": "Compliments Spring Water 1.5 L (bottle)",
+        "packSizeDescription": "1.5L",
+        "productId": "37a1cd27-9aff-42bb-9bca-a0904d134625",
+        "price": {
+            "currentPrice": 1.25,
+            "originalPrice": 1.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Eggs",
+            "Whole Eggs"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "Gray Ridge Premium White Eggs Grade A Large Value Size 18 Count",
+        "packSizeDescription": "18 per pack",
+        "productId": "cf1f94da-9d61-4243-8d72-9e74ce5224c8",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 7.39
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bagels"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments Everything Bagels 6 Pack 450 g",
+        "packSizeDescription": "450g",
+        "productId": "2b85e7fc-f885-45d4-a760-2f717d8441a4",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Energy, Granola & Cereal Bars",
+            "Granola Bars"
+        ],
+        "name": "Kashi Crunchy Bars 7 Grain Quinoa Chocolate Chip Chia 10 x 20 g",
+        "packSizeDescription": "10 x 20g",
+        "productId": "2f10b930-8b1c-4a88-9179-b82fcede0bf5",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 4.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Vegetables",
+            "Garlic"
+        ],
+        "name": "Fresh Whole Garlic 5 Pack",
+        "packSizeDescription": "5 per pack",
+        "productId": "fd410a80-0176-4e61-bbf0-fea390ed1aab",
+        "price": {
+            "currentPrice": 1.29,
+            "originalPrice": 1.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Packaged Salads & Dressing",
+            "Fresh Salad Kits & Mixes"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 4,
+            "unit": "DAY"
+        },
+        "name": "Taylor Farms Chopped Salad Kit Dill Pickle 333 g",
+        "packSizeDescription": "335g",
+        "productId": "69c5e398-d32a-4d2a-a026-2aff53d0b1ac",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 6.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Chips & Salted Snacks",
+            "Vegetable Chips"
+        ],
+        "name": "Sensible Portions Gluten-Free Veggie Straws Original 142 g",
+        "packSizeDescription": "142g",
+        "productId": "2908fdfd-16df-43c6-8b4e-62ef5ffc783f",
+        "price": {
+            "currentPrice": 3.25,
+            "originalPrice": 4.19
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Bread & Breakfast",
+            "Frozen Waffles, Pancakes & Egg Bakes"
+        ],
+        "name": "Kelloggs Eggo Frozen Pancakes Buttermilk 8 Count 280 g",
+        "packSizeDescription": "280g",
+        "productId": "20afdb90-90dc-44ec-8e92-1571e97fcd16",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 5.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Soup & Broth",
+            "Soup & Soup Mixes"
+        ],
+        "name": "Campbell's Condensed Soup Chicken Noodle 284 ml",
+        "packSizeDescription": "284ml",
+        "productId": "cc465ac8-2480-4ef0-8004-9e112b7b7253",
+        "price": {
+            "currentPrice": 1.25,
+            "originalPrice": 2.69
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Dips, Hummus & Sauces",
+            "Hummus"
+        ],
+        "name": "Compliments Hummus Naturally Simple 227 g",
+        "packSizeDescription": "227g",
+        "productId": "d7b225d3-85ab-40ee-8d61-7a8a6d56f41a",
+        "price": {
+            "currentPrice": 4,
+            "originalPrice": 4.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Rice Cakes"
+        ],
+        "name": "Quaker Gluten-Free Crispy Minis Brown Rice Cakes Original 127 g",
+        "packSizeDescription": "127g",
+        "productId": "6449bcf5-25d6-4912-8507-15cb45ba7b8a",
+        "price": {
+            "currentPrice": 4.29,
+            "originalPrice": 4.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bagels"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments Bagels Whole Wheat 6 x 75 g",
+        "packSizeDescription": "6 x 75g",
+        "productId": "b7b3f262-f832-45dd-bc14-9d4fd8cb8d0f",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Apple Sauce"
+        ],
+        "name": "Compliments Apple Snack Cups Unsweetened 6 x 113 g",
+        "packSizeDescription": "6 x 113g",
+        "productId": "50b09329-6d88-4ad7-8f51-2dbe96755fde",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Energy, Granola & Cereal Bars",
+            "Nutrition Bars & Bites"
+        ],
+        "name": "Fiber 1 Brownies Bar Chocolatey Fudge 125 g",
+        "packSizeDescription": "125g",
+        "productId": "c3e58088-abe7-4d55-80a3-e983fb4eeae2",
+        "price": {
+            "currentPrice": 3.49,
+            "originalPrice": 4.69
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Baking",
+            "Pie Ingredients"
+        ],
+        "name": "E.D. Smith Pumpkin Puree Pure 796 ml",
+        "packSizeDescription": "796ml",
+        "productId": "f8f47ffd-ee0d-4b9c-80fd-5cf5495c6a07",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 7.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Cheese",
+            "Sliced Cheese",
+            "Sliced Cheddar Cheese"
+        ],
+        "name": "Kraft Singles Sliced Cheddar Cheese Original 22 Regular Slices 410 g",
+        "packSizeDescription": "410g",
+        "productId": "41b8107b-54b9-4cf6-95a6-e0e033711f54",
+        "price": {
+            "currentPrice": 4.44,
+            "originalPrice": 6.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Baking",
+            "Canned & Powdered Milk"
+        ],
+        "name": "Carnation Evaporated Milk 354 ml",
+        "packSizeDescription": "354ml",
+        "productId": "9868a253-8f5b-4541-87f8-4a7b65f84492",
+        "price": {
+            "currentPrice": 2.79,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bread",
+            "Wheat & Grain Bread"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Villaggio Bread Italian Style Thick Slice 100% Whole Wheat 675 g",
+        "packSizeDescription": "675g",
+        "productId": "44f5dc3c-d8d5-4b65-8571-72df121ccb40",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 3.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Cookies & Crackers",
+            "Crackers"
+        ],
+        "name": "Christie Ritz Original Crackers 180 g",
+        "packSizeDescription": "180g",
+        "productId": "90b9607d-b293-40e9-88c1-5bb1d7a32dbd",
+        "price": {
+            "currentPrice": 3.5,
+            "originalPrice": 4.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Beverages",
+            "Water",
+            "Sparkling Water"
+        ],
+        "name": "San Pellegrino Carbonated Mineral Water 750 ml (bottle)",
+        "packSizeDescription": "750ml",
+        "productId": "4338f423-8c6c-42c0-9fd3-2b56e72b9f92",
+        "price": {
+            "currentPrice": 2.69,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Easy Prep Meals & Sides",
+            "Rice Sides"
+        ],
+        "name": "Ben's Original Bistro Express Basmati Rice Side Dish 250 g",
+        "packSizeDescription": "250g",
+        "productId": "23e1c739-bed7-4635-ac40-2367177e4565",
+        "price": {
+            "currentPrice": 3.49,
+            "originalPrice": 4.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Meat & Seafood",
+            "Pork",
+            "Ground Pork"
+        ],
+        "name": "Compliments Pork Ground Lean 454 g",
+        "packSizeDescription": "454g",
+        "productId": "2feeb441-109b-40be-85c9-02b6c205c2e7",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 6.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Flavoured Yogurt"
+        ],
+        "name": "Liberté Greek 2% Yogurt Vanilla High Protein 750 g",
+        "packSizeDescription": "750g",
+        "productId": "33c4ec90-fb7f-4b10-b3d2-7c2fb795fd67",
+        "price": {
+            "currentPrice": 6.99,
+            "originalPrice": 7.79
+        }
+    },
+    {
+        "categoryPath": [
+            "Beverages",
+            "Fruit & Vegetable Juice",
+            "Apple Juice"
+        ],
+        "name": "Oasis Apple Juice 960 ml",
+        "packSizeDescription": "960ml",
+        "productId": "96574248-a8a1-499a-8835-7a1d6e35d50c",
+        "price": {
+            "currentPrice": 2.79,
+            "originalPrice": 3.19
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Energy, Granola & Cereal Bars",
+            "Granola Bars"
+        ],
+        "name": "MadeGood Granola Bars Mixed Berry 5 x 24 g",
+        "packSizeDescription": "120g",
+        "productId": "102c1177-180f-41df-a1e2-884aca48b7a0",
+        "price": {
+            "currentPrice": 2.5,
+            "originalPrice": 5.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Fresh Fruits & Vegetables",
+            "Fresh Herbs"
+        ],
+        "name": "Compliments Fresh Dill 20 g",
+        "packSizeDescription": "20g",
+        "productId": "d221eac7-fc11-4635-bbf9-2759df85384b",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Dairy & Eggs",
+            "Yogurt",
+            "Flavoured Yogurt"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 2,
+            "unit": "WEEK"
+        },
+        "name": "Activia 2.2% Yogurt With Probiotics Vanilla Flavour 650 g",
+        "packSizeDescription": "650g",
+        "productId": "2037cf10-baa1-4bb7-b0ad-5da9c46e5b11",
+        "price": {
+            "currentPrice": 4.49,
+            "originalPrice": 5.29
+        }
+    },
+    {
+        "categoryPath": [
+            "Pantry",
+            "Cereal & Breakfast Foods",
+            "Cold Cereal"
+        ],
+        "name": "Cheerios Cereal Multi Grain Family Size 585 g",
+        "packSizeDescription": "585g",
+        "productId": "4a9c6872-d0e6-410b-93cc-9f4bd693dc54",
+        "price": {
+            "currentPrice": 5.47,
+            "originalPrice": 8.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Snacks & Candy",
+            "Chips & Salted Snacks",
+            "Potato Chips"
+        ],
+        "name": "Compliments Potato Chips Regular Ripple 200 g",
+        "packSizeDescription": "200g",
+        "productId": "02e5cd10-4031-4dd9-b131-7050de22959e",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.49
+        }
+    },
+    {
+        "categoryPath": [
+            "Beverages",
+            "Soft Drinks",
+            "Cola"
+        ],
+        "name": "Coca-Cola Zero Sugar Soda 6 x 710 ml (bottles)",
+        "packSizeDescription": "6 x 710ml",
+        "productId": "359e820e-2665-4543-bcf3-7e7e90724bd1",
+        "price": {
+            "currentPrice": 3.99,
+            "originalPrice": 7.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Deli",
+            "Deli Meats",
+            "Deli Ham & Pork"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 1,
+            "unit": "WEEK"
+        },
+        "name": "San Daniele Gluten-Free Ham Prosciutto Sliced 100 g",
+        "packSizeDescription": "100g",
+        "productId": "e979516d-b4f9-4279-9b5c-f64b953e0ce9",
+        "price": {
+            "currentPrice": 5.99,
+            "originalPrice": 7.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Bread & Bakery",
+            "Bagels"
+        ],
+        "guaranteedProductLife": {
+            "quantity": 3,
+            "unit": "DAY"
+        },
+        "name": "Compliments Bagels Sesame Seed 6 x 75 g",
+        "packSizeDescription": "6 x 75g",
+        "productId": "6f60fb25-8cee-4cbe-9c46-4e52b3331bde",
+        "price": {
+            "currentPrice": 2.49,
+            "originalPrice": 2.99
+        }
+    },
+    {
+        "categoryPath": [
+            "Frozen Foods",
+            "Frozen Meals, Entrees & Sides",
+            "Frozen Fries & Potatoes"
+        ],
+        "name": "McCain Superfries 5 Minute Shoestring Fries 650 g",
+        "packSizeDescription": "650g",
+        "productId": "fd3edb6e-5d36-49b9-b0c7-25be086d2f72",
+        "price": {
+            "currentPrice": 2.99,
+            "originalPrice": 5.49
+        }
+    }
+]

@@ -308,6 +308,23 @@ export namespace Workflow {
 	export type ResponseType = "job" | "hook"
 }
 
+export type TrimmedProduct = Pick<
+	Voila.DecoratedProduct,
+	| "categoryPath"
+	| "productId"
+	| "guaranteedProductLife"
+	| "packSizeDescription"
+	| "name"
+> & {
+	price: MinimalPrice
+}
+
+export interface RecommendationsWorkflowPayload extends Job.UnknownData {
+	products: TrimmedProduct[]
+	includeCriteria: string
+	excludeCriteria: string
+}
+
 export interface CategoryTree {
 	[categoryName: string]: CategoryTree | Voila.Product[]
 }

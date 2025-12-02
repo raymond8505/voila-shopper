@@ -12,6 +12,7 @@ import { categoryTreeFromProducts } from "../helpers"
 import { ProductCardGrid } from "./ProductCardGrid"
 import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
+import Select from "antd/es/select"
 
 export function ProductsPanel() {
 	const {
@@ -120,6 +121,8 @@ export function ProductsPanel() {
 			</option>
 		)
 	})
+
+	const selectWrapper = useRef<HTMLDivElement>(null)
 	return (
 		<div
 			css={css`
@@ -140,20 +143,24 @@ export function ProductsPanel() {
 						align-items: stretch;
 					`}
 				>
-					<select
-						placeholder="Job ID"
-						onChange={(e) => {
-							setJobId(e.target.value)
-						}}
-						css={css`
-							flex-grow: 1;
-							display: block;
-						`}
-						defaultValue={jobs[0]?.id}
-					>
-						<option disabled>Job ID</option>
-						{oldJobs}
-					</select>
+					<div ref={selectWrapper}>
+						<Select
+							placeholder="Job ID"
+							onChange={(e) => {
+								setJobId(e)
+							}}
+							css={css`
+								flex-grow: 1;
+								display: block;
+							`}
+							defaultValue={jobs[0]?.id}
+							getPopupContainer={() => selectWrapper.current || document.body}
+							options={jobs.map((j) => ({
+								value: j.id,
+								label: j.created_at.toLocaleString(),
+							}))}
+						/>
+					</div>
 					<Button
 						type="default"
 						onClick={handleGetOldJobClick}

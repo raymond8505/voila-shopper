@@ -8,13 +8,13 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 	const { pollJobData } = useJobManager()
 
 	const call = useCallback(
-		async <CallT = T>({
+		async <Payload extends Job.UnknownData, CallT = T>({
 			payload,
 			responseType = "hook",
 			respondOnStatus = "done",
 			hookOptions = {},
 		}: {
-			payload: Job.UnknownData
+			payload: Payload
 			responseType?: Workflow.ResponseType
 			respondOnStatus?: string
 			hookOptions?: RequestInit
@@ -56,10 +56,7 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 					return hookJSON as CallT
 				} else {
 					try {
-						const job = await pollJobData<CallT>(
-							hookJSON.jobId,
-							respondOnStatus
-						)
+						const job = await pollJobData<CallT>(hookJSON.id, respondOnStatus)
 						setLoading(false)
 						return job?.data
 					} catch (e) {

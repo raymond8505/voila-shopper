@@ -9,35 +9,36 @@ export function useVoila() {
 		},
 		[]
 	)
-	const getPromotionProducts = useCallback(async (): Promise<
-		Voila.DecoratedProduct[]
-	> => {
-		return new Promise(async (resolve) => {
-			let products: Voila.DecoratedProduct[] = []
+	const getPromotionProducts = useCallback(
+		async (limit: number = 2000): Promise<Voila.DecoratedProduct[]> => {
+			return new Promise(async (resolve) => {
+				let products: Voila.DecoratedProduct[] = []
 
-			let pageToken: string | undefined = undefined
+				let pageToken: string | undefined = undefined
 
-			async function getPromoPageProds() {
-				const pageResp = await fetchPromotionPage(pageToken)
+				async function getPromoPageProds() {
+					const pageResp = await fetchPromotionPage(pageToken)
 
-				const nextPageToken = pageResp.metadata.nextPageToken
+					const nextPageToken = pageResp.metadata.nextPageToken
 
-				const pageProducts = pageResp.productGroups.flatMap(
-					(group) => group.decoratedProducts
-				)
+					const pageProducts = pageResp.productGroups.flatMap(
+						(group) => group.decoratedProducts
+					)
 
-				products = [...products, ...pageProducts]
+					products = [...products, ...pageProducts]
 
-				if (nextPageToken) {
-					pageToken = nextPageToken
-					setTimeout(getPromoPageProds, 2000)
-				} else {
-					resolve(products)
+					if (nextPageToken && products.length <= limit) {
+						pageToken = nextPageToken
+						setTimeout(getPromoPageProds, 2000)
+					} else {
+						resolve(products.slice(0, limit - 1))
+					}
 				}
-			}
 
-			getPromoPageProds()
-		})
-	}, [])
+				getPromoPageProds()
+			})
+		},
+		[]
+	)
 	return { getProducts, getPromotionProducts }
 }
