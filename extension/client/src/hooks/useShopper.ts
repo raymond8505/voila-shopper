@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import { useVoila } from "./useVoila"
 import { useJobManager } from "./useJobManager"
 import type {
@@ -14,6 +14,7 @@ export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
 	const { includeCriteria, excludeCriteria } = useStore()
 	const { fetchJob } = useJobManager()
+	const [promosLoading, setPromosLoading] = useState(false)
 
 	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
 		useWorkflow<Job.ShopperJob>(
@@ -51,6 +52,9 @@ export function useShopper() {
 			// "promoUnitPrice",
 			// "unitPrice",
 		]
+
+		setPromosLoading(true)
+
 		const promoProducts = (
 			await getPromotionProducts(
 				import.meta.env.VITE_RECOMMEND_PRODUCTS_BATCH_SIZE
@@ -58,6 +62,8 @@ export function useShopper() {
 		).filter((prod, i, arr) => {
 			return arr.findIndex((p) => p.productId === prod.productId) === i
 		})
+
+		setPromosLoading(false)
 
 		const trimmedProducts: TrimmedProduct[] = promoProducts.map(
 			(decoratedProduct) => {
@@ -97,7 +103,11 @@ export function useShopper() {
 		return recommendations?.products?.length
 			? (await getProducts(recommendations?.products)).products
 			: []
-	}, [callRecommendationsWorkflow, getPromotionProducts])
+	}, [callRecommendationsWorkflow, getPromotionProducts, setPromosLoading])
 
-	return { getRecommendations, generateRecommendations, recommendationsLoading }
+	return {
+		getRecommendations,
+		generateRecommendations,
+		recommendationsLoading: promosLoading || recommendationsLoading,
+	}
 }

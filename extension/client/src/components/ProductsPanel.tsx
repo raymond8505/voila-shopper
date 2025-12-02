@@ -186,7 +186,6 @@ export function ProductsPanel() {
 					css={css`
 						display: flex;
 						gap: 4px;
-						aspect-ratio: 1;
 					`}
 					disabled={recommendationsLoading}
 				>
