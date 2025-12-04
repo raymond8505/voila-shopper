@@ -29,22 +29,31 @@ export function useJobManager() {
 	const pollJobData = useCallback(
 		async <T = Job.JobItem<Job.UnknownData>>(
 			id: Job.JobItem["id"],
-			resolveOnStatus: string
+			resolveOnStatus: string,
+			timeoutMs?: number
 		): Promise<Job.JobItem<T> | undefined> => {
 			return new Promise(async (resolve, reject) => {
-				async function checkJob() {
-					try {
-						const job = await fetchJobInner(id, {
-							status: `eq.${resolveOnStatus}`,
-						})
+				const start = new Date()
 
-						if (job?.[0]?.status === resolveOnStatus) {
-							resolve(job[0] as Job.JobItem<T>)
-						} else {
-							setTimeout(checkJob, 5000)
+				async function checkJob() {
+					const now = new Date()
+
+					if (timeoutMs && now.getTime() - start.getTime() >= timeoutMs) {
+						reject("TIMEOUT")
+					} else {
+						try {
+							const job = await fetchJobInner(id, {
+								status: `eq.${resolveOnStatus}`,
+							})
+
+							if (job?.[0]?.status === resolveOnStatus) {
+								resolve(job[0] as Job.JobItem<T>)
+							} else {
+								setTimeout(checkJob, 5000)
+							}
+						} catch (e) {
+							reject("JOB FETCH ERROR")
 						}
-					} catch (e) {
-						reject(undefined)
 					}
 				}
 

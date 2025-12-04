@@ -8,6 +8,7 @@ import { useStore } from "../store"
 import { css } from "@emotion/react"
 export function ProductCard({ product }: { product: Voila.Product }) {
 	const { addIngredient } = useStore()
+
 	return (
 		<div
 			css={css`
@@ -44,6 +45,7 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 					</Button>,
 					<Button
 						icon={<FormOutlined />}
+						htmlType="button"
 						onClick={() => {
 							addIngredient(product)
 						}}

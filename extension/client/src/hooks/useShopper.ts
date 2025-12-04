@@ -39,7 +39,7 @@ export function useShopper() {
 
 	const generateRecommendations = useCallback(async () => {
 		const relevantFields = [
-			//"brand",
+			"brand",
 			"categoryPath",
 			//"countryOfOrigin",
 			//"favourite",

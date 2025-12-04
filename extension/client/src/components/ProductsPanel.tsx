@@ -79,44 +79,45 @@ export function ProductsPanel() {
 		[recommendedProducts]
 	)
 
-	function createCategoryCollapse(
-		input: CategoryTree | Voila.Product[],
-		name?: string
-	) {
-		if (Array.isArray(input)) {
-			return (
-				<Collapse>
-					<Collapse.Panel
-						header={`${name} (${input.length})`}
-						key={name || Math.random()}
-					>
-						<ProductCardGrid products={input} />
-					</Collapse.Panel>
-				</Collapse>
-			)
-		} else {
-			return (
-				<Collapse>
-					<Collapse.Panel
-						header={`${name}`}
-						key={`parent-category-${name}-${Math.random()}`}
-					>
-						{Object.entries(input)
-							.sort(([categoryA], [categoryB]) =>
-								categoryA.localeCompare(categoryB)
-							)
-							.map(([categoryName, pOrC], i) => {
-								return (
-									<span key={i}>
-										{createCategoryCollapse(pOrC, categoryName)}
-									</span>
+	const createCategoryCollapse = useCallback(
+		(input: CategoryTree | Voila.Product[], name: string, key?: string) => {
+			if (Array.isArray(input)) {
+				return (
+					<Collapse>
+						<Collapse.Panel
+							header={`${name} (${input.length})`}
+							key={key ?? name}
+						>
+							<ProductCardGrid products={input} />
+						</Collapse.Panel>
+					</Collapse>
+				)
+			} else {
+				return (
+					<Collapse>
+						<Collapse.Panel header={`${name}`} key={key ?? name}>
+							{Object.entries(input)
+								.sort(([categoryA], [categoryB]) =>
+									categoryA.localeCompare(categoryB)
 								)
-							})}
-					</Collapse.Panel>
-				</Collapse>
-			)
-		}
-	}
+								.map(([categoryName, pOrC], i) => {
+									return (
+										<span key={i}>
+											{createCategoryCollapse(
+												pOrC,
+												name,
+												`${name}-${categoryName}`
+											)}
+										</span>
+									)
+								})}
+						</Collapse.Panel>
+					</Collapse>
+				)
+			}
+		},
+		[]
+	)
 
 	const selectWrapper = useRef<HTMLDivElement>(null)
 	return (

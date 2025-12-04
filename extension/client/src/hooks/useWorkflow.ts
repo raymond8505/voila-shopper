@@ -13,11 +13,16 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 			responseType = "hook",
 			respondOnStatus = "done",
 			hookOptions = {},
+			timeout = 1000 * 60 * 15, // 15 minutes,
 		}: {
 			payload: Payload
 			responseType?: Workflow.ResponseType
 			respondOnStatus?: string
 			hookOptions?: RequestInit
+			/**
+			 * only for responseType "job"
+			 */
+			timeout?: number
 		}) => {
 			if (loading) {
 				return false
@@ -25,10 +30,7 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 
 			const isLocal = location.hostname === "localhost"
 
-			console.log({ url, isLocal })
-
 			if (isLocal) {
-				console.log("LOCAL")
 				switch (url) {
 					case import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES:
 						return fixture<CallT>("recipeRecommendationsResponse")
@@ -56,10 +58,16 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 					return hookJSON as CallT
 				} else {
 					try {
-						const job = await pollJobData<CallT>(hookJSON.id, respondOnStatus)
+						const job = await pollJobData<CallT>(
+							hookJSON.id,
+							respondOnStatus,
+							timeout
+						)
 						setLoading(false)
 						return job?.data
 					} catch (e) {
+						console.error("WORKFLOW ERROR", e)
+						setLoading(false)
 						return false
 					}
 				}
