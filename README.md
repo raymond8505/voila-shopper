@@ -35,7 +35,7 @@ My resume contains a long list of skills and qualities, below are examples of ho
 - Proficient troubleshooter
     - Voila sends a `x-csrf-token` token, finding how and where the page made that value available for the front end code required walking their minified front end code to find that the initial render also put a variable on window containing various data for the front end. Data included various session related values and an array of "above the fold" products, this is likely a strategy to improve various Core Web Vitals that would suffer if initial page load had to wait for an initial fetch before displaying content
 - Exemplary problem-solving skills
-    - LLM Retrieval performance hinges on a lot of variables, investigating and addressing those in my workflows took a lot of this. Temperature, result size, ideal vector dimensionality, batching, caching, trimming data- all of these were required to dial in the AI workflows for the promotion parsing.
+    - RAG performance hinges on a lot of variables, investigating and addressing those in my workflows took a lot of this. Context stuffing vs Vector matching, Temperature, result size,  vector dimensionality and indexing, batching, caching, trimming data- all of these were required to dial in the AI workflows for the promotion parsing. Each of them required an ability to see an effect and accurately identify its cause
 - Passion for efficiency
     - I built an AI app to grocery shop for me...
 - High aptitude for learning and research
@@ -54,11 +54,14 @@ My resume contains a long list of skills and qualities, below are examples of ho
 - HTML
 - CSS/SASS
 - SQL
+    - Being able to read and write raw SQL, while mostly unecessary with Supabase's UI tools was often helpful for more complex problems. Specifically working with the product and recipe vector tables
 
 **Frameworks, Libraries, CMS, Other**
 - React
 - Agentic AI / RAG
+    - Product and recipe matching both run on a RAG workflow. Part of the product workflow involves generating a keyword rich description based on given data to improve the retrieval accuracy against the user's criteria
 - Langchain
+    - I started my AI workflow journey with Langchain. Understanding the concepts of nodes and edges was invaluable to hit the ground running with n8n
 - n8n
 - Storybook
 - Jest
