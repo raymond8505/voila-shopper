@@ -2,6 +2,12 @@
 
 The client UI for the shopper. This is what the extension sideloads into voila
 
+## Install
+1. rename `.env.example` to `.env`
+2. set all the values as needed (see below)
+3. run `dev` or `build` script as needed
+4. install the unpacked extension in the `dist` dir
+
 ## ENV Vars
 
 ### VITE_SUPABASE_API_KEY
