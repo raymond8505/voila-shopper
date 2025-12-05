@@ -1,4 +1,64 @@
 export namespace Voila {
+	export type Price = {
+		currency: string
+		amount: string
+	}
+
+	export type ItemTotalPrices = {
+		regularPrice: Price
+		finalPrice: Price
+		finalUnitPrice: Price
+	}
+
+	export type BasketLine = {
+		appliedPromoIds: string[]
+	}
+
+	export type BasketItem = {
+		productId: string
+		promoVersionId: string
+		quantity: number
+		lastModified: string
+		maxQuantityReached: boolean
+		price: Price
+		regularPrice: Price
+		totalPrices: ItemTotalPrices
+		basketLines: BasketLine[]
+	}
+
+	export type TotalsDisplay = {
+		itemPriceAfterPromos: Price
+		taxation: string
+	}
+
+	export type BasketTotals = {
+		itemsRetailPrice: Price
+		itemPriceAfterPromos: Price
+		savingsPrice: Price
+		taxation: string
+		display: TotalsDisplay
+		itemPriceAfterPromosDifference: Price
+	}
+
+	export type ItemGroup = {
+		groupName: string
+		items: string[]
+	}
+
+	export type BasketUpdateResult = {
+		items: BasketItem[]
+		lastModified: string
+		totals: BasketTotals
+		itemGroups: ItemGroup[]
+	}
+
+	export type AddToCartResponse = {
+		basketUpdateResult: BasketUpdateResult
+		unavailableData: unknown[]
+		pricingNotifications: unknown[]
+		limitedItems: unknown[]
+		limitedPromotionIds: unknown[]
+	}
 	export interface InitialState {
 		session: {
 			csrf: {

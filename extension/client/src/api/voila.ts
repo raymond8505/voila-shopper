@@ -3,7 +3,7 @@ import { fixture } from "./helpers"
 
 const isLocal = window.location.hostname === "localhost"
 
-export async function voilaRequest({
+export async function voilaRequest<T = Response>({
 	fetchOpts,
 	url,
 }: {
@@ -34,7 +34,7 @@ export async function voilaRequest({
 			"x-csrf-token": window.__INITIAL_STATE__?.session.csrf.token ?? "",
 			...fetchOpts?.headers,
 		},
-	})
+	}) as T
 }
 export async function fetchPromotionPage(
 	pageToken?: string
@@ -89,7 +89,7 @@ export async function addToCart({
 	productId: string
 	quantity: number
 }) {
-	return await voilaRequest({
+	return await voilaRequest<Voila.AddToCartResponse>({
 		url: "https://voila.ca/api/cart/v1/carts/active/add-items",
 		fetchOpts: {
 			method: "POST",

@@ -11,6 +11,19 @@ The plugin is designed to work with voila.ca, a new panel is added to all voila.
 
 #### Browser Extension - "The Client"
 
+- Vite
+- React
+- Typescript
+- Emotion styled components
+- Zustand store
+- Ant UI components and icons
+- Jest / Storybook for tests
+
+Reasons:
+- This is my preferred stack for personal projects
+- Branding is a low priority, so Ant components are great for quick UI development balanced with robust customization options- all components are well decorated with classes so minor CSS adjustments could be achieved quickly in the styled components' CSS
+- While Ant has a variety of structural and layout components, I find they tend to be overkill for the majority of my needs. I find styled components are better suited for these things to be able to quickly write the basic CSS for structure and layout needs
+
 #### Database
 
 Provider: Supabase
@@ -50,9 +63,9 @@ My resume contains a long list of skills and qualities, below are examples of ho
 
 **Languages**
 - Javascript / Typescript
-    - The client is written in Typescript with a full suite of types, interfaces and namespaces
 - HTML
 - CSS/SASS
+    - The client is React with Typescript
 - SQL
     - Being able to read and write raw SQL, while mostly unecessary with Supabase's UI tools was often helpful for more complex problems. Specifically working with the product and recipe vector tables
 

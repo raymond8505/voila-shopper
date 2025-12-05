@@ -6,9 +6,17 @@ import FormOutlined from "@ant-design/icons/FormOutlined"
 import { addToCart } from "../api/voila"
 import { useStore } from "../store"
 import { css } from "@emotion/react"
+import { useMemo, useState } from "react"
 export function ProductCard({ product }: { product: Voila.Product }) {
-	const { addIngredient } = useStore()
+	const { addIngredient, ingredients } = useStore()
+	const [quantityInBasket, setQuantityInBasket] = useState(
+		product.quantityInBasket
+	)
 
+	const isIngredient = useMemo(
+		() => !!ingredients.find((i) => i.productId === product.productId),
+		[product.productId, ingredients]
+	)
 	return (
 		<div
 			css={css`
@@ -38,10 +46,16 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 							addToCart({
 								productId: product.productId,
 								quantity: 1,
+							}).then((resp) => {
+								const basketItem = resp.basketUpdateResult.items.find(
+									(i) => i.productId === product.productId
+								)
+								setQuantityInBasket(basketItem?.quantity ?? 0)
 							})
 						}}
+						disabled={quantityInBasket > 0}
 					>
-						Add To Cart
+						{quantityInBasket > 0 ? "In Cart" : "Add To Cart"}
 					</Button>,
 					<Button
 						icon={<FormOutlined />}
@@ -49,8 +63,9 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 						onClick={() => {
 							addIngredient(product)
 						}}
+						disabled={isIngredient}
 					>
-						Add Ingredient
+						{isIngredient ? "Is Ingredient" : "Add Ingredient"}
 					</Button>,
 				]}
 			>
