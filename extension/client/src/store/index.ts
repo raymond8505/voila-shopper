@@ -11,6 +11,8 @@ export interface Store {
 	setIncludeCriteria: (criteria: string) => void
 	excludeCriteria: string
 	setExcludeCriteria: (criteria: string) => void
+	drawerOpen: boolean
+	setDrawerOpen: (val: boolean) => void
 }
 
 const localStorageStore = getLocalStorageStore()
@@ -37,6 +39,11 @@ export const useStore = create<Store>()(
 			setIncludeCriteria: (criteria) => set({ includeCriteria: criteria }),
 			excludeCriteria: localStorageStore?.excludeCriteria ?? "",
 			setExcludeCriteria: (criteria) => set({ excludeCriteria: criteria }),
+			drawerOpen: true,
+			setDrawerOpen: (val) =>
+				set({
+					drawerOpen: val,
+				}),
 		})
 	)
 )
