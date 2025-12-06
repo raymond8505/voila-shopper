@@ -1,5 +1,5 @@
 {
-  "name": "skeleton",
+  "name": "voila-shopper-client",
   "version": "1.0.0",
   "description": "a skeleton app for bootstrapping new apps",
   "main": "index.js",

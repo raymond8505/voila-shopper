@@ -47,6 +47,7 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 								productId: product.productId,
 								quantity: 1,
 							}).then((resp) => {
+								console.log({ resp })
 								const basketItem = resp.basketUpdateResult.items.find(
 									(i) => i.productId === product.productId
 								)

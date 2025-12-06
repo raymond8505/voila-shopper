@@ -1,5 +1,14 @@
 import type { CategoryTree, MinimalPrice, Voila } from "./types"
 
+export function concatenationToArray(txt: string): string[] {
+	if (txt.search(/^c\(/) === -1) {
+		return [txt]
+	}
+
+	console.log({ txt })
+
+	return JSON.parse(txt.replace(/^c\(/, "[").replace(/\)$/, "]"))
+}
 export function getMinimalPrice(product: Voila.DecoratedProduct): MinimalPrice {
 	return {
 		currentPrice: product.promoPrice

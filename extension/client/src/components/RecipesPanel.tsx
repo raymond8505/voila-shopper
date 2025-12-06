@@ -14,8 +14,15 @@ import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { LoaderButton } from "./common/LoaderButton"
+import FileTextOutlined from "@ant-design/icons/FileTextOutlined"
+
 export function RecipesPanel() {
-	const { ingredients, removeIngredient } = useStore()
+	const {
+		ingredients,
+		removeIngredient,
+		setCurrentModalRecipe,
+		setRecipeModalOpen,
+	} = useStore()
 	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipes"]>()
 	const [extraCriteria, setExtraCriteria] = useState("")
 	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
@@ -116,10 +123,24 @@ export function RecipesPanel() {
 							/>
 							<Collapse>
 								{recipes?.map((recipe) => {
+									console.log({ recipe })
 									return (
 										<Collapse.Panel
 											header={recipe.recipe.Name as string}
 											key={recipe.recipe.Name as string}
+											extra={
+												<UnstyledButton
+													onClick={(e) => {
+														e.preventDefault()
+														e.stopPropagation()
+														setCurrentModalRecipe(recipe.recipe)
+														setRecipeModalOpen(true)
+													}}
+													title="View Full Recipe"
+												>
+													<FileTextOutlined />
+												</UnstyledButton>
+											}
 										>
 											<div>Used: {recipe.ingredients_used as string}</div>
 											<div>Needed: {recipe.ingredients_needed as string}</div>

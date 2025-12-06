@@ -1,15 +1,15 @@
-import { Voila } from "../types"
+import { TypedResponse, Voila } from "../types"
 import { fixture } from "./helpers"
 
 const isLocal = window.location.hostname === "localhost"
 
-export async function voilaRequest<T = Response>({
+export async function voilaRequest<T = unknown>({
 	fetchOpts,
 	url,
 }: {
 	fetchOpts?: RequestInit
 	url: string
-}) {
+}): Promise<TypedResponse<T>> {
 	return fetch(url, {
 		method: fetchOpts?.method || "GET",
 		credentials: "include",
@@ -34,11 +34,9 @@ export async function voilaRequest<T = Response>({
 			"x-csrf-token": window.__INITIAL_STATE__?.session.csrf.token ?? "",
 			...fetchOpts?.headers,
 		},
-	}) as T
+	})
 }
-export async function fetchPromotionPage(
-	pageToken?: string
-): Promise<Voila.FetchPromotionPageResponse> {
+export async function fetchPromotionPage(pageToken?: string) {
 	if (isLocal) {
 		return fixture<Voila.FetchPromotionPageResponse>(
 			"fetchPromotionPageResponse"
@@ -57,21 +55,19 @@ export async function fetchPromotionPage(
 	if (pageToken) {
 		url.searchParams.append("pageToken", pageToken)
 	}
-	const resp = await voilaRequest({
+	const resp = await voilaRequest<Voila.FetchPromotionPageResponse>({
 		url: url.toString(),
 		fetchOpts: {},
 	})
 
 	return await resp.json()
 }
-export async function fetchProducts(
-	ids: string[]
-): Promise<Voila.FetchProductsResponse> {
+export async function fetchProducts(ids: string[]) {
 	if (isLocal) {
 		return fixture<Voila.FetchProductsResponse>("fetchProductsResponse")
 	}
 
-	const resp = await voilaRequest({
+	const resp = await voilaRequest<Voila.FetchProductsResponse>({
 		url: "https://voila.ca/api/webproductpagews/v6/products",
 		fetchOpts: {
 			method: "PUT",
@@ -89,22 +85,24 @@ export async function addToCart({
 	productId: string
 	quantity: number
 }) {
-	return await voilaRequest<Voila.AddToCartResponse>({
-		url: "https://voila.ca/api/cart/v1/carts/active/add-items",
-		fetchOpts: {
-			method: "POST",
-			body: JSON.stringify([
-				{
-					productId,
-					quantity,
-				},
-			]),
-		},
-	})
+	return await (
+		await voilaRequest<Voila.AddToCartResponse>({
+			url: "https://voila.ca/api/cart/v1/carts/active/add-items",
+			fetchOpts: {
+				method: "POST",
+				body: JSON.stringify([
+					{
+						productId,
+						quantity,
+					},
+				]),
+			},
+		})
+	).json()
 }
 
 export async function fetchCartProducts() {
-	const resp = await voilaRequest({
+	const resp = await voilaRequest<{ items: Voila.Product[] }>({
 		url: "https://voila.ca/api/cart/v1/meta/carts/active/products",
 	})
 

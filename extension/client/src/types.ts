@@ -337,6 +337,9 @@ export namespace Voila {
 		restrictedGroups: Record<string, unknown>
 	}
 }
+export interface TypedResponse<T> extends Response {
+	json(): Promise<T>
+}
 export namespace Job {
 	export type JobItem<T = Record<string, unknown>> = {
 		id: string

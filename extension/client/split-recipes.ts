@@ -4,7 +4,7 @@ import readline from "readline"
 
 // --- Configuration ---
 // !!! IMPORTANT: CHANGE THIS TO YOUR INPUT CSV FILE PATH !!!
-const INPUT_FILE = "./recipes.csv"
+const INPUT_FILE = "./recipes_data.csv"
 // !!! e.g., const INPUT_FILE = 'C:\\Users\\crazy\\Documents\\data\\recipes.csv'; !!!
 
 const OUTPUT_PREFIX = "recipes.chunk."
