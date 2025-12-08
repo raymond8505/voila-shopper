@@ -15,6 +15,10 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@types/xml2js": "^0.4.14"
+    "@types/xml2js": "^0.4.14",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
+    "@typescript-eslint/parser": "^8.49.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-import": "^2.32.0"
   }
 }
