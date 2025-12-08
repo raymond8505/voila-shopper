@@ -4,7 +4,7 @@ import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 
 import { useShopper } from "../hooks/useShopper"
-import type { CategoryTree, Job, Voila } from "../types"
+import type { CategoryTree, Job, Voila } from "../types/index"
 import { css } from "@emotion/react"
 import { categoryTreeFromProducts } from "../helpers"
 import { ProductCardGrid } from "./ProductCardGrid"
@@ -12,6 +12,8 @@ import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
 import Select from "antd/es/select"
 import { LoaderButton } from "./common/LoaderButton"
+import { isWorkflowError } from "../types/guards"
+import Alert from "antd/es/alert"
 
 export function ProductsPanel() {
 	const {
@@ -29,7 +31,7 @@ export function ProductsPanel() {
 		Pick<Job.JobItem<Record<string, unknown>>, "id" | "created_at" | "status">[]
 	>([])
 	const [oldJobLoading, setOldJobLoading] = useState(false)
-
+	const [errorText, setErrorText] = useState<null | string>(null)
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
 			console.log({ allJobs })
@@ -40,6 +42,7 @@ export function ProductsPanel() {
 	}, [setJobs])
 
 	const handleGetOldJobClick = useCallback(() => {
+		setErrorText(null)
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
 			setOldJobLoading(true)
@@ -57,16 +60,28 @@ export function ProductsPanel() {
 					setOldJobLoading(false)
 				})
 		}
-	}, [getRecommendations, setRecommendedProducts, jobId, setOldJobLoading])
+	}, [
+		setErrorText,
+		getRecommendations,
+		setRecommendedProducts,
+		jobId,
+		setOldJobLoading,
+	])
 
 	const handleGetNewJobClick = useCallback(async () => {
+		setErrorText(null)
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
 			generateRecommendations()
 				.then((products) => {
 					console.log("Recommended products:", products)
 					gettingRecommendations.current = false
-					setRecommendedProducts(products)
+
+					if (isWorkflowError(products)) {
+						setErrorText(products.message)
+					} else {
+						setRecommendedProducts(products)
+					}
 				})
 				.catch((e) => {
 					console.error("Recommended products ERROR:", e)
@@ -163,36 +178,41 @@ export function ProductsPanel() {
 							}))}
 						/>
 					</div>
-					<LoaderButton
-						onClick={handleGetOldJobClick}
-						css={css`
-							flex-shrink: 0;
-							display: flex;
-							gap: 4px;
-							height: unset !important;
-							aspect-ratio: 1;
-						`}
-						label="Get Previous Trip"
-						loading={oldJobLoading}
-						icon={<ShoppingCartOutlined />}
-					/>
+					<div>
+						<LoaderButton
+							onClick={handleGetOldJobClick}
+							css={css`
+								flex-shrink: 0;
+								display: flex;
+								gap: 4px;
+								height: unset !important;
+								aspect-ratio: 1;
+							`}
+							label="Get Previous Trip"
+							loading={oldJobLoading}
+							icon={<ShoppingCartOutlined />}
+						/>
+						{errorText ? <Alert message={errorText} type="error" /> : null}
+					</div>
 				</div>
 				<Divider />
 			</div>
 			<div>
 				<strong>New Trip</strong>
-				<LoaderButton
-					label="Find Promotions"
-					loadingLabel="Finding Promotions..."
-					loading={recommendationsLoading}
-					icon={<ShoppingCartOutlined />}
-					onClick={handleGetNewJobClick}
-					type="primary"
-					css={css`
-						display: flex;
-						gap: 4px;
-					`}
-				/>
+				<div>
+					<LoaderButton
+						label="Find Promotions"
+						loadingLabel="Finding Promotions..."
+						loading={recommendationsLoading}
+						icon={<ShoppingCartOutlined />}
+						onClick={handleGetNewJobClick}
+						type="primary"
+						css={css`
+							display: flex;
+							gap: 4px;
+						`}
+					/>
+				</div>
 				<Divider />
 			</div>
 			<div

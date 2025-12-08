@@ -1,4 +1,4 @@
-import { TypedResponse, Voila } from "../types"
+import { TypedResponse, Voila } from "../types/index"
 import { fixture } from "./helpers"
 
 const isLocal = window.location.hostname === "localhost"

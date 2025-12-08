@@ -84,7 +84,7 @@ export function useWorkflow<T = Job.UnknownData>({
 								timeout
 							)
 							setLoading(false)
-							return job?.data
+							return job?.data as CallT
 						} catch (e) {
 							setLoading(false)
 							return {

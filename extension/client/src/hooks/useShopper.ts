@@ -5,10 +5,13 @@ import type {
 	Job,
 	RecommendationsWorkflowPayload,
 	TrimmedProduct,
-} from "../types"
+	Voila,
+	Workflow,
+} from "../types/index"
 import { useWorkflow } from "./useWorkflow"
 import { getMinimalPrice } from "../helpers"
 import { useStore } from "../store"
+import { isWorkflowError } from "../types/guards"
 
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
@@ -21,23 +24,28 @@ export function useShopper() {
 			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
 		)
 
-	const getRecommendations = useCallback(async (jobId: string) => {
-		const jobData = await fetchJob<Job.ShopperJob>(jobId)
+	const getRecommendations = useCallback(
+		async (jobId: string) => {
+			const jobData = await fetchJob<Job.ShopperJob>(jobId)
 
-		const voilaProducts = await getProducts(
-			jobData.flatMap((job) =>
-				job.data.products
-					.filter((id) => id !== null)
-					.filter((id, i) => job.data.products.indexOf(id) === i)
+			const voilaProducts = await getProducts(
+				jobData.flatMap((job) =>
+					job.data.products
+						.filter((id) => id !== null)
+						.filter((id, i) => job.data.products.indexOf(id) === i)
+				)
 			)
-		)
 
-		console.log("Voila Products:", { voilaProducts, jobData })
+			console.log("Voila Products:", { voilaProducts, jobData })
 
-		return voilaProducts.products
-	}, [])
+			return voilaProducts.products as Voila.Product[]
+		},
+		[fetchJob, getProducts]
+	)
 
-	const generateRecommendations = useCallback(async () => {
+	const generateRecommendations: () => Promise<
+		Workflow.Error | Voila.Product[]
+	> = useCallback(async () => {
 		const relevantFields = [
 			"brand",
 			"categoryPath",
@@ -97,12 +105,16 @@ export function useShopper() {
 			})
 
 		if (!recommendations) {
-			return []
+			return [] as Voila.Product[]
 		}
 
-		return recommendations?.products?.length
-			? (await getProducts(recommendations?.products)).products
-			: []
+		if (isWorkflowError(recommendations)) {
+			return recommendations
+		} else {
+			return recommendations?.products?.length
+				? (await getProducts(recommendations?.products)).products
+				: ([] as Voila.Product[])
+		}
 	}, [callRecommendationsWorkflow, getPromotionProducts, setPromosLoading])
 
 	return {

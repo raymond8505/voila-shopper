@@ -7,7 +7,7 @@ export function RecipeResultButton({ recipe }: { recipe: Recipe.Recipe }) {
 	const { setCurrentModalRecipe, setRecipeModalOpen } = useStore()
 	return (
 		<UnstyledButton
-			onClick={(e) => {
+			onClick={() => {
 				setCurrentModalRecipe(recipe)
 				setRecipeModalOpen(true)
 			}}
