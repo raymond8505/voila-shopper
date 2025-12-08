@@ -11,7 +11,7 @@ import type {
 import { useWorkflow } from "./useWorkflow"
 import { getMinimalPrice } from "../helpers"
 import { useStore } from "../store"
-import { isWorkflowError } from "../types/guards"
+import { isWorkflowError } from "../types/helpers"
 
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()

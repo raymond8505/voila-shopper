@@ -10,11 +10,11 @@ import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
-import type { Recipe } from "../types/index"
+import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { LoaderButton } from "./common/LoaderButton"
 import { RecipeResultButton } from "./RecipeResultButton"
-import { isWorkflowError } from "../types/guards"
+import { isWorkflowError } from "../types/helpers"
 import { Alert } from "antd"
 
 export function RecipesPanel() {

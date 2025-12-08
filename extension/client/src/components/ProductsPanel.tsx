@@ -12,7 +12,7 @@ import { useJobManager } from "../hooks/useJobManager"
 import Divider from "antd/es/divider"
 import Select from "antd/es/select"
 import { LoaderButton } from "./common/LoaderButton"
-import { isWorkflowError } from "../types/guards"
+import { isWorkflowError } from "../types/helpers"
 import Alert from "antd/es/alert"
 
 export function ProductsPanel() {
