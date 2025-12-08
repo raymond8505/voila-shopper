@@ -1,5 +1,6 @@
+import { decodeHtmlEntities } from "../helpers"
 import { useStore } from "../store"
-import { Recipe } from "../types"
+import { Recipe } from "../types/index"
 import { UnstyledButton } from "./common/elements.styles"
 
 export function RecipeResultButton({ recipe }: { recipe: Recipe.Recipe }) {
@@ -11,7 +12,7 @@ export function RecipeResultButton({ recipe }: { recipe: Recipe.Recipe }) {
 				setRecipeModalOpen(true)
 			}}
 		>
-			{recipe.name}
+			{decodeHtmlEntities(recipe.name)}
 		</UnstyledButton>
 	)
 }

@@ -1,4 +1,4 @@
-import type { CategoryTree, MinimalPrice, Voila } from "./types"
+import type { CategoryTree, MinimalPrice, Voila } from "./types/index"
 
 export function concatenationToArray(txt: string): string[] {
 	if (txt.search(/^c\(/) === -1) {
@@ -53,4 +53,16 @@ export function categoryTreeFromProducts(
 	}
 
 	return categoryTree
+}
+/**
+ * Decodes HTML entities (e.g., &nbsp;, &rsquo;, &amp;) in a given string.
+ * @param html The string containing HTML entities to decode.
+ * @returns The decoded plain text string.
+ */
+export function decodeHtmlEntities(html: string): string {
+	const textarea = document.createElement("textarea")
+
+	textarea.innerHTML = html
+
+	return textarea.value
 }

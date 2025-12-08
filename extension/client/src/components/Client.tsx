@@ -61,7 +61,7 @@ export function Client() {
 					}
 				`}
 			>
-				<Tabs defaultActiveKey="products" items={items} />
+				<Tabs defaultActiveKey="recipes" items={items} />
 			</div>
 			<DrawerButton />
 		</div>

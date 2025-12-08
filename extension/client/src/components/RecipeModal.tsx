@@ -3,6 +3,7 @@ import { Descriptions, Modal } from "antd"
 
 import { useStore } from "../store"
 import { useRef } from "react"
+import { decodeHtmlEntities } from "../helpers"
 
 export function RecipeModal() {
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -24,7 +25,7 @@ export function RecipeModal() {
 				open={recipeModalOpen}
 				getContainer={() => wrapperRef.current ?? document.body}
 				onCancel={() => setRecipeModalOpen(false)}
-				title={recipe?.name as string}
+				title={decodeHtmlEntities(recipe?.name as string)}
 				footer={null}
 			>
 				<article
@@ -73,7 +74,7 @@ export function RecipeModal() {
 						{recipe?.recipeIngredient ? (
 							<ul>
 								{recipe?.recipeIngredient.map((ingredient, i) => (
-									<li key={i}>{ingredient}</li>
+									<li key={i}>{decodeHtmlEntities(ingredient)}</li>
 								))}
 							</ul>
 						) : null}
@@ -84,7 +85,7 @@ export function RecipeModal() {
 						{recipe?.recipeIngredient ? (
 							<ol>
 								{recipe?.recipeInstructions.map((instruction, i) => (
-									<li key={i}>{instruction.text}</li>
+									<li key={i}>{decodeHtmlEntities(instruction.text)}</li>
 								))}
 							</ol>
 						) : null}

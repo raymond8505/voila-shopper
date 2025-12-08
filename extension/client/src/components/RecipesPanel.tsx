@@ -72,7 +72,7 @@ export function RecipesPanel() {
 				`}
 			>
 				<Splitter layout="vertical">
-					<Splitter.Panel min={188}>
+					<Splitter.Panel min={188} defaultSize={208}>
 						<div
 							css={css`
 								padding: 8px 0;
@@ -126,7 +126,7 @@ export function RecipesPanel() {
 						>
 							<strong>Recipes</strong>
 							<TextArea
-								rows={5}
+								rows={25}
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
 								onChange={(e) => {
 									setRecipeCriteria(e.target.value)
