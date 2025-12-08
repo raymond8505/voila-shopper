@@ -12,8 +12,6 @@ export function RecipeModal() {
 		setRecipeModalOpen,
 	} = useStore()
 
-	console.log({ recipe })
-
 	return (
 		<div
 			ref={wrapperRef}
@@ -100,7 +98,7 @@ export function RecipeModal() {
 								{
 									key: "calories",
 									label: "Cals",
-									children: `${recipe?.nutrition.calories ?? "unknown"}g`,
+									children: `${recipe?.nutrition.calories ?? "unknown"}`,
 								},
 								{
 									key: "carbs",

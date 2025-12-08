@@ -1,14 +1,18 @@
 import { useCallback } from "react"
-import { Recipe, Voila } from "../types"
+import { Recipe, Voila } from "../types/index"
 import { useWorkflow } from "./useWorkflow"
 
 export function useRecipes() {
 	const {
 		call: callRecommendationsWorkflow,
 		loading: recipeRecommendationsLoading,
-	} = useWorkflow<Recipe.ApiResponse>(
-		import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES
-	)
+	} = useWorkflow<Recipe.ApiResponse>({
+		url: import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES,
+		auth: {
+			username: import.meta.env.VITE_WORKFLOW_USERNAME,
+			password: import.meta.env.VITE_WORKFLOW_PWD,
+		},
+	})
 
 	const generateRecipeRecommendations = useCallback(
 		({
@@ -42,7 +46,7 @@ export function useRecipes() {
 				},
 			}),
 
-		[]
+		[callRecommendationsWorkflow]
 	)
 
 	return {

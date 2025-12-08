@@ -19,49 +19,50 @@ export interface Store {
 	setCurrentModalRecipe: (val: Recipe.Recipe) => void
 	recipeCriteria: string
 	setRecipeCriteria: (criteria: string) => void
+	workflowLiveMode: boolean
+	setWorkflowLiveMode: (val: boolean) => void
 }
 
 const localStorageStore = getLocalStorageStore()
 export const useStore = create<Store>()(
-	subscribeWithSelector(
-		(set): Store => ({
-			ingredients: localStorageStore?.ingredients ?? [],
+	subscribeWithSelector((set) => ({
+		ingredients: localStorageStore?.ingredients ?? [],
 
-			setIngredients: (ingredients) =>
-				set({
-					ingredients,
-				}),
-			addIngredient: (ingredient) =>
-				set((state) => ({
-					ingredients: [...state.ingredients, ingredient],
-				})),
-			removeIngredient: (productId) =>
-				set((state) => ({
-					ingredients: state.ingredients.filter(
-						(ingredient) => ingredient.productId !== productId
-					),
-				})),
-			includeCriteria: localStorageStore?.includeCriteria ?? "",
-			setIncludeCriteria: (criteria) => set({ includeCriteria: criteria }),
-			excludeCriteria: localStorageStore?.excludeCriteria ?? "",
-			setExcludeCriteria: (criteria) => set({ excludeCriteria: criteria }),
-			drawerOpen: localStorageStore?.drawerOpen ?? true,
-			setDrawerOpen: (val) =>
-				set({
-					drawerOpen: val,
-				}),
-			currentModalRecipe: undefined,
-			setCurrentModalRecipe: (val: Recipe.Recipe) =>
-				set({
-					currentModalRecipe: val,
-				}),
-			recipeModalOpen: false,
-			setRecipeModalOpen: (val: boolean) => set({ recipeModalOpen: val }),
-			recipeCriteria: localStorageStore?.recipeCriteria ?? "",
-			setRecipeCriteria: (criteria: string) =>
-				set({ recipeCriteria: criteria }),
-		})
-	)
+		setIngredients: (ingredients) =>
+			set({
+				ingredients,
+			}),
+		addIngredient: (ingredient) =>
+			set((state) => ({
+				ingredients: [...state.ingredients, ingredient],
+			})),
+		removeIngredient: (productId) =>
+			set((state) => ({
+				ingredients: state.ingredients.filter(
+					(ingredient) => ingredient.productId !== productId
+				),
+			})),
+		includeCriteria: localStorageStore?.includeCriteria ?? "",
+		setIncludeCriteria: (criteria) => set({ includeCriteria: criteria }),
+		excludeCriteria: localStorageStore?.excludeCriteria ?? "",
+		setExcludeCriteria: (criteria) => set({ excludeCriteria: criteria }),
+		drawerOpen: localStorageStore?.drawerOpen ?? true,
+		setDrawerOpen: (val) =>
+			set({
+				drawerOpen: val,
+			}),
+		currentModalRecipe: undefined,
+		setCurrentModalRecipe: (val) =>
+			set({
+				currentModalRecipe: val,
+			}),
+		recipeModalOpen: false,
+		setRecipeModalOpen: (val) => set({ recipeModalOpen: val }),
+		recipeCriteria: localStorageStore?.recipeCriteria ?? "",
+		setRecipeCriteria: (criteria) => set({ recipeCriteria: criteria }),
+		workflowLiveMode: localStorageStore?.workflowLiveMode ?? false,
+		setWorkflowLiveMode: (val) => set({ workflowLiveMode: val }),
+	}))
 )
 
 useStore.subscribe(
@@ -71,6 +72,7 @@ useStore.subscribe(
 		excludeCriteria: state.excludeCriteria,
 		drawerOpen: state.drawerOpen,
 		recipeCriteria: state.recipeCriteria,
+		workflowLiveMode: state.workflowLiveMode,
 	}),
 	setLocalStorageStore
 )

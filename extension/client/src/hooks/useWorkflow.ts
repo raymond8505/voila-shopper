@@ -1,11 +1,19 @@
 import { useCallback, useState } from "react"
-import { Job, Workflow } from "../types"
+import { Job, Workflow } from "../types/index"
 import { useJobManager } from "./useJobManager"
+import { useStore } from "../store"
 //import { fixture } from "../api/helpers"
 
-export function useWorkflow<T = Job.UnknownData>(url: string) {
+export function useWorkflow<T = Job.UnknownData>({
+	url,
+	auth,
+}: {
+	url: string
+	auth?: { username: string; password: string }
+}) {
 	const [loading, setLoading] = useState(false)
 	const { pollJobData } = useJobManager()
+	const { workflowLiveMode } = useStore()
 
 	const call = useCallback(
 		async <Payload extends Job.UnknownData, CallT = T>({
@@ -24,6 +32,7 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 			 */
 			timeout?: number
 		}) => {
+			console.log({ workflowLiveMode, loading })
 			if (loading) {
 				return false
 			}
@@ -44,40 +53,63 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 			const fetchOptions = hookOptions ? hookOptions : {}
 
 			try {
-				const hookResp = await fetch(url, {
-					body: JSON.stringify(payload),
-					...fetchOptions,
-					headers: {
-						...(fetchOptions.headers ? fetchOptions.headers : {}),
-					},
-				})
-				const hookJSON = await hookResp.json()
+				const combinedHeaders = new Headers(fetchOptions.headers)
+				if (auth) {
+					combinedHeaders.set(
+						"Authorization",
+						`Basic ${btoa(`${auth.username}:${auth.password}`)}`
+					)
+				}
 
-				if (responseType === "hook") {
-					setLoading(false)
-					return hookJSON as CallT
-				} else {
-					try {
-						const job = await pollJobData<CallT>(
-							hookJSON.id,
-							respondOnStatus,
-							timeout
-						)
-						setLoading(false)
-						return job?.data
-					} catch (e) {
-						console.error("WORKFLOW ERROR", e)
-						setLoading(false)
-						return false
+				const hookResp = await fetch(
+					workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/"),
+					{
+						body: JSON.stringify(payload),
+						...fetchOptions,
+						headers: combinedHeaders,
 					}
+				)
+
+				if (hookResp.ok) {
+					const hookJSON = await hookResp.json()
+
+					if (responseType === "hook") {
+						setLoading(false)
+						return hookJSON as CallT
+					} else {
+						try {
+							const job = await pollJobData<CallT>(
+								hookJSON.id,
+								respondOnStatus,
+								timeout
+							)
+							setLoading(false)
+							return job?.data
+						} catch (e) {
+							setLoading(false)
+							return {
+								status: 200,
+								message: e?.["message"],
+							} as Workflow.Error
+						}
+					}
+				} else {
+					setLoading(false)
+					return {
+						status: hookResp.status,
+						message: await hookResp.text(),
+					} as Workflow.Error
 				}
 			} catch (e) {
 				setLoading(false)
-				console.error("WORKFLOW ERROR", e)
-				return false
+
+				return {
+					status: 200,
+					message: e?.["message"],
+				} as Workflow.Error
 			}
 		},
-		[url, loading, setLoading]
+		[url, loading, setLoading, workflowLiveMode]
 	)
 	return { loading, call }
 }

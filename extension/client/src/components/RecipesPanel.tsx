@@ -10,28 +10,52 @@ import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
-import type { Recipe } from "../types"
+import type { Recipe, Workflow } from "../types/index"
 import { useRecipes } from "../hooks/useRecipes"
 import { LoaderButton } from "./common/LoaderButton"
 import { RecipeResultButton } from "./RecipeResultButton"
+import { isWorkflowError } from "../types/guards"
+import { Alert } from "antd"
 
 export function RecipesPanel() {
 	const { ingredients, removeIngredient, recipeCriteria, setRecipeCriteria } =
 		useStore()
 	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipeSchemas"]>()
+	const [errorText, setErrorText] = useState<string | null>(null)
 	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
 		useRecipes()
 
 	const handleGetRecipesClick = useCallback(() => {
+		setErrorText(null)
 		generateRecipeRecommendations({
 			ingredients,
 			extraCriteria: recipeCriteria,
 		}).then((resp) => {
 			if (resp) {
-				setRecipes(resp.recipeSchemas ?? [])
+				if (isWorkflowError(resp)) {
+					setErrorText(() => {
+						switch (resp.status) {
+							case 403:
+								return "Incorrect username or password"
+							case 404:
+								return "Workflow not found"
+							default:
+								return resp.message
+						}
+					})
+				} else {
+					setErrorText(null)
+					setRecipes((resp as Recipe.ApiResponse).recipeSchemas ?? [])
+				}
 			}
 		})
-	}, [setRecipes, ingredients, recipeCriteria])
+	}, [
+		setRecipes,
+		ingredients,
+		recipeCriteria,
+		setErrorText,
+		generateRecipeRecommendations,
+	])
 
 	return (
 		<div
@@ -109,15 +133,32 @@ export function RecipesPanel() {
 								}}
 								defaultValue={recipeCriteria}
 							></TextArea>
-							<LoaderButton
-								loading={recipeRecommendationsLoading}
-								type="primary"
-								onClick={handleGetRecipesClick}
+							<div
 								css={css`
-									margin: 8px 0;
+									display: flex;
+									gap: 8px;
+									flex-wrap: no-wrap;
 								`}
-								label="Get Recipes"
-							/>
+							>
+								<LoaderButton
+									loading={recipeRecommendationsLoading}
+									type="primary"
+									onClick={handleGetRecipesClick}
+									css={css`
+										margin: 8px 0;
+									`}
+									label="Get Recipes"
+								/>
+								<div
+									css={css`
+										padding: 8px 0;
+									`}
+								>
+									{errorText ? (
+										<Alert message={errorText} type="error" />
+									) : null}
+								</div>
+							</div>
 							<ul
 								css={css`
 									font-weight: bold;

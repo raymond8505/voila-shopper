@@ -1,6 +1,8 @@
 import Divider from "antd/es/divider"
 import TextArea from "antd/es/input/TextArea"
 import { useStore } from "../store"
+import Switch from "antd/es/switch"
+import { css } from "@emotion/react"
 
 export function SettingsPanel() {
 	const {
@@ -8,6 +10,8 @@ export function SettingsPanel() {
 		setIncludeCriteria,
 		excludeCriteria,
 		setExcludeCriteria,
+		workflowLiveMode,
+		setWorkflowLiveMode,
 	} = useStore()
 	return (
 		<div>
@@ -26,6 +30,25 @@ export function SettingsPanel() {
 				rows={5}
 				placeholder="Always ignore these things... eg: Frozen dinners, nuts, high carb"
 			></TextArea>
+			<Divider />
+			<div>
+				<strong>Workflow Settings</strong>
+			</div>
+			<label>
+				<Switch
+					checkedChildren={"Live"}
+					unCheckedChildren={"Test"}
+					checked={workflowLiveMode}
+					onChange={(checked) => setWorkflowLiveMode(checked)}
+				/>
+				<span
+					css={css`
+						margin-left: 8px;
+					`}
+				>
+					n8n Workflow State
+				</span>
+			</label>
 		</div>
 	)
 }
