@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react"
 
 import Splitter from "antd/es/splitter"
-import Collapse from "antd/es/collapse"
 
 import List from "antd/es/list"
 
@@ -14,30 +13,25 @@ import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { LoaderButton } from "./common/LoaderButton"
-import FileTextOutlined from "@ant-design/icons/FileTextOutlined"
+import { RecipeResultButton } from "./RecipeResultButton"
 
 export function RecipesPanel() {
-	const {
-		ingredients,
-		removeIngredient,
-		setCurrentModalRecipe,
-		setRecipeModalOpen,
-	} = useStore()
+	const { ingredients, removeIngredient, recipeCriteria, setRecipeCriteria } =
+		useStore()
 	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipeSchemas"]>()
-	const [extraCriteria, setExtraCriteria] = useState("")
 	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
 		useRecipes()
 
 	const handleGetRecipesClick = useCallback(() => {
 		generateRecipeRecommendations({
 			ingredients,
-			extraCriteria,
+			extraCriteria: recipeCriteria,
 		}).then((resp) => {
 			if (resp) {
 				setRecipes(resp.recipeSchemas ?? [])
 			}
 		})
-	}, [setRecipes, ingredients, extraCriteria])
+	}, [setRecipes, ingredients, recipeCriteria])
 
 	return (
 		<div
@@ -100,7 +94,7 @@ export function RecipesPanel() {
 							></List>
 						</div>
 					</Splitter.Panel>
-					<Splitter.Panel min={192}>
+					<Splitter.Panel min={192} style={{ padding: "8px" }}>
 						<div
 							css={css`
 								margin: 8px 0;
@@ -110,7 +104,10 @@ export function RecipesPanel() {
 							<TextArea
 								rows={5}
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
-								onChange={(e) => setExtraCriteria(e.target.value)}
+								onChange={(e) => {
+									setRecipeCriteria(e.target.value)
+								}}
+								defaultValue={recipeCriteria}
 							></TextArea>
 							<LoaderButton
 								loading={recipeRecommendationsLoading}
@@ -121,30 +118,22 @@ export function RecipesPanel() {
 								`}
 								label="Get Recipes"
 							/>
-							<Collapse>
-								{recipes?.map((recipe) => {
-									console.log({ recipe })
-									return (
-										<Collapse.Panel
-											header={recipe.name as string}
-											key={recipe.name as string}
-											extra={
-												<UnstyledButton
-													onClick={(e) => {
-														e.preventDefault()
-														e.stopPropagation()
-														setCurrentModalRecipe(recipe)
-														setRecipeModalOpen(true)
-													}}
-													title="View Full Recipe"
-												>
-													<FileTextOutlined />
-												</UnstyledButton>
-											}
-										></Collapse.Panel>
-									)
-								})}
-							</Collapse>
+							<ul
+								css={css`
+									font-weight: bold;
+
+									li {
+										padding: 8px;
+										border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+									}
+								`}
+							>
+								{recipes?.map((recipe) => (
+									<li key={`recipe-${encodeURIComponent(recipe.name)}`}>
+										<RecipeResultButton recipe={recipe} />
+									</li>
+								))}
+							</ul>
 						</div>
 					</Splitter.Panel>
 				</Splitter>

@@ -17,6 +17,8 @@ export interface Store {
 	setRecipeModalOpen: (val: boolean) => void
 	currentModalRecipe?: Recipe.Recipe
 	setCurrentModalRecipe: (val: Recipe.Recipe) => void
+	recipeCriteria: string
+	setRecipeCriteria: (criteria: string) => void
 }
 
 const localStorageStore = getLocalStorageStore()
@@ -55,6 +57,9 @@ export const useStore = create<Store>()(
 				}),
 			recipeModalOpen: false,
 			setRecipeModalOpen: (val: boolean) => set({ recipeModalOpen: val }),
+			recipeCriteria: localStorageStore?.recipeCriteria ?? "",
+			setRecipeCriteria: (criteria: string) =>
+				set({ recipeCriteria: criteria }),
 		})
 	)
 )
@@ -65,6 +70,7 @@ useStore.subscribe(
 		includeCriteria: state.includeCriteria,
 		excludeCriteria: state.excludeCriteria,
 		drawerOpen: state.drawerOpen,
+		recipeCriteria: state.recipeCriteria,
 	}),
 	setLocalStorageStore
 )
