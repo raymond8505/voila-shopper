@@ -1,3 +1,5 @@
+import Schema from "schema-dts"
+
 export namespace Voila {
 	export type Price = {
 		currency: string
@@ -397,42 +399,14 @@ export interface MinimalPrice {
 	originalPrice: number
 }
 export namespace Recipe {
-	export interface Recipe {
-		RecipeId: number
-		Name: string
-		AuthorId: number
-		AuthorName: string
-		CookTime: string
-		PrepTime: string
-		TotalTime: string
-		DatePublished: string
-		Description: string
-		Images: null
-		RecipeCategory: string
-		Keywords: string
-		RecipeIngredientQuantities: string
-		RecipeIngredientParts: string
-		AggregatedRating: string
-		ReviewCount: string
-		Calories: string
-		FatContent: string
-		SaturatedFatContent: string
-		CholesterolContent: string
-		SodiumContent: string
-		CarbohydrateContent: string
-		FiberContent: string
-		SugarContent: string
-		ProteinContent: string
-		RecipeServings: string
-		RecipeYield: string
-		RecipeInstructions: string
+	export type Recipe = Omit<
+		Schema.WithContext<Schema.Recipe>,
+		"recipeIngredient"
+	> & {
+		recipeIngredient: string[]
 	}
 
 	export interface ApiResponse {
-		recipes: {
-			recipe: Recipe
-			ingredients_used: string
-			ingredients_needed: string
-		}[]
+		recipeSchemas: Recipe[]
 	}
 }

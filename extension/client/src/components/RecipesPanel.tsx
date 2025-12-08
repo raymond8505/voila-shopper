@@ -23,7 +23,7 @@ export function RecipesPanel() {
 		setCurrentModalRecipe,
 		setRecipeModalOpen,
 	} = useStore()
-	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipes"]>()
+	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipeSchemas"]>()
 	const [extraCriteria, setExtraCriteria] = useState("")
 	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
 		useRecipes()
@@ -34,7 +34,7 @@ export function RecipesPanel() {
 			extraCriteria,
 		}).then((resp) => {
 			if (resp) {
-				setRecipes(resp.recipes ?? [])
+				setRecipes(resp.recipeSchemas ?? [])
 			}
 		})
 	}, [setRecipes, ingredients, extraCriteria])
@@ -126,14 +126,14 @@ export function RecipesPanel() {
 									console.log({ recipe })
 									return (
 										<Collapse.Panel
-											header={recipe.recipe.Name as string}
-											key={recipe.recipe.Name as string}
+											header={recipe.name as string}
+											key={recipe.name as string}
 											extra={
 												<UnstyledButton
 													onClick={(e) => {
 														e.preventDefault()
 														e.stopPropagation()
-														setCurrentModalRecipe(recipe.recipe)
+														setCurrentModalRecipe(recipe)
 														setRecipeModalOpen(true)
 													}}
 													title="View Full Recipe"
@@ -141,10 +141,7 @@ export function RecipesPanel() {
 													<FileTextOutlined />
 												</UnstyledButton>
 											}
-										>
-											<div>Used: {recipe.ingredients_used as string}</div>
-											<div>Needed: {recipe.ingredients_needed as string}</div>
-										</Collapse.Panel>
+										></Collapse.Panel>
 									)
 								})}
 							</Collapse>

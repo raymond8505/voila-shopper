@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import { Job, Workflow } from "../types"
 import { useJobManager } from "./useJobManager"
-import { fixture } from "../api/helpers"
+//import { fixture } from "../api/helpers"
 
 export function useWorkflow<T = Job.UnknownData>(url: string) {
 	const [loading, setLoading] = useState(false)
@@ -32,8 +32,8 @@ export function useWorkflow<T = Job.UnknownData>(url: string) {
 
 			if (isLocal) {
 				switch (url) {
-					case import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES:
-						return fixture<CallT>("recipeRecommendationsResponse")
+					// case import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES:
+					// 	return fixture<CallT>("recipeRecommendationsResponse")
 					default:
 						break
 				}

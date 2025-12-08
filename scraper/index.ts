@@ -36,6 +36,7 @@ async function parseSitemap(url: string): Promise<any> {
 
 async function getSitemaps(rootURL: string) {
   const mapResp = await fetch(rootURL);
+
   const xmlStr = await mapResp.text();
 
   const result = await parseStringPromise(xmlStr);
@@ -86,10 +87,23 @@ async function supabaseRequest({
 
 const sitemapURLs = await getSitemaps(rootSitemapURL);
 
-for (let sitemapURL of sitemapURLs) {
+let s = 0;
+let u = 0;
+
+const lastS = 4;
+const lastU = 63194;
+
+for (const sitemapURL of sitemapURLs) {
+  console.log("Parsing", sitemapURL);
+
   const sitemap = await parseSitemap(sitemapURL);
 
-  for (let urlNode of sitemap.urlset.url) {
+  for (const urlNode of sitemap.urlset.url) {
+    if ((s === lastS && u <= lastU) || s < lastS) {
+      u++;
+      continue;
+    }
+
     const recipeURL = urlNode.loc[0];
 
     const recipeResp = await fetch(recipeURL);
@@ -97,33 +111,35 @@ for (let sitemapURL of sitemapURLs) {
     const recipeBody = await recipeResp.text();
 
     const $ = cheerio.load(recipeBody);
-    const schema = JSON.parse($('script[type="application/ld+json"]').text());
 
-    console.log("Inserting", schema.name);
+    try {
+      const schema = JSON.parse($('script[type="application/ld+json"]').text());
 
-    const insertResp = await supabaseRequest({
-      table: "recipes_raw",
-      opts: {
-        method: "POST",
-        body: JSON.stringify({
-          schema,
-          url: recipeURL,
-        }),
-      },
-    });
+      console.log(`Inserting ${s}-${u} | `, schema.name, " | ", recipeURL);
 
-    //console.log(await insertResp.json());
+      const insertResp = await supabaseRequest({
+        table: "recipes_raw",
+        opts: {
+          method: "POST",
+          body: JSON.stringify({
+            schema,
+            url: recipeURL,
+          }),
+        },
+      });
 
-    //break;
+      await new Promise((res) => {
+        setTimeout(() => {
+          res(1);
+        }, 1000);
+      });
 
-    await new Promise((res) => {
-      setTimeout(() => {
-        res(1);
-      }, 1000);
-    });
+      u++;
+    } catch (e) {
+      console.error("ERROR |", recipeURL);
+    }
   }
-
-  //break;
+  s++;
 }
 
 export {};
