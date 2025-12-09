@@ -51,7 +51,7 @@ export function useWorkflow<RequestPayloadType, ResponsePayloadType>({
 		refetch,
 	} = useQuery({
 		queryKey: [
-			"hook-call",
+			"webhook",
 			hookURL,
 			memoizedAuth,
 			payload,
