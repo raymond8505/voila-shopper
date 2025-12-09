@@ -90,8 +90,8 @@ const sitemapURLs = await getSitemaps(rootSitemapURL);
 let s = 0;
 let u = 0;
 
-const lastS = 6;
-const lastU = 100664;
+const lastS = 7;
+const lastU = 110161;
 
 for (const sitemapURL of sitemapURLs) {
   console.log("Parsing", sitemapURL);
