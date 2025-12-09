@@ -14,12 +14,11 @@ export const Wrapper = styled.div<{ drawerOpen: boolean }>`
 	transition: transform 200ms ease-out;
 
 	> div,
-		.ant-tabs-tabpane,
-		.ant-tabs-content-holder,
-		.ant-tabs,
-		.ant-tabs-content {
-			height: 100%;
-		}
+	.ant-tabs-tabpane,
+	.ant-tabs-content-holder,
+	.ant-tabs,
+	.ant-tabs-content {
+		height: 100%;
 	}
 
 	${({ drawerOpen }) =>
