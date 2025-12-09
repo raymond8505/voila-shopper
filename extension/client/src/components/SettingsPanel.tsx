@@ -36,7 +36,7 @@ export function SettingsPanel() {
 			</div>
 			<label>
 				<Switch
-					checkedChildren={"Live"}
+					checkedChildren={"Active"}
 					unCheckedChildren={"Test"}
 					checked={workflowLiveMode}
 					onChange={(checked) => setWorkflowLiveMode(checked)}

@@ -2,7 +2,6 @@ import { useCallback, useState } from "react"
 import { useVoila } from "./useVoila"
 import { useJobManager } from "./useJobManager"
 import type {
-	Job,
 	RecommendationsWorkflowPayload,
 	ShopperJob,
 	TrimmedProduct,
@@ -21,7 +20,13 @@ export function useShopper() {
 	const [promosLoading, setPromosLoading] = useState(false)
 
 	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
-		useWorkflow<ShopperJob>(import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS)
+		useWorkflow<ShopperJob>({
+			url: import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS,
+			auth: {
+				username: import.meta.env.VITE_WORKFLOW_USERNAME,
+				password: import.meta.env.VITE_WORKFLOW_PWD,
+			},
+		})
 
 	const getRecommendations = useCallback(
 		async (jobId: string) => {
@@ -45,19 +50,12 @@ export function useShopper() {
 	const generateRecommendations: () => Promise<
 		Workflow.Error | Voila.Product[]
 	> = useCallback(async () => {
-		const relevantFields = [
+		const relevantFields: (keyof Voila.Product)[] = [
 			"brand",
 			"categoryPath",
-			//"countryOfOrigin",
-			//"favourite",
-			"guaranteedProductLife",
 			"name",
 			"packSizeDescription",
-			// "price",
 			"productId",
-			// "promoPrice",
-			// "promoUnitPrice",
-			// "unitPrice",
 		]
 
 		setPromosLoading(true)
@@ -70,6 +68,7 @@ export function useShopper() {
 			return arr.findIndex((p) => p.productId === prod.productId) === i
 		})
 
+		console.log({ promoProducts })
 		setPromosLoading(false)
 
 		const trimmedProducts: TrimmedProduct[] = promoProducts.map(
@@ -80,7 +79,7 @@ export function useShopper() {
 					const val = decoratedProduct[field]
 
 					if (val !== null && val !== undefined) {
-						trimmedProduct[field] = val
+						trimmedProduct[field as keyof TrimmedProduct] = val
 					}
 				})
 
@@ -89,6 +88,8 @@ export function useShopper() {
 				return trimmedProduct
 			}
 		)
+
+		console.log({ trimmedProducts })
 
 		const recommendations =
 			await callRecommendationsWorkflow<RecommendationsWorkflowPayload>({

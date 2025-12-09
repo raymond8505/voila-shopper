@@ -32,6 +32,7 @@ export function useWorkflow<T = Job.UnknownData>({
 			 */
 			timeout?: number
 		}) => {
+			console.log({ workflowLiveMode, loading })
 			if (loading) {
 				return false
 			}
@@ -88,7 +89,7 @@ export function useWorkflow<T = Job.UnknownData>({
 							setLoading(false)
 							return {
 								status: 200,
-								message: e ? (e as Error)["message"] : "",
+								message: e?.["message"],
 							} as Workflow.Error
 						}
 					}
@@ -104,7 +105,7 @@ export function useWorkflow<T = Job.UnknownData>({
 
 				return {
 					status: 200,
-					message: e ? (e as Error)["message"] : "",
+					message: e?.["message"],
 				} as Workflow.Error
 			}
 		},

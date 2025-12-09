@@ -4,6 +4,10 @@ import App from "./App.tsx"
 import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
+
 const wrapper = document.createElement("div")
 wrapper.id = "vs-client-root"
 
@@ -33,10 +37,12 @@ if (chrome?.runtime?.getURL) {
 
 ReactDOM.createRoot(shadowRoot).render(
 	<React.StrictMode>
-		<CacheProvider value={emotionCache}>
-			<StyleProvider container={shadowRoot}>
-				<App />
-			</StyleProvider>
-		</CacheProvider>
+		<QueryClientProvider client={queryClient}>
+			<CacheProvider value={emotionCache}>
+				<StyleProvider container={shadowRoot}>
+					<App />
+				</StyleProvider>
+			</CacheProvider>
+		</QueryClientProvider>
 	</React.StrictMode>
 )
