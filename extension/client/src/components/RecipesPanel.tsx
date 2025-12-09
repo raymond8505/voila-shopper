@@ -1,21 +1,22 @@
 import { useCallback, useState } from "react"
-
 import Splitter from "antd/es/splitter"
-
 import List from "antd/es/list"
-
 import { css } from "@emotion/react"
-
 import { useStore } from "../store"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
-import { LoaderButton } from "./common/LoaderButton"
 import { RecipeResultButton } from "./RecipeResultButton"
 import { isWorkflowError } from "../types/helpers"
 import { Alert } from "antd"
+import {
+	GetRecipesButton,
+	RecipeResultsList,
+	RecipeResultsWrapper,
+	Wrapper,
+} from "./RecipesPanel.styles"
 
 export function RecipesPanel() {
 	const { ingredients, removeIngredient, recipeCriteria, setRecipeCriteria } =
@@ -58,26 +59,11 @@ export function RecipesPanel() {
 	])
 
 	return (
-		<div
-			css={css`
-				gap: 8px;
-				height: 100%;
-			`}
-		>
-			<div
-				css={css`
-					overflow: auto;
-					padding: 8px;
-					height: 100%;
-				`}
-			>
+		<Wrapper>
+			<div>
 				<Splitter layout="vertical">
 					<Splitter.Panel min={188} defaultSize={208}>
-						<div
-							css={css`
-								padding: 8px 0;
-							`}
-						>
+						<div style={{ padding: "8px 0" }}>
 							<strong>Ingredients</strong>
 							<List
 								itemLayout="horizontal"
@@ -119,11 +105,7 @@ export function RecipesPanel() {
 						</div>
 					</Splitter.Panel>
 					<Splitter.Panel min={192} style={{ padding: "8px" }}>
-						<div
-							css={css`
-								margin: 8px 0;
-							`}
-						>
+						<div style={{ margin: "8px 0" }}>
 							<strong>Recipes</strong>
 							<TextArea
 								rows={25}
@@ -133,20 +115,11 @@ export function RecipesPanel() {
 								}}
 								defaultValue={recipeCriteria}
 							></TextArea>
-							<div
-								css={css`
-									display: flex;
-									gap: 8px;
-									flex-wrap: no-wrap;
-								`}
-							>
-								<LoaderButton
+							<RecipeResultsWrapper>
+								<GetRecipesButton
 									loading={recipeRecommendationsLoading}
 									type="primary"
 									onClick={handleGetRecipesClick}
-									css={css`
-										margin: 8px 0;
-									`}
 									label="Get Recipes"
 								/>
 								<div
@@ -158,27 +131,18 @@ export function RecipesPanel() {
 										<Alert message={errorText} type="error" />
 									) : null}
 								</div>
-							</div>
-							<ul
-								css={css`
-									font-weight: bold;
-
-									li {
-										padding: 8px;
-										border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-									}
-								`}
-							>
+							</RecipeResultsWrapper>
+							<RecipeResultsList>
 								{recipes?.map((recipe) => (
 									<li key={`recipe-${encodeURIComponent(recipe.name)}`}>
 										<RecipeResultButton recipe={recipe} />
 									</li>
 								))}
-							</ul>
+							</RecipeResultsList>
 						</div>
 					</Splitter.Panel>
 				</Splitter>
 			</div>
-		</div>
+		</Wrapper>
 	)
 }

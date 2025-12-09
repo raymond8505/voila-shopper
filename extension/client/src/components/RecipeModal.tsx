@@ -1,9 +1,9 @@
-import { css } from "@emotion/react"
 import { Descriptions, Modal } from "antd"
 
 import { useStore } from "../store"
 import { useRef } from "react"
 import { decodeHtmlEntities } from "../helpers"
+import { ModalBody, Wrapper } from "./RecipeModal.styles"
 
 export function RecipeModal() {
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -14,56 +14,32 @@ export function RecipeModal() {
 	} = useStore()
 
 	return (
-		<div
-			ref={wrapperRef}
-			css={css`
-				position: fixed;
-				z-index: 9999999999;
-			`}
-		>
+		<Wrapper ref={wrapperRef}>
 			<Modal
 				open={recipeModalOpen}
 				getContainer={() => wrapperRef.current ?? document.body}
 				onCancel={() => setRecipeModalOpen(false)}
-				title={decodeHtmlEntities(recipe?.name as string)}
+				title={decodeHtmlEntities(recipe?.name ?? "")}
 				footer={null}
 			>
-				<article
-					css={css`
-						li {
-							margin-left: 1.5em;
-						}
-
-						ol {
-							list-style: decimal;
-						}
-
-						ul {
-							list-style: disc;
-						}
-
-						section {
-							margin-bottom: 1em;
-						}
-					`}
-				>
+				<ModalBody>
 					<section>
 						<Descriptions
 							items={[
 								{
 									key: "prep-time",
 									label: "Prep Time",
-									children: (recipe?.prepTime as string) ?? "unknown",
+									children: recipe?.prepTime ?? "unknown",
 								},
 								{
 									key: "cook-time",
 									label: "Cook Time",
-									children: (recipe?.cookTime as string) ?? "unknown",
+									children: recipe?.cookTime ?? "unknown",
 								},
 								{
 									key: "servings",
 									label: "Servings",
-									children: (recipe?.recipeYield as string) ?? "unknown",
+									children: recipe?.recipeYield ?? "unknown",
 								},
 							]}
 						/>
@@ -121,8 +97,8 @@ export function RecipeModal() {
 							]}
 						/>
 					</section>
-				</article>
+				</ModalBody>
 			</Modal>
-		</div>
+		</Wrapper>
 	)
 }
