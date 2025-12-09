@@ -4,6 +4,7 @@ import { useJobManager } from "./useJobManager"
 import type {
 	Job,
 	RecommendationsWorkflowPayload,
+	ShopperJob,
 	TrimmedProduct,
 	Voila,
 	Workflow,
@@ -20,13 +21,11 @@ export function useShopper() {
 	const [promosLoading, setPromosLoading] = useState(false)
 
 	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
-		useWorkflow<Job.ShopperJob>(
-			import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
-		)
+		useWorkflow<ShopperJob>(import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS)
 
 	const getRecommendations = useCallback(
 		async (jobId: string) => {
-			const jobData = await fetchJob<Job.ShopperJob>(jobId)
+			const jobData = await fetchJob<ShopperJob>(jobId)
 
 			const voilaProducts = await getProducts(
 				jobData.flatMap((job) =>
