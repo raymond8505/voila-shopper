@@ -14,6 +14,7 @@ export function useRecipes() {
 				username: import.meta.env.VITE_WORKFLOW_USERNAME,
 				password: import.meta.env.VITE_WORKFLOW_PWD,
 			},
+			responseType: "hook",
 		}
 	)
 

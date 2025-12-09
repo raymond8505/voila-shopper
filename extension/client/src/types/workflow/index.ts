@@ -17,7 +17,6 @@ export namespace Workflow {
 		pending: boolean
 		call: (params: {
 			payload: RequestPayloadType
-			responseType?: Workflow.ResponseType
 			respondOnStatus?: string
 			hookOptions?: RequestInit
 			/**
@@ -30,5 +29,6 @@ export namespace Workflow {
 	export interface UseWorkflowParams {
 		url: string
 		auth?: { username: string; password: string }
+		responseType?: Workflow.ResponseType
 	}
 }

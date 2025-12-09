@@ -10,7 +10,7 @@ import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { RecipeResultButton } from "./RecipeResultButton"
 import { isWorkflowError } from "../types/helpers"
-import { Alert } from "antd"
+import Alert from "antd/es/alert"
 import {
 	GetRecipesButton,
 	RecipeResultsList,
