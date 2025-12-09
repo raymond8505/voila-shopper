@@ -25,6 +25,10 @@ export const LoaderButton = forwardRef<HTMLButtonElement, LoaderButtonProps>(
 				onClick={onClick}
 				disabled={loading}
 				ref={ref}
+				style={{
+					display: "flex",
+					gap: "4px",
+				}}
 				{...rest}
 			>
 				{loading ? <LoadingOutlined /> : icon}

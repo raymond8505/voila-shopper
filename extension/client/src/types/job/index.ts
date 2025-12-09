@@ -7,4 +7,6 @@ export namespace Job {
 	}
 
 	export type UnknownData = Record<string, unknown>
+
+	export type TrimmedJob = Omit<JobItem, "data">
 }

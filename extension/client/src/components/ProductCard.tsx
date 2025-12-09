@@ -5,8 +5,8 @@ import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import FormOutlined from "@ant-design/icons/FormOutlined"
 import { addToCart } from "../api/voila"
 import { useStore } from "../store"
-import { css } from "@emotion/react"
 import { useMemo, useState } from "react"
+import { Wrapper } from "./ProductCard.styles"
 export function ProductCard({ product }: { product: Voila.Product }) {
 	const { addIngredient, ingredients } = useStore()
 	const [quantityInBasket, setQuantityInBasket] = useState(
@@ -18,20 +18,7 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 		[product.productId, ingredients]
 	)
 	return (
-		<div
-			css={css`
-				.ant-card-actions {
-					flex-direction: column;
-					gap: 4px;
-
-					button,
-					li {
-						width: 100% !important;
-						margin: 0;
-					}
-				}
-			`}
-		>
+		<Wrapper>
 			<Card
 				cover={
 					product.images && product.images.length > 0 ? (
@@ -47,7 +34,6 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 								productId: product.productId,
 								quantity: 1,
 							}).then((resp) => {
-								console.log({ resp })
 								const basketItem = resp.basketUpdateResult.items.find(
 									(i) => i.productId === product.productId
 								)
@@ -94,6 +80,6 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 					}
 				/>
 			</Card>
-		</div>
+		</Wrapper>
 	)
 }

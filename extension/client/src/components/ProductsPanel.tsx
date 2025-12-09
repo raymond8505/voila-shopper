@@ -14,6 +14,7 @@ import Select from "antd/es/select"
 import { LoaderButton } from "./common/LoaderButton"
 import { isWorkflowError } from "../types/helpers"
 import Alert from "antd/es/alert"
+import { OldTripsWrapper, Wrapper } from "./ProductsPanel.styles"
 
 export function ProductsPanel() {
 	const {
@@ -27,35 +28,32 @@ export function ProductsPanel() {
 		Voila.Product[]
 	>([])
 	const [jobId, setJobId] = useState("")
-	const [jobs, setJobs] = useState<
-		Pick<Job.JobItem<Record<string, unknown>>, "id" | "created_at" | "status">[]
-	>([])
+	const [jobs, setJobs] = useState<Job.TrimmedJob[]>([])
 	const [oldJobLoading, setOldJobLoading] = useState(false)
 	const [errorText, setErrorText] = useState<null | string>(null)
+
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
-			console.log({ allJobs })
 			const doneJobs = allJobs.filter((job) => job.status === "done")
 			setJobs(doneJobs)
 			setJobId(doneJobs[0].id)
 		})
-	}, [setJobs])
+	}, [setJobs, getJobIds, setJobId])
 
 	const handleGetOldJobClick = useCallback(() => {
 		setErrorText(null)
+
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true
 			setOldJobLoading(true)
 
 			getRecommendations(jobId)
 				.then((products) => {
-					console.log("Recommended products:", products)
 					gettingRecommendations.current = false
 					setOldJobLoading(false)
 					setRecommendedProducts(products)
 				})
-				.catch((e) => {
-					console.error("Recommended products ERROR:", e)
+				.catch(() => {
 					gettingRecommendations.current = false
 					setOldJobLoading(false)
 				})
@@ -74,7 +72,6 @@ export function ProductsPanel() {
 			gettingRecommendations.current = true
 			generateRecommendations()
 				.then((products) => {
-					console.log("Recommended products:", products)
 					gettingRecommendations.current = false
 
 					if (isWorkflowError(products)) {
@@ -136,25 +133,10 @@ export function ProductsPanel() {
 
 	const selectWrapper = useRef<HTMLDivElement>(null)
 	return (
-		<div
-			css={css`
-				display: grid;
-				gap: 8px;
-				height: 100%;
-				grid-template-rows: auto auto 1fr;
-			`}
-		>
+		<Wrapper>
 			<div>
 				<strong>Old Trips</strong>
-				<div
-					css={css`
-						display: flex;
-						gap: 8px;
-						width: 100%;
-						height: 32px;
-						align-items: stretch;
-					`}
-				>
+				<OldTripsWrapper>
 					<div
 						ref={selectWrapper}
 						css={css`
@@ -170,7 +152,7 @@ export function ProductsPanel() {
 								flex-grow: 1;
 								display: block;
 							`}
-							defaultValue={jobs[0]?.id}
+							defaultValue={jobs[0]?.created_at.toLocaleString()}
 							getPopupContainer={() => selectWrapper.current || document.body}
 							options={jobs.map((j) => ({
 								value: j.id,
@@ -181,20 +163,13 @@ export function ProductsPanel() {
 					<div>
 						<LoaderButton
 							onClick={handleGetOldJobClick}
-							css={css`
-								flex-shrink: 0;
-								display: flex;
-								gap: 4px;
-								height: unset !important;
-								aspect-ratio: 1;
-							`}
 							label="Get Previous Trip"
 							loading={oldJobLoading}
 							icon={<ShoppingCartOutlined />}
 						/>
 						{errorText ? <Alert message={errorText} type="error" /> : null}
 					</div>
-				</div>
+				</OldTripsWrapper>
 				<Divider />
 			</div>
 			<div>
@@ -207,10 +182,6 @@ export function ProductsPanel() {
 						icon={<ShoppingCartOutlined />}
 						onClick={handleGetNewJobClick}
 						type="primary"
-						css={css`
-							display: flex;
-							gap: 4px;
-						`}
 					/>
 				</div>
 				<Divider />
@@ -229,6 +200,6 @@ export function ProductsPanel() {
 					))
 				)}
 			</div>
-		</div>
+		</Wrapper>
 	)
 }
