@@ -8,4 +8,27 @@ export namespace Workflow {
 		status: number
 		message: string
 	}
+
+	export interface UseWorflow<
+		RequestPayloadType = Record<string, unknown>,
+		ResponsePayloadType = Record<string, unknown>
+	> {
+		data: ResponsePayloadType | Error
+		pending: boolean
+		call: (params: {
+			payload: RequestPayloadType
+			responseType?: Workflow.ResponseType
+			respondOnStatus?: string
+			hookOptions?: RequestInit
+			/**
+			 * only for responseType "job"
+			 */
+			timeout?: number
+		}) => void
+	}
+
+	export interface UseWorkflowParams {
+		url: string
+		auth?: { username: string; password: string }
+	}
 }

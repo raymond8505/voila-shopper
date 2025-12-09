@@ -1,114 +1,161 @@
-import { useCallback, useState } from "react"
-import { Job, Workflow } from "../types/index"
-import { useJobManager } from "./useJobManager"
+import { useCallback, useMemo, useState } from "react"
+import { Workflow } from "../types/index"
 import { useStore } from "../store"
+import { useQuery } from "@tanstack/react-query"
+import isEqual from "lodash.isequal"
 //import { fixture } from "../api/helpers"
 
-export function useWorkflow<T = Job.UnknownData>({
+export function useWorkflow<RequestPayloadType, ResponsePayloadType>({
 	url,
 	auth,
-}: {
-	url: string
-	auth?: { username: string; password: string }
-}) {
-	const [loading, setLoading] = useState(false)
-	const { pollJobData } = useJobManager()
+}: Workflow.UseWorkflowParams): Workflow.UseWorflow<
+	RequestPayloadType,
+	ResponsePayloadType
+> {
 	const { workflowLiveMode } = useStore()
 
-	const call = useCallback(
-		async <Payload extends Job.UnknownData, CallT = T>({
+	const hookURL = useMemo(() => {
+		return workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/")
+	}, [workflowLiveMode, url])
+
+	// Memoize the auth object for queryKey stability.
+	// This prevents re-fetches if the parent passes a new object reference for auth
+	// but the content (username, password) remains the same.
+	const memoizedAuth = useMemo(() => auth, [auth?.username, auth?.password])
+
+	const [payload, setPayload] = useState<RequestPayloadType>(
+		{} as RequestPayloadType
+	)
+
+	const [responseType, setResponseType] = useState<
+		Workflow.ResponseType | undefined
+	>(undefined)
+
+	const [respondOnStatus, setRespondOnStatus] = useState<string | undefined>(
+		undefined
+	)
+
+	const [hookOptions, setHookOptions] = useState<RequestInit | undefined>(
+		undefined
+	)
+
+	const [queryTimeout, setQueryTimeout] = useState<number | undefined>(
+		undefined
+	)
+
+	const [webhookEnabled, setWebhookEnabled] = useState(false)
+
+	const {
+		data: webHookData,
+		isPending: webhookPending,
+		refetch,
+	} = useQuery({
+		queryKey: [
+			"hook-call",
+			hookURL,
+			memoizedAuth,
 			payload,
-			responseType = "hook",
-			respondOnStatus = "done",
-			hookOptions = {},
-			timeout = 1000 * 60 * 15, // 15 minutes,
-		}: {
-			payload: Payload
-			responseType?: Workflow.ResponseType
-			respondOnStatus?: string
-			hookOptions?: RequestInit
-			/**
-			 * only for responseType "job"
-			 */
-			timeout?: number
-		}) => {
-			if (loading) {
-				return false
-			}
+			respondOnStatus,
+			hookOptions,
+			queryTimeout,
+		],
+		enabled: webhookEnabled,
 
-			const isLocal = location.hostname === "localhost"
-
-			if (isLocal) {
-				switch (url) {
-					// case import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES:
-					// 	return fixture<CallT>("recipeRecommendationsResponse")
-					default:
-						break
-				}
-			}
-
-			setLoading(true)
-
+		queryFn: async () => {
 			const fetchOptions = hookOptions ? hookOptions : {}
+			const combinedHeaders = new Headers(fetchOptions.headers)
 
-			try {
-				const combinedHeaders = new Headers(fetchOptions.headers)
-				if (auth) {
-					combinedHeaders.set(
-						"Authorization",
-						`Basic ${btoa(`${auth.username}:${auth.password}`)}`
-					)
-				}
-
-				const hookResp = await fetch(
-					workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/"),
-					{
-						body: JSON.stringify(payload),
-						...fetchOptions,
-						headers: combinedHeaders,
-					}
+			if (auth) {
+				combinedHeaders.set(
+					// Note: btoa is base64 encoding, not encryption. For sensitive data, consider more secure methods.
+					"Authorization",
+					`Basic ${btoa(`${auth.username}:${auth.password}`)}`
 				)
+			}
 
-				if (hookResp.ok) {
-					const hookJSON = await hookResp.json()
-
-					if (responseType === "hook") {
-						setLoading(false)
-						return hookJSON as CallT
-					} else {
-						try {
-							const job = await pollJobData<CallT>(
-								hookJSON.id,
-								respondOnStatus,
-								timeout
-							)
-							setLoading(false)
-							return job?.data as CallT
-						} catch (e) {
-							setLoading(false)
-							return {
-								status: 200,
-								message: e ? (e as Error)["message"] : "",
-							} as Workflow.Error
-						}
-					}
-				} else {
-					setLoading(false)
-					return {
-						status: hookResp.status,
-						message: await hookResp.text(),
-					} as Workflow.Error
+			const resp = await fetch(
+				workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/"),
+				{
+					body: JSON.stringify(payload),
+					...fetchOptions,
+					headers: combinedHeaders,
 				}
-			} catch (e) {
-				setLoading(false)
+			)
+
+			setWebhookEnabled(false)
+
+			if (resp.ok) {
+				return await resp.json()
+			} else {
+				let message = ""
+
+				switch (resp.status) {
+					case 404:
+						message = "Workflow Not Found"
+						break
+					case 403:
+						message = "Incorrect username or password"
+						break
+					default:
+						message = await resp.statusText
+				}
 
 				return {
-					status: 200,
-					message: e ? (e as Error)["message"] : "",
+					status: resp.status,
+					message,
 				} as Workflow.Error
 			}
 		},
-		[url, loading, setLoading, workflowLiveMode]
+	})
+
+	const call: Workflow.UseWorflow<
+		RequestPayloadType,
+		ResponsePayloadType
+	>["call"] = useCallback(
+		({
+			payload: newPayload,
+			responseType: newResponseType,
+			respondOnStatus: newRespondOnStatus,
+			hookOptions: newHookOptions,
+			timeout: newTimeout,
+		}) => {
+			if (!isEqual(payload, newPayload)) {
+				setPayload(newPayload)
+			}
+			if (responseType !== newResponseType) {
+				setResponseType(newResponseType)
+			}
+			if (respondOnStatus !== newRespondOnStatus) {
+				setRespondOnStatus(newRespondOnStatus)
+			}
+			if (!isEqual(hookOptions, newHookOptions)) {
+				setHookOptions(newHookOptions)
+			}
+			if (queryTimeout !== newTimeout) {
+				setQueryTimeout(newTimeout)
+			}
+
+			setWebhookEnabled(true)
+		},
+		[
+			setPayload,
+			setResponseType,
+			setRespondOnStatus,
+			setHookOptions,
+			setQueryTimeout,
+			setWebhookEnabled,
+			refetch,
+			webhookEnabled,
+			payload,
+			responseType,
+			respondOnStatus,
+			hookOptions,
+			queryTimeout,
+		]
 	)
-	return { loading, call }
+	return {
+		pending: webhookPending && webhookEnabled,
+		call,
+		data: webHookData,
+	}
 }

@@ -14,6 +14,11 @@ export namespace Recipe {
 		recipeSchemas: Recipe[]
 	}
 
+	export interface ApiRequestPayload<IngredientType> {
+		ingredients: IngredientType[]
+		extraCriteria?: string
+	}
+
 	export interface NutritionInformation {
 		// New interface for NutritionInformation
 		"@type": "NutritionInformation"

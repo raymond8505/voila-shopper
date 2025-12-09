@@ -1,18 +1,21 @@
 import { useCallback } from "react"
-import { Recipe, Voila } from "../types/index"
+import { Recipe, TrimmedProduct, Voila } from "../types/index"
 import { useWorkflow } from "./useWorkflow"
 
 export function useRecipes() {
 	const {
 		call: callRecommendationsWorkflow,
-		loading: recipeRecommendationsLoading,
-	} = useWorkflow<Recipe.ApiResponse>({
-		url: import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES,
-		auth: {
-			username: import.meta.env.VITE_WORKFLOW_USERNAME,
-			password: import.meta.env.VITE_WORKFLOW_PWD,
-		},
-	})
+		pending: recipeRecommendationsPending,
+		data: recipeRecommendationsData,
+	} = useWorkflow<Recipe.ApiRequestPayload<TrimmedProduct>, Recipe.ApiResponse>(
+		{
+			url: import.meta.env.VITE_WORKFLOW_RECOMMEND_RECIPES,
+			auth: {
+				username: import.meta.env.VITE_WORKFLOW_USERNAME,
+				password: import.meta.env.VITE_WORKFLOW_PWD,
+			},
+		}
+	)
 
 	const generateRecipeRecommendations = useCallback(
 		({
@@ -38,10 +41,10 @@ export function useRecipes() {
 							"unitPrice",
 							"promoUnitPrice",
 							"categoryPath",
-						].reduce((acc, key) => {
-							acc[key] = ingredient[key]
+						].reduce((acc: TrimmedProduct, key: keyof TrimmedProduct) => {
+							;(acc[key] as any) = ingredient[key]
 							return acc
-						}, {})
+						}, {} as TrimmedProduct)
 					}),
 				},
 			}),
@@ -51,6 +54,7 @@ export function useRecipes() {
 
 	return {
 		generateRecipeRecommendations,
-		recipeRecommendationsLoading,
+		recipeRecommendationsPending,
+		recipes: recipeRecommendationsData,
 	}
 }

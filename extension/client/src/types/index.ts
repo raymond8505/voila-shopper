@@ -24,14 +24,7 @@ export type ShopperJob = {
 	products: Voila.Product["productId"][]
 }
 
-export type TrimmedProduct = Pick<
-	Voila.DecoratedProduct,
-	| "categoryPath"
-	| "productId"
-	| "guaranteedProductLife"
-	| "packSizeDescription"
-	| "name"
-> & {
+export type TrimmedProduct = Partial<Voila.Product> & {
 	price: MinimalPrice
 }
 

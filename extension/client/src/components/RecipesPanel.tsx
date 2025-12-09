@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Splitter from "antd/es/splitter"
 import List from "antd/es/list"
 import { css } from "@emotion/react"
@@ -23,32 +23,26 @@ export function RecipesPanel() {
 		useStore()
 	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipeSchemas"]>()
 	const [errorText, setErrorText] = useState<string | null>(null)
-	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
-		useRecipes()
+	const {
+		generateRecipeRecommendations,
+		recipes: foundRecipes,
+		recipeRecommendationsPending,
+	} = useRecipes()
 
+	useEffect(() => {
+		if (!foundRecipes) return
+
+		if (isWorkflowError(foundRecipes)) {
+			setErrorText(foundRecipes.message)
+		} else {
+			setRecipes(foundRecipes.recipeSchemas)
+		}
+	}, [foundRecipes, setRecipes, setErrorText])
 	const handleGetRecipesClick = useCallback(() => {
 		setErrorText(null)
 		generateRecipeRecommendations({
 			ingredients,
 			extraCriteria: recipeCriteria,
-		}).then((resp) => {
-			if (resp) {
-				if (isWorkflowError(resp)) {
-					setErrorText(() => {
-						switch (resp.status) {
-							case 403:
-								return "Incorrect username or password"
-							case 404:
-								return "Workflow not found"
-							default:
-								return resp.message
-						}
-					})
-				} else {
-					setErrorText(null)
-					setRecipes((resp as Recipe.ApiResponse).recipeSchemas ?? [])
-				}
-			}
 		})
 	}, [
 		setRecipes,
@@ -108,7 +102,7 @@ export function RecipesPanel() {
 						<div style={{ margin: "8px 0" }}>
 							<strong>Recipes</strong>
 							<TextArea
-								rows={25}
+								rows={15}
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
 								onChange={(e) => {
 									setRecipeCriteria(e.target.value)
@@ -117,7 +111,7 @@ export function RecipesPanel() {
 							></TextArea>
 							<RecipeResultsWrapper>
 								<GetRecipesButton
-									loading={recipeRecommendationsLoading}
+									loading={recipeRecommendationsPending}
 									type="primary"
 									onClick={handleGetRecipesClick}
 									label="Get Recipes"
