@@ -94,6 +94,6 @@ export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 	return {
 		pending: isPending && webhookEnabled,
 		call,
-		data,
+		data: data as ResponsePayloadType,
 	}
 }

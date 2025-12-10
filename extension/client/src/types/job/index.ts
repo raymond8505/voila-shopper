@@ -1,5 +1,5 @@
 export namespace Job {
-	export type JobItem<T = Record<string, unknown>> = {
+	export type JobItem<T = unknown> = {
 		id: string
 		created_at: Date
 		status: string
