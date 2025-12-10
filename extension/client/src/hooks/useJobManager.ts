@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 import { supabaseRequest } from "../api/supabase"
 import { Job } from "../types"
+import { useQuery } from "@tanstack/react-query"
 
 export function useJobManager() {
 	async function fetchJobInner<T>(
@@ -63,25 +64,29 @@ export function useJobManager() {
 		[]
 	)
 
-	const getJobIds: () => Promise<
-		Pick<Job.JobItem, "id" | "created_at" | "status">[]
-	> = useCallback(async () => {
-		const resp = await supabaseRequest({
-			table: "jobs",
-			tableParams: {
-				select: "id,created_at,status",
-				order: `created_at.desc`,
-			},
-		})
+	const fetchJobInfo: () => Promise<Job.TrimmedJob[]> =
+		useCallback(async () => {
+			const resp = await supabaseRequest({
+				table: "jobs",
+				tableParams: {
+					select: "id,created_at,status",
+					order: `created_at.desc`,
+				},
+			})
 
-		const json = await resp.json()
+			const json = (await resp.json()) as Job.TrimmedJob[]
 
-		return json.map((item) => ({
-			id: item.id,
-			created_at: new Date(item.created_at),
-			status: item.status,
-		}))
-	}, [])
+			return json.map((item) => ({
+				id: item.id,
+				created_at: new Date(item.created_at),
+				status: item.status,
+			}))
+		}, [])
 
-	return { getJobIds, pollJobData, fetchJob }
+	const { refetch: getJobInfo, data: jobInfo } = useQuery({
+		queryKey: ["jobIds"],
+		queryFn: fetchJobInfo,
+	})
+
+	return { getJobInfo, jobInfo, pollJobData, fetchJob }
 }

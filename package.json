@@ -5,7 +5,9 @@
   "main": "averageTrimmedProductTokens.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scraper": "npx vite-node ./scraper/index.ts"
+    "scraper": "npx vite-node ./scraper/index.ts",
+    "extension:client:dev": "cd extension && yarn client:dev",
+    "extension:client:build": "cd extension && yarn client:build"
   },
   "author": "",
   "license": "ISC",

@@ -9,21 +9,23 @@ export namespace Workflow {
 		message: string
 	}
 
+	export interface CallParams<PayloadType = Record<string, unknown>> {
+		payload: PayloadType
+		respondOnStatus?: string
+		hookOptions?: RequestInit
+		/**
+		 * only for responseType "job"
+		 */
+		timeout?: number
+	}
+
 	export interface UseWorflow<
 		RequestPayloadType = Record<string, unknown>,
 		ResponsePayloadType = Record<string, unknown>
 	> {
 		data: ResponsePayloadType | Error
 		pending: boolean
-		call: (params: {
-			payload: RequestPayloadType
-			respondOnStatus?: string
-			hookOptions?: RequestInit
-			/**
-			 * only for responseType "job"
-			 */
-			timeout?: number
-		}) => void
+		call: (params: CallParams<RequestPayloadType>) => void
 	}
 
 	export interface UseWorkflowParams {

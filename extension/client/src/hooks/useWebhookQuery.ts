@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from "react"
 import { useStore } from "../store"
 import { useQuery } from "@tanstack/react-query"
 import type { Workflow } from "../types"
-import isEqual from "lodash.isequal"
 
 export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 	url,
@@ -14,52 +13,28 @@ export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 		return workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/")
 	}, [workflowLiveMode, url])
 
-	// Memoize the auth object for queryKey stability.
-	// This prevents re-fetches if the parent passes a new object reference for auth
-	// but the content (username, password) remains the same.
-	const memoizedAuth = useMemo(() => auth, [auth?.username, auth?.password])
-
-	const [payload, setPayload] = useState<RequestPayloadType>(
-		{} as RequestPayloadType
-	)
-
-	const [respondOnStatus, setRespondOnStatus] = useState<string | undefined>(
-		undefined
-	)
-
-	const [hookOptions, setHookOptions] = useState<RequestInit | undefined>(
-		undefined
-	)
-
-	const [queryTimeout, setQueryTimeout] = useState<number | undefined>(
-		undefined
-	)
-
 	const [webhookEnabled, setWebhookEnabled] = useState(false)
 
-	const {
-		data: webHookData,
-		isPending: webhookPending,
-		refetch,
-	} = useQuery({
-		queryKey: [
-			"webhook",
-			hookURL,
-			memoizedAuth,
-			payload,
-			respondOnStatus,
-			hookOptions,
-			queryTimeout,
-		],
+	const [params, setParams] = useState<Workflow.CallParams<RequestPayloadType>>(
+		{
+			payload: undefined,
+			respondOnStatus: undefined,
+			hookOptions: undefined,
+			timeout: undefined,
+		}
+	)
+
+	const { data, isPending, refetch } = useQuery({
+		queryKey: ["webhook", hookURL, auth, ...Object.values(params)],
 		enabled: webhookEnabled,
 
 		queryFn: async () => {
-			const fetchOptions = hookOptions ? hookOptions : {}
+			const fetchOptions = params.hookOptions ? params.hookOptions : {}
 			const combinedHeaders = new Headers(fetchOptions.headers)
 
-			if (auth) {
+			if (auth?.username && auth?.password) {
 				combinedHeaders.set(
-					// Note: btoa is base64 encoding, not encryption. For sensitive data, consider more secure methods.
+					// btoa use not meant to encrypt, just what n8n requires for Basic Auth
 					"Authorization",
 					`Basic ${btoa(`${auth.username}:${auth.password}`)}`
 				)
@@ -68,7 +43,7 @@ export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 			const resp = await fetch(
 				workflowLiveMode ? url : url.replace("/webhook/", "/webhook-test/"),
 				{
-					body: JSON.stringify(payload),
+					body: JSON.stringify(params.payload),
 					...fetchOptions,
 					headers: combinedHeaders,
 				}
@@ -83,7 +58,7 @@ export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 
 				switch (resp.status) {
 					case 404:
-						message = "Workflow Not Found"
+						message = "Webhook Not Found"
 						break
 					case 403:
 						message = "Incorrect username or password"
@@ -104,44 +79,21 @@ export function useWebhookQuery<RequestPayloadType, ResponsePayloadType>({
 		RequestPayloadType,
 		ResponsePayloadType
 	>["call"] = useCallback(
-		({
-			payload: newPayload,
-			respondOnStatus: newRespondOnStatus,
-			hookOptions: newHookOptions,
-			timeout: newTimeout,
-		}) => {
-			if (!isEqual(payload, newPayload)) {
-				setPayload(newPayload)
-			}
-			if (respondOnStatus !== newRespondOnStatus) {
-				setRespondOnStatus(newRespondOnStatus)
-			}
-			if (!isEqual(hookOptions, newHookOptions)) {
-				setHookOptions(newHookOptions)
-			}
-			if (queryTimeout !== newTimeout) {
-				setQueryTimeout(newTimeout)
-			}
+		({ payload, respondOnStatus, hookOptions, timeout }) => {
+			setParams({
+				payload,
+				respondOnStatus,
+				hookOptions,
+				timeout,
+			})
 
 			setWebhookEnabled(true)
 		},
-		[
-			setPayload,
-			setRespondOnStatus,
-			setHookOptions,
-			setQueryTimeout,
-			setWebhookEnabled,
-			refetch,
-			webhookEnabled,
-			payload,
-			respondOnStatus,
-			hookOptions,
-			queryTimeout,
-		]
+		[setWebhookEnabled, refetch, webhookEnabled, params]
 	)
 	return {
-		pending: webhookPending && webhookEnabled,
+		pending: isPending && webhookEnabled,
 		call,
-		data: webHookData,
+		data,
 	}
 }

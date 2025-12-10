@@ -22,23 +22,32 @@ export function ProductsPanel() {
 		generateRecommendations,
 		recommendationsLoading,
 	} = useShopper()
-	const { getJobIds } = useJobManager()
+	const { jobInfo } = useJobManager()
 	const gettingRecommendations = useRef(false)
 	const [recommendedProducts, setRecommendedProducts] = useState<
 		Voila.Product[]
 	>([])
-	const [jobId, setJobId] = useState("")
+	const [jobId, setJobId] = useState<string>(undefined)
 	const [jobs, setJobs] = useState<Job.TrimmedJob[]>([])
 	const [oldJobLoading, setOldJobLoading] = useState(false)
 	const [errorText, setErrorText] = useState<null | string>(null)
 
 	useEffect(() => {
-		getJobIds().then((allJobs) => {
-			const doneJobs = allJobs.filter((job) => job.status === "done")
-			setJobs(doneJobs)
-			setJobId(doneJobs[0].id)
+		if (!jobInfo) {
+			return
+		}
+
+		const doneJobs = jobInfo.filter((job) => job.status === "done")
+
+		setJobs(doneJobs)
+
+		setJobId((prev) => {
+			if (doneJobs?.[0].id && !jobId) {
+				return doneJobs[0].id
+			}
+			return prev
 		})
-	}, [setJobs, getJobIds, setJobId])
+	}, [setJobs, jobInfo, setJobId])
 
 	const handleGetOldJobClick = useCallback(() => {
 		setErrorText(null)
