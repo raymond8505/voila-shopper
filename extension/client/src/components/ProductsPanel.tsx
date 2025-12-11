@@ -21,6 +21,7 @@ export function ProductsPanel() {
 		getRecommendations,
 		generateRecommendations,
 		recommendationsLoading,
+		products,
 	} = useShopper()
 	const { jobInfo } = useJobManager()
 	const gettingRecommendations = useRef(false)
@@ -76,6 +77,7 @@ export function ProductsPanel() {
 	])
 
 	const handleGetNewJobClick = useCallback(async () => {
+		console.log("handleGetNewJobClick")
 		setErrorText(null)
 		if (!gettingRecommendations.current) {
 			gettingRecommendations.current = true

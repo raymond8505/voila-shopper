@@ -24,11 +24,11 @@ export type ShopperJob = {
 	products: Voila.Product["productId"][]
 }
 
-export type TrimmedProduct = Partial<Voila.Product> & {
+export type TrimmedProduct = Omit<Partial<Voila.Product>, "price"> & {
 	price: MinimalPrice
 }
 
-export interface RecommendationsWorkflowPayload extends Job.UnknownData {
+export interface RecommendationsWorkflowPayload {
 	products: TrimmedProduct[]
 	includeCriteria: string
 	excludeCriteria: string

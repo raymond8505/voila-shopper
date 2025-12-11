@@ -45,10 +45,14 @@ export async function fetchPromotionPage(pageToken?: string) {
 	const url = new URL(
 		"https://voila.ca/api/product-listing-pages/v1/pages/promotions"
 	)
+	// brief testing suggests 300 / 150 is near the limit for the Voila API.
+	// Any higher tends to throw server errors
 	url.searchParams.append("maxPageSize", "300")
 	url.searchParams.append("maxProductsToDecorate", "150")
 	url.searchParams.append(
 		"regionId",
+		// regionId is set in Voila when the user enters their postal code
+		// on their account
 		window.__INITIAL_STATE__?.session.metadata.regionId ?? ""
 	)
 

@@ -36,6 +36,5 @@ export function useJobData<DataType>({
 		refetchInterval: jobId ? JOB_CHECK_INTERVAL_MS : false,
 	})
 
-	console.log({ data })
 	return data
 }
