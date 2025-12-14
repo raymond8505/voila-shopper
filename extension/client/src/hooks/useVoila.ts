@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 import { fetchProducts, fetchPromotionPage } from "../api/voila"
 import { Voila } from "../types"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function useVoila() {
 	const getProducts = useCallback(
@@ -9,19 +10,28 @@ export function useVoila() {
 		},
 		[]
 	)
+
+	const queryClient = useQueryClient()
+
 	const getPromotionProducts = useCallback(
-		async (limit: number = 2000): Promise<Voila.DecoratedProduct[]> => {
+		async (limit: number = 1000): Promise<Voila.DecoratedProduct[]> => {
 			return new Promise(async (resolve) => {
 				let products: Voila.DecoratedProduct[] = []
 
 				let pageToken: string | undefined = undefined
 
 				async function getPromoPageProds() {
-					const pageResp = await fetchPromotionPage(pageToken)
+					//const pageResp = await fetchPromotionPage(pageToken)
 
-					const nextPageToken = pageResp.metadata.nextPageToken
+					const { productGroups, metadata } = await queryClient.fetchQuery({
+						queryKey: ["promotion-page", pageToken],
+						queryFn: () => fetchPromotionPage(pageToken),
+						staleTime: 12 * 60 * 60 * 1000, // 12 hours
+					})
 
-					const pageProducts = pageResp.productGroups.flatMap(
+					const nextPageToken = metadata.nextPageToken
+
+					const pageProducts = productGroups.flatMap(
 						(group) => group.decoratedProducts
 					)
 
@@ -29,7 +39,7 @@ export function useVoila() {
 
 					if (nextPageToken && products.length <= limit) {
 						pageToken = nextPageToken
-						setTimeout(getPromoPageProds, 2000)
+						setTimeout(getPromoPageProds, 1000)
 					} else {
 						resolve(products.slice(0, limit - 1))
 					}
@@ -38,7 +48,7 @@ export function useVoila() {
 				getPromoPageProds()
 			})
 		},
-		[]
+		[queryClient]
 	)
 	return { getProducts, getPromotionProducts }
 }

@@ -31,7 +31,7 @@ export function Client() {
 	return (
 		<Wrapper drawerOpen={drawerOpen}>
 			<div>
-				<Tabs defaultActiveKey="recipes" items={items} />
+				<Tabs defaultActiveKey="products" items={items} />
 			</div>
 			<DrawerButton />
 		</Wrapper>

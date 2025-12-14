@@ -32,7 +32,7 @@ export function useWorkflow<T = Job.UnknownData>({
 			 */
 			timeout?: number
 		}) => {
-			console.log({ workflowLiveMode, loading })
+			console.log({ workflowLiveMode, loading, url })
 			if (loading) {
 				return false
 			}

@@ -2,7 +2,6 @@ import { useCallback, useState } from "react"
 import { useVoila } from "./useVoila"
 import { useJobManager } from "./useJobManager"
 import type {
-	Job,
 	RecommendationsWorkflowPayload,
 	ShopperJob,
 	TrimmedProduct,
@@ -21,7 +20,13 @@ export function useShopper() {
 	const [promosLoading, setPromosLoading] = useState(false)
 
 	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
-		useWorkflow<ShopperJob>(import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS)
+		useWorkflow<ShopperJob>({
+			url: import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS,
+			auth: {
+				username: import.meta.env.VITE_WORKFLOW_USERNAME,
+				password: import.meta.env.VITE_WORKFLOW_PWD,
+			},
+		})
 
 	const getRecommendations = useCallback(
 		async (jobId: string) => {
