@@ -4,7 +4,8 @@
   "description": "First and foremost, I built this because I legitimately want to automate my grocery shopping and recipe ideation with a focus on promotional items. It's fun having an ingredient constraint for recipes, but manually sifting through 1500-2000 items per week is tedious. Also manually tracking sale prices both historically and across competing brands to understand whether a sale is actually \"good\" is not an easy undertaking.",
   "main": "averageTrimmedProductTokens.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "extension:client:dev": "cd ./extension && yarn client:dev",
+    "extension:client:build": "cd ./extension && yarn client:build",
     "scraper": "npx vite-node ./scraper/index.ts"
   },
   "author": "",
