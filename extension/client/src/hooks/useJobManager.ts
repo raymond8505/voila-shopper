@@ -2,7 +2,6 @@ import { useCallback } from "react"
 import { supabaseRequest } from "../api/supabase"
 import { Job } from "../types"
 import { useQueryClient } from "@tanstack/react-query"
-import { rejects } from "assert"
 
 const JOB_POLL_INTERVAL_MS = 5000
 const DEFAULT_JOB_TIMEOUT_MS = 1000 * 60 * 15 // 15 minutes
