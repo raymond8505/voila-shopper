@@ -1,30 +1,36 @@
 import { useCallback } from "react"
 import { supabaseRequest } from "../api/supabase"
 import { Job } from "../types"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function useJobManager() {
-	async function fetchJobInner<T>(
-		id: Job.JobItem["id"],
-		extraParams = {}
-	): Promise<Job.JobItem<T>[]> {
-		const resp = await supabaseRequest({
-			table: "jobs",
-			tableParams: {
-				select: "*",
-				id: `eq.${id}`,
-				...extraParams,
-			},
-		})
+	const queryClient = useQueryClient()
 
-		const json = await resp.json()
+	const fetchJob = useCallback(
+		<T>(id: Job.JobItem["id"], extraParams = {}): Promise<Job.JobItem<T>[]> => {
+			return queryClient.fetchQuery({
+				queryKey: ["fetch-job", id, extraParams],
+				queryFn: async () => {
+					const resp = await supabaseRequest({
+						table: "jobs",
+						tableParams: {
+							select: "*",
+							id: `eq.${id}`,
+							...extraParams,
+						},
+					})
 
-		return json.map((item) => ({
-			...item,
-			data: JSON.parse(item.data),
-		}))
-	}
+					const json = await resp.json()
 
-	const fetchJob = useCallback(fetchJobInner, [])
+					return json.map((item) => ({
+						...item,
+						data: JSON.parse(item.data),
+					}))
+				},
+			})
+		},
+		[queryClient]
+	)
 
 	const pollJobData = useCallback(
 		async <T = Job.JobItem<Job.UnknownData>>(
@@ -42,7 +48,7 @@ export function useJobManager() {
 						reject("TIMEOUT")
 					} else {
 						try {
-							const job = await fetchJobInner(id, {
+							const job = await fetchJob(id, {
 								status: `eq.${resolveOnStatus}`,
 							})
 
@@ -60,28 +66,33 @@ export function useJobManager() {
 				checkJob()
 			})
 		},
-		[]
+		[queryClient, fetchJob]
 	)
 
 	const getJobIds: () => Promise<
 		Pick<Job.JobItem, "id" | "created_at" | "status">[]
 	> = useCallback(async () => {
-		const resp = await supabaseRequest({
-			table: "jobs",
-			tableParams: {
-				select: "id,created_at,status",
-				order: `created_at.desc`,
+		return queryClient.fetchQuery({
+			queryKey: ["get-job-ids"],
+			queryFn: async () => {
+				const resp = await supabaseRequest({
+					table: "jobs",
+					tableParams: {
+						select: "id,created_at,status",
+						order: `created_at.desc`,
+					},
+				})
+
+				const json = await resp.json()
+
+				return json.map((item) => ({
+					id: item.id,
+					created_at: new Date(item.created_at),
+					status: item.status,
+				}))
 			},
 		})
-
-		const json = await resp.json()
-
-		return json.map((item) => ({
-			id: item.id,
-			created_at: new Date(item.created_at),
-			status: item.status,
-		}))
-	}, [])
+	}, [queryClient])
 
 	return { getJobIds, pollJobData, fetchJob }
 }

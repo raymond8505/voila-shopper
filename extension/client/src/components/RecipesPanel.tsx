@@ -108,7 +108,7 @@ export function RecipesPanel() {
 						<div style={{ margin: "8px 0" }}>
 							<strong>Recipes</strong>
 							<TextArea
-								rows={25}
+								rows={15}
 								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
 								onChange={(e) => {
 									setRecipeCriteria(e.target.value)
