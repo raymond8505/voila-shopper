@@ -10,10 +10,17 @@ const GlobalStylesPortal: React.FC = () => {
 	const { drawerOpen } = useStore()
 
 	const styleContent = `
-        body > div#app {
-            width: calc(75vw - 16px) !important;
-            margin-left: 25vw !important;
+		:root
+		{
+			--drawer-width: 25vw;
+		}
+        body div#app {
+			transform: translateX(var(--drawer-width));
+			width: calc(100vw - var(--drawer-width));
         }
+		#main-header div[id^="popover-"][aria-label="Sign in"] {
+			margin-left: calc(-1 * var(--drawer-width));
+		}
     `
 
 	return ReactDOM.createPortal(
