@@ -23,14 +23,13 @@ export function ProductsPanel() {
 		recommendationsLoading,
 	} = useShopper()
 	const { getJobIds } = useJobManager()
-	const gettingRecommendations = useRef(false)
 	const [recommendedProducts, setRecommendedProducts] = useState<
 		Voila.Product[]
 	>([])
 	const [jobId, setJobId] = useState("")
 	const [jobs, setJobs] = useState<Job.TrimmedJob[]>([])
-	const [oldJobLoading, setOldJobLoading] = useState(false)
 	const [errorText, setErrorText] = useState<null | string>(null)
+	const [productsLoading, setProductsLoading] = useState(recommendationsLoading)
 
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
@@ -42,50 +41,49 @@ export function ProductsPanel() {
 
 	const handleGetOldJobClick = useCallback(() => {
 		setErrorText(null)
+		setProductsLoading(true)
 
-		if (!gettingRecommendations.current) {
-			gettingRecommendations.current = true
-			setOldJobLoading(true)
-
-			getRecommendations(jobId)
-				.then((products) => {
-					gettingRecommendations.current = false
-					setOldJobLoading(false)
-					setRecommendedProducts(products)
-				})
-				.catch(() => {
-					gettingRecommendations.current = false
-					setOldJobLoading(false)
-				})
-		}
+		getRecommendations(jobId)
+			.then((products) => {
+				setProductsLoading(false)
+				setRecommendedProducts(products)
+			})
+			.catch((e) => {
+				setProductsLoading(false)
+				setErrorText(e.message)
+			})
 	}, [
 		setErrorText,
 		getRecommendations,
 		setRecommendedProducts,
 		jobId,
-		setOldJobLoading,
+		setProductsLoading,
 	])
 
 	const handleGetNewJobClick = useCallback(async () => {
 		setErrorText(null)
-		if (!gettingRecommendations.current) {
-			gettingRecommendations.current = true
-			generateRecommendations()
-				.then((products) => {
-					gettingRecommendations.current = false
+		setProductsLoading(true)
+		generateRecommendations()
+			.then((products) => {
+				if (isWorkflowError(products)) {
+					setErrorText(products.message)
+					setProductsLoading(false)
+				} else {
+					setRecommendedProducts(products)
+					setProductsLoading(false)
+				}
+			})
+			.catch((e) => {
+				setErrorText(e.message)
+				setProductsLoading(false)
+			})
+	}, [
+		setErrorText,
+		generateRecommendations,
+		setRecommendedProducts,
+		setProductsLoading,
+	])
 
-					if (isWorkflowError(products)) {
-						setErrorText(products.message)
-					} else {
-						setRecommendedProducts(products)
-					}
-				})
-				.catch((e) => {
-					console.error("Recommended products ERROR:", e)
-					gettingRecommendations.current = false
-				})
-		}
-	}, [generateRecommendations])
 	const categorizedProducts = useMemo(
 		() => categoryTreeFromProducts(recommendedProducts, 1),
 		[recommendedProducts]
@@ -164,7 +162,7 @@ export function ProductsPanel() {
 						<LoaderButton
 							onClick={handleGetOldJobClick}
 							label="Get Previous Trip"
-							loading={oldJobLoading}
+							loading={productsLoading}
 							icon={<ShoppingCartOutlined />}
 						/>
 						{errorText ? <Alert message={errorText} type="error" /> : null}
@@ -178,7 +176,7 @@ export function ProductsPanel() {
 					<LoaderButton
 						label="Find Promotions"
 						loadingLabel="Finding Promotions..."
-						loading={recommendationsLoading}
+						loading={productsLoading}
 						icon={<ShoppingCartOutlined />}
 						onClick={handleGetNewJobClick}
 						type="primary"
