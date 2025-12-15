@@ -2,7 +2,10 @@ import { useCallback } from "react"
 import { supabaseRequest } from "../api/supabase"
 import { Job } from "../types"
 import { useQueryClient } from "@tanstack/react-query"
+import { rejects } from "assert"
 
+const JOB_POLL_INTERVAL_MS = 5000
+const DEFAULT_JOB_TIMEOUT_MS = 1000 * 60 * 15 // 15 minutes
 export function useJobManager() {
 	const queryClient = useQueryClient()
 
@@ -36,34 +39,35 @@ export function useJobManager() {
 		async <T = Job.JobItem<Job.UnknownData>>(
 			id: Job.JobItem["id"],
 			resolveOnStatus: string,
-			timeoutMs?: number
+			timeoutMs: number = DEFAULT_JOB_TIMEOUT_MS
 		): Promise<Job.JobItem<T> | undefined> => {
 			return new Promise(async (resolve, reject) => {
-				const start = new Date()
+				queryClient.fetchQuery({
+					queryKey: ["poll-job", id, resolveOnStatus, timeoutMs],
+					queryFn: async () => {
+						const job = await fetchJob(id, {
+							status: `eq.${resolveOnStatus}`,
+						})
 
-				async function checkJob() {
-					const now = new Date()
-
-					if (timeoutMs && now.getTime() - start.getTime() >= timeoutMs) {
-						reject("TIMEOUT")
-					} else {
-						try {
-							const job = await fetchJob(id, {
-								status: `eq.${resolveOnStatus}`,
-							})
-
-							if (job?.[0]?.status === resolveOnStatus) {
-								resolve(job[0] as Job.JobItem<T>)
-							} else {
-								setTimeout(checkJob, 5000)
-							}
-						} catch (e) {
-							reject("JOB FETCH ERROR")
+						if (job?.[0]?.status === resolveOnStatus) {
+							resolve(job[0] as Job.JobItem<T>)
+						} else {
+							throw new Error(`Unexpected Status "${job?.[0]?.status}"`)
 						}
-					}
-				}
+					},
+					retryDelay: JOB_POLL_INTERVAL_MS,
+					retry: (failureCount) => {
+						const shouldRetry = failureCount * JOB_POLL_INTERVAL_MS < timeoutMs
 
-				checkJob()
+						if (!shouldRetry) {
+							reject({
+								status: 408, // Request Timeout
+								message: `Job polling timed out after ${failureCount} tries (${timeoutMs} ms)`,
+							})
+						}
+						return shouldRetry
+					},
+				})
 			})
 		},
 		[queryClient, fetchJob]
