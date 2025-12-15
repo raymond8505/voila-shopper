@@ -1,13 +1,6 @@
 export default {
     // ... existing config ...
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
-        'plugin:import/recommended', // Add this
-        'plugin:import/typescript', // Add this for TypeScript-specific import rules
-    ],
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:import/recommended', 'plugin:import/typescript', 'plugin:storybook/recommended'],
     parser: '@typescript-eslint/parser',
     plugins: [
         '@typescript-eslint',
