@@ -5,6 +5,19 @@ import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+async function enableMocking() {
+	if (process.env.NODE_ENV !== "development") {
+		return
+	}
+
+	const { worker } = await import("./mocks/browser")
+
+	// `worker.start()` returns a Promise that resolves
+	// once the Service Worker is up and ready to intercept requests.
+	return worker.start()
+}
+
 const wrapper = document.createElement("div")
 wrapper.id = "vs-client-root"
 
@@ -34,14 +47,16 @@ if (chrome?.runtime?.getURL) {
 
 const queryClient = new QueryClient()
 
-ReactDOM.createRoot(shadowRoot).render(
-	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<CacheProvider value={emotionCache}>
-				<StyleProvider container={shadowRoot}>
-					<App />
-				</StyleProvider>
-			</CacheProvider>
-		</QueryClientProvider>
-	</React.StrictMode>
-)
+enableMocking().then(() => {
+	ReactDOM.createRoot(shadowRoot).render(
+		<React.StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<CacheProvider value={emotionCache}>
+					<StyleProvider container={shadowRoot}>
+						<App />
+					</StyleProvider>
+				</CacheProvider>
+			</QueryClientProvider>
+		</React.StrictMode>
+	)
+})
