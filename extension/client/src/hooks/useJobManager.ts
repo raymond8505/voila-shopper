@@ -22,12 +22,31 @@ export function useJobManager() {
 						},
 					})
 
-					const json = await resp.json()
+					let json
+					try {
+						json = await resp.json()
+					} catch (e) {
+						console.error("ERROR fetching job", e)
+						return []
+					} finally {
+						return (
+							json?.map((item) => {
+								let data
 
-					return json.map((item) => ({
-						...item,
-						data: JSON.parse(item.data),
-					}))
+								try {
+									data = JSON.parse(item.data)
+								} catch (e) {
+									console.error("ERROR parsing job data", e)
+									data = null
+								}
+
+								return {
+									...item,
+									data,
+								}
+							}) ?? []
+						)
+					}
 				},
 			})
 		},
@@ -53,11 +72,13 @@ export function useJobManager() {
 						} else {
 							throw new Error(`Unexpected Status "${job?.[0]?.status}"`)
 						}
+
+						// query fn must return
+						return true
 					},
 					retryDelay: JOB_POLL_INTERVAL_MS,
 					retry: (failureCount) => {
 						const shouldRetry = failureCount * JOB_POLL_INTERVAL_MS < timeoutMs
-
 						if (!shouldRetry) {
 							reject({
 								status: 408, // Request Timeout
