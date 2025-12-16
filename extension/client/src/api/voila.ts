@@ -1,5 +1,4 @@
 import { TypedResponse, Voila } from "../types/index"
-import { fixture } from "./helpers"
 
 const isLocal = window.location.hostname === "localhost"
 
@@ -37,11 +36,6 @@ export async function voilaRequest<T = unknown>({
 	})
 }
 export async function fetchPromotionPage(pageToken?: string) {
-	if (isLocal) {
-		return fixture<Voila.FetchPromotionPageResponse>(
-			"fetchPromotionPageResponse"
-		)
-	}
 	const url = new URL(
 		"https://voila.ca/api/product-listing-pages/v1/pages/promotions"
 	)
@@ -63,9 +57,6 @@ export async function fetchPromotionPage(pageToken?: string) {
 	return await resp.json()
 }
 export async function fetchProducts(ids: string[]) {
-	if (isLocal) {
-		return fixture<Voila.FetchProductsResponse>("fetchProductsResponse")
-	}
 
 	const resp = await voilaRequest<Voila.FetchProductsResponse>({
 		url: "https://voila.ca/api/webproductpagews/v6/products",
