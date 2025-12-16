@@ -1,3 +1,6 @@
+/**
+ * @fileoverview MSW handlers for all endpoints used in ./voila.ts
+ */
 import { http, HttpResponse } from "msw"
 import { addToCartResponse, fetchProductsResponse, fetchPromotionPageResponse } from "./voila.fixtures"
 import type { Voila } from "../types"
