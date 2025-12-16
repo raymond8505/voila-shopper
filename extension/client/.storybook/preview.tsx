@@ -1,8 +1,14 @@
 import type { Preview } from "@storybook/react-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { initialize, mswLoader } from "msw-storybook-addon"	
-import { handlers as mswHandlers } from '../src/mocks/handlers';
-
+import { initialize, mswLoader } from "msw-storybook-addon"
+import { handlers as mswHandlers } from "../src/mocks/handlers"
+import { useStore } from "../src/store"
+import { useEffect } from "react"
+import createCache from "@emotion/cache"
+import { CacheProvider } from "@emotion/react"
+import { StyleProvider } from "@ant-design/cssinjs"
+import { GlobalStyles } from "../src/components/common/styles/GlobalStyles"
+import GlobalStylesPortal from "../src/GlobalStylesPortal"
 initialize()
 
 const queryClient = new QueryClient()
@@ -16,15 +22,65 @@ const preview: Preview = {
 			},
 		},
 		msw: {
-			handlers: mswHandlers
-		}
+			handlers: mswHandlers,
+		},
+	},
+	globalTypes: {
+		workflowLiveMode: {
+			description:
+				"Toggles the value in store to determine whether n8n webhook calls go to /workflow/<id> or /workflow-test/<id>",
+			toolbar: {
+				title: "n8n Workflow State",
+				items: [
+					{ value: true, title: "Live" },
+					{ value: false, title: "Test" },
+				],
+				dynamicTitle: false,
+			},
+		},
+	},
+	initialGlobals: {
+		workflowLiveMode: true,
 	},
 	loaders: [mswLoader],
 	decorators: [
-		// TODO: add store decorator
+		(Story) => {
+			return (
+				<CacheProvider
+					value={createCache({ key: "vs-client-emotion-cache--sb" })}
+				>
+					<GlobalStyles />
+					<GlobalStylesPortal />
+					<Story />
+				</CacheProvider>
+			)
+		},
+		(Story) => {
+			return (
+				<StyleProvider>
+					<Story />
+				</StyleProvider>
+			)
+		},
 		(Story) => (
-			<QueryClientProvider client={queryClient}><Story /></QueryClientProvider>
+			<QueryClientProvider client={queryClient}>
+				<Story />
+			</QueryClientProvider>
 		),
+		// set the global toolbar value for workflowLiveMode in store
+		(Story, context) => {
+			function StateSetter() {
+				const { setWorkflowLiveMode } = useStore()
+
+				useEffect(() => {
+					setWorkflowLiveMode(context.globals.workflowLiveMode)
+				}, [setWorkflowLiveMode, context.globals.workflowLiveMode])
+
+				return <Story />
+			}
+
+			return <StateSetter />
+		},
 	],
 }
 
