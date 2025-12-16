@@ -49,7 +49,7 @@ if (chrome?.runtime?.getURL) {
 
 const queryClient = new QueryClient()
 
-enableMocking().then((w) => {
+enableMocking().then(() => {
 	ReactDOM.createRoot(shadowRoot).render(
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>

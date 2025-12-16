@@ -1,7 +1,5 @@
 import { TypedResponse, Voila } from "../types/index"
 
-const isLocal = window.location.hostname === "localhost"
-
 export async function voilaRequest<T = unknown>({
 	fetchOpts,
 	url,
