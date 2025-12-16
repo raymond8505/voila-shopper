@@ -15,7 +15,9 @@ async function enableMocking() {
 
 	// `worker.start()` returns a Promise that resolves
 	// once the Service Worker is up and ready to intercept requests.
-	return worker.start()
+	return worker.start({
+		onUnhandledRequest: "bypass",
+	})
 }
 
 const wrapper = document.createElement("div")
@@ -47,7 +49,7 @@ if (chrome?.runtime?.getURL) {
 
 const queryClient = new QueryClient()
 
-enableMocking().then(() => {
+enableMocking().then((w) => {
 	ReactDOM.createRoot(shadowRoot).render(
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>

@@ -98,3 +98,46 @@ export const fetchPromotionPageResponse: Voila.FetchPromotionPageResponse = {
 
     }
 }
+
+export const fetchProductsResponse: Voila.FetchProductsResponse = {
+    products: [],
+    missedPromotions: [],
+    restrictedGroups: {}
+}
+export const addToCartResponse: Voila.AddToCartResponse = {
+    basketUpdateResult: {
+        items: [],
+        lastModified: '',
+        totals: {
+            itemsRetailPrice: {
+                amount: '',
+                currency: ''
+            },
+            itemPriceAfterPromos: {
+                amount: '',
+                currency: ''
+            },
+            savingsPrice: {
+                amount: '',
+                currency: ''
+            },
+            taxation: '',
+            display: {
+                itemPriceAfterPromos: {
+                    amount: '',
+                    currency: ''
+                },
+                taxation: ''
+            },
+            itemPriceAfterPromosDifference: {
+                amount: '',
+                currency: ''
+            }
+        },
+        itemGroups: []
+    },
+    unavailableData: [],
+    pricingNotifications: [],
+    limitedItems: [],
+    limitedPromotionIds: []
+}
