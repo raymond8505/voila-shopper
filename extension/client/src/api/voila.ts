@@ -55,7 +55,6 @@ export async function fetchPromotionPage(pageToken?: string) {
 	return await resp.json()
 }
 export async function fetchProducts(ids: string[]) {
-
 	const resp = await voilaRequest<Voila.FetchProductsResponse>({
 		url: "https://voila.ca/api/webproductpagews/v6/products",
 		fetchOpts: {
