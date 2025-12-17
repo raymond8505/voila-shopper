@@ -3,6 +3,7 @@ import type { Store } from "./index"
 export const STORE_KEY = "vs-store"
 
 export function setLocalStorageStore(state: Partial<Store>): Partial<Store> {
+	console.log(window.localStorage)
 	window?.localStorage?.setItem(STORE_KEY, JSON.stringify(state))
 	return state
 }
