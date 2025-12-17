@@ -1,4 +1,5 @@
 import type { Workflow } from "./index"
+import type { Voila } from "./voila"
 
 /**
  * Workflow.Error type guard
@@ -10,4 +11,36 @@ export function isWorkflowError(response: unknown): response is Workflow.Error {
 		(response as Workflow.Error).status !== undefined &&
 		typeof (response as Workflow.Error).status === "number"
 	)
+}
+
+/**
+ * Type guard to check if an object is a Voila.Product.
+ * @param obj The object to check.
+ * @returns True if the object is a Voila.Product, false otherwise.
+ */
+export function isVoilaProduct(obj: unknown): obj is Voila.Product {
+	if (typeof obj !== "object" || obj === null) {
+		return false
+	}
+
+	const product = obj as Voila.Product
+
+	return (
+		typeof product.productId === "string" &&
+		typeof product.name === "string" &&
+		typeof product.price === "object" &&
+		product.price !== null &&
+		typeof product.price.amount === "string" &&
+		typeof product.available === "boolean" &&
+		Array.isArray(product.categoryPath)
+	)
+}
+
+/**
+ * Type guard to check if an object is an array of Voila.Product.
+ * @param obj The object to check.
+ * @returns True if the object is an array of Voila.Product, false otherwise.
+ */
+export function isVoilaProductArray(obj: unknown): obj is Voila.Product[] {
+	return Array.isArray(obj) && obj.every(isVoilaProduct)
 }

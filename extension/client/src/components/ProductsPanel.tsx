@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react"
 import Collapse from "antd/es/collapse"
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
@@ -29,11 +35,15 @@ export function ProductsPanel() {
 	const [jobId, setJobId] = useState("")
 	const [jobs, setJobs] = useState<Job.TrimmedJob[]>([])
 	const [errorText, setErrorText] = useState<null | string>(null)
-	const [productsLoading, setProductsLoading] = useState(recommendationsLoading)
+	const [productsLoading, setProductsLoading] = useState(
+		recommendationsLoading
+	)
 
 	useEffect(() => {
 		getJobIds().then((allJobs) => {
-			const doneJobs = allJobs.filter((job) => job.status === "done")
+			const doneJobs = allJobs.filter(
+				(job) => job.status === "done"
+			)
 			setJobs(doneJobs)
 			setJobId(doneJobs[0].id)
 		})
@@ -85,12 +95,19 @@ export function ProductsPanel() {
 	])
 
 	const categorizedProducts = useMemo(
-		() => categoryTreeFromProducts(recommendedProducts, 1),
+		() =>
+			categoryTreeFromProducts({
+				products: recommendedProducts,
+			}),
 		[recommendedProducts]
 	)
 
 	const createCategoryCollapse = useCallback(
-		(input: CategoryTree | Voila.Product[], name: string, key?: string) => {
+		(
+			input: CategoryTree | Voila.Product[],
+			name: string,
+			key?: string
+		) => {
 			if (Array.isArray(input)) {
 				return (
 					<Collapse>
@@ -151,7 +168,9 @@ export function ProductsPanel() {
 								display: block;
 							`}
 							defaultValue={jobs[0]?.created_at.toLocaleString()}
-							getPopupContainer={() => selectWrapper.current || document.body}
+							getPopupContainer={() =>
+								selectWrapper.current || document.body
+							}
 							options={jobs.map((j) => ({
 								value: j.id,
 								label: j.created_at.toLocaleString(),
@@ -165,7 +184,9 @@ export function ProductsPanel() {
 							loading={productsLoading}
 							icon={<ShoppingCartOutlined />}
 						/>
-						{errorText ? <Alert message={errorText} type="error" /> : null}
+						{errorText ? (
+							<Alert message={errorText} type="error" />
+						) : null}
 					</div>
 				</OldTripsWrapper>
 				<Divider />
@@ -193,9 +214,13 @@ export function ProductsPanel() {
 				{recommendationsLoading ? (
 					<LoadingOutlined />
 				) : (
-					Object.entries(categorizedProducts).map(([category, val], i) => (
-						<span key={i}>{createCategoryCollapse(val, category)}</span>
-					))
+					Object.entries(categorizedProducts).map(
+						([category, val], i) => (
+							<span key={i}>
+								{createCategoryCollapse(val, category)}
+							</span>
+						)
+					)
 				)}
 			</div>
 		</Wrapper>

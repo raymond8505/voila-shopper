@@ -1,15 +1,18 @@
-import type { CategoryTree, MinimalPrice, Voila } from "./types/index"
+import {
+	CustomError,
+	VoilaProductError,
+} from "./errors/CustomError"
+import { ErrorType } from "./errors/types"
+import { isVoilaProductArray } from "./types/helpers"
+import type {
+	CategoryTree,
+	MinimalPrice,
+	Voila,
+} from "./types/index"
 
-export function concatenationToArray(txt: string): string[] {
-	if (txt.search(/^c\(/) === -1) {
-		return [txt]
-	}
-
-	console.log({ txt })
-
-	return JSON.parse(txt.replace(/^c\(/, "[").replace(/\)$/, "]"))
-}
-export function getMinimalPrice(product: Voila.DecoratedProduct): MinimalPrice {
+export function getMinimalPrice(
+	product: Voila.DecoratedProduct
+): MinimalPrice {
 	return {
 		currentPrice: product.promoPrice
 			? product.promoPrice.amount
@@ -17,15 +20,69 @@ export function getMinimalPrice(product: Voila.DecoratedProduct): MinimalPrice {
 		originalPrice: product.price.amount,
 	}
 }
-export function categoryTreeFromProducts(
-	products: Voila.Product[],
-	depthIndex = 0
-): CategoryTree {
-	const categoryTree: CategoryTree = {} // This will be the root of our tree
+export function categoryTreeFromProducts({
+	products,
+	depth: depthIndexParam,
+	/**
+	 * only applies to
+	 */
+	errorHandling = "throw",
+}: {
+	products: Voila.Product[]
+	depth?: number
+	errorHandling?: "throw" | "warn"
+}): CategoryTree {
+	const categoryTree: CategoryTree = {}
+
+	if (!products?.length) {
+		return {}
+	}
+	// all products must have the same category path length AND length >= depthIndex
+	let pathLength: number | undefined =
+		products[0]?.categoryPath.length
+
+	const badCatPathProducts = products.filter(
+		(product) =>
+			product.categoryPath === undefined ||
+			product.categoryPath.length !== pathLength
+	)
+
+	const badProducts = badCatPathProducts.map((p) => ({
+		productId: p.productId,
+		name: p.name,
+		categoryPath: p.categoryPath,
+	}))
+
+	if (badCatPathProducts.length > 0) {
+		const message = `Unexpected Voila.Product['categoryPath']`
+
+		if (errorHandling === "warn") {
+			console.warn(message, badProducts)
+		} else {
+			throw new VoilaProductError(
+				ErrorType.BAD_VOILA_CATEGORY_PATH,
+				message,
+				badProducts
+			)
+		}
+	}
+
+	const depthIndex = Math.min(
+		depthIndexParam ?? pathLength - 1,
+		pathLength - 1
+	)
 
 	for (const product of products) {
-		const depth = Math.min(product.categoryPath.length, depthIndex)
-		let currentLevel: CategoryTree = categoryTree // Start from the root for each product
+		if (
+			badProducts.find((p) => p.productId === product.productId)
+		) {
+			continue
+		}
+		const depth = Math.min(
+			product.categoryPath.length,
+			depthIndex
+		)
+		let currentLevel: CategoryTree = categoryTree
 
 		for (let i = 0; i <= depth; i++) {
 			const categoryName = product.categoryPath[i]
@@ -33,20 +90,17 @@ export function categoryTreeFromProducts(
 
 			if (isLastCategory) {
 				if (!currentLevel[categoryName]) {
-					// If it doesn't exist, initialize as an array with the current product.
 					currentLevel[categoryName] = [product]
-				} else if (Array.isArray(currentLevel[categoryName])) {
-					// If it's already an array, push the current product to it.
-					;(currentLevel[categoryName] as Voila.Product[]).push(product)
+				} else if (
+					isVoilaProductArray(currentLevel[categoryName])
+				) {
+					currentLevel[categoryName].push(product)
 				}
 			} else {
-				// If it's not the last category, it must be an intermediate node (an object).
-				// Ensure it's an object to allow further nesting.
 				if (!currentLevel[categoryName]) {
-					// If it doesn't exist, create an empty object for the next level.
 					currentLevel[categoryName] = {}
 				}
-				// Move deeper into the tree structure
+
 				currentLevel = currentLevel[categoryName] as CategoryTree
 			}
 		}
