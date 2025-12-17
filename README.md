@@ -105,7 +105,8 @@ My resume contains a long list of skills and qualities, below are examples of ho
 ##### Proficient troubleshooter
   - Voila sends a `x-csrf-token` token with each API fetch request. Finding how and where the page made that value available for the front end code required walking their minified front end code to find that the initial render also put a variable on window containing various data for the front end. Data included various session related values and an array of "above the fold" products, this is likely a strategy to improve various Core Web Vitals that would suffer if initial page load had to wait for a fetch before displaying content
 ##### Exemplary problem-solving skills
-  - RAG performance hinges on a lot of variables, investigating and addressing those in my workflows took a lot of this. Context stuffing vs Vector matching, Temperature, result size, vector dimensionality and indexing, batching, caching, and trimming data- all of these were required to dial in the AI workflows. Solving these problems them required an ability to recognize an effect and accurately identify its cause.
+  - RAG performance hinges on a lot of variables, investigating and addressing those in my workflows took a lot of this. Context stuffing vs Vector matching, Temperature, result size, vector dimensionality and indexing, batching, caching, and trimming data- all of these were required to dial in the AI workflows. And Solving these problems them required an ability to recognize an effect and accurately identify its cause.
+  - building out my RAG strategies in my workflows has been a fun exercise in problem solving and patience. Lots of patience...
 ##### Passion for efficiency
   - I built an AI app to grocery shop for me... But also, I am a strong proponent for the idea that if a thing can be automated in a dependable way, it should. This philosophy is a large driver of my interest in AI.
 ##### High aptitude for learning and research
