@@ -14,6 +14,9 @@ export default defineConfig(({ mode }) => {
 				},
 			}),
 		],
+		test: {
+			environment: "jsdom",
+		},
 		build: {
 			rollupOptions: {
 				input: {

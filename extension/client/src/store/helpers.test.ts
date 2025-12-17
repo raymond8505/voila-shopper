@@ -1,5 +1,3 @@
-/** @vitest-environment jsdom */
-
 import { expect, test, vi, describe } from "vitest"
 import {
 	setLocalStorageStore,
@@ -19,5 +17,21 @@ describe("setLocalStorageStore", () => {
 		setLocalStorageStore(state)
 
 		expect(setItemSpy).toHaveBeenCalledWith(STORE_KEY, JSON.stringify(state))
+	})
+})
+describe("getLocalStorageStore", () => {
+	test("parses and returns the store from localStorage", () => {
+		const getItemSpy = vi.spyOn(Storage.prototype, "getItem")
+
+		const expectedState: Partial<Store> = {
+			ingredients: [],
+		}
+
+		getItemSpy.mockReturnValue(JSON.stringify(expectedState))
+
+		const result = getLocalStorageStore()
+
+		expect(getItemSpy).toHaveBeenCalledWith(STORE_KEY)
+		expect(result).toEqual(expectedState)
 	})
 })
