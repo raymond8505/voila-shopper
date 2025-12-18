@@ -1,8 +1,8 @@
-import { ProductsPanel } from "./ProductsPanel";
+import { ProductsPanel } from "./ProductsPanel"
 
 export default {
-    title: "ProductsPanel",
-    component: ProductsPanel
+	title: "product/ProductsPanel",
+	component: ProductsPanel,
 }
 
 export const Default = {}

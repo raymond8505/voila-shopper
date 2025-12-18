@@ -2,16 +2,16 @@ import Schema from "schema-dts"
 
 export namespace Recipe {
 	export type Recipe = Omit<
-		Schema.WithContext<Schema.Recipe>,
+		Schema.Recipe,
 		"recipeInstructions" | "nutrition"
 	> & {
-		
 		recipeIngredient: string[]
-		recipeInstructions: { type: string; text: string }[]
+		recipeInstructions: { type?: string; text: string }[]
 		name: string
 		nutrition: NutritionInformation
-		prepTime: string
-		cookTime: string
+		prepTime?: string
+		cookTime?: string
+		totalTime?: string
 		recipeYield: string
 	}
 
@@ -31,5 +31,7 @@ export namespace Recipe {
 		fiberContent?: string
 		sugarContent?: string
 		proteinContent?: string
+		unsaturatedFatContent?: string
+		servingSize?: string
 	}
 }

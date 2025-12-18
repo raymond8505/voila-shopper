@@ -1,8 +1,8 @@
 import { Descriptions, Modal } from "antd"
 
-import { useStore } from "../store"
+import { useStore } from "../../../store"
 import { useRef } from "react"
-import { decodeHtmlEntities } from "../helpers"
+import { decodeHtmlEntities } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
 
 export function RecipeModal() {
@@ -29,19 +29,19 @@ export function RecipeModal() {
 								{
 									key: "prep-time",
 									label: "Prep Time",
-									children: recipe?.prepTime ?? "unknown",
+									children: recipe?.prepTime,
 								},
 								{
 									key: "cook-time",
 									label: "Cook Time",
-									children: recipe?.cookTime ?? "unknown",
+									children: recipe?.cookTime,
 								},
 								{
 									key: "servings",
 									label: "Servings",
-									children: recipe?.recipeYield ?? "unknown",
+									children: recipe?.recipeYield,
 								},
-							]}
+							].filter((i) => i.children !== undefined)}
 						/>
 					</section>
 					<section>
@@ -83,13 +83,14 @@ export function RecipeModal() {
 								{
 									key: "calories",
 									label: "Cals",
-									children: `${
-										recipe?.nutrition.calories ?? "unknown"
-									}`,
+									value: recipe?.nutrition.calories,
+									children:
+										recipe?.nutrition.calories ?? "unknown",
 								},
 								{
 									key: "carbs",
 									label: "Carbs",
+									value: recipe?.nutrition.carbohydrateContent,
 									children: `${
 										recipe?.nutrition.carbohydrateContent ??
 										"unknown"
@@ -98,6 +99,7 @@ export function RecipeModal() {
 								{
 									key: "fat",
 									label: "Fat",
+									value: recipe?.nutrition.fatContent,
 									children: `${
 										recipe?.nutrition.fatContent ?? "unknown"
 									}g`,
@@ -105,11 +107,12 @@ export function RecipeModal() {
 								{
 									key: "protein",
 									label: "Protein",
+									value: recipe?.nutrition.proteinContent,
 									children: `${
 										recipe?.nutrition.proteinContent ?? "unknown"
 									}g`,
 								},
-							]}
+							].filter((i) => i.value !== undefined)}
 						/>
 					</section>
 				</ModalBody>

@@ -9,5 +9,6 @@ declare global {
 			[key: string]: any
 		}
 		__INITIAL_STATE__?: Voila.InitialState
+		IS_STORYBOOK?: boolean
 	}
 }

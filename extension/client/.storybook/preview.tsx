@@ -1,6 +1,12 @@
 import type { Preview } from "@storybook/react-vite"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { initialize, mswLoader } from "msw-storybook-addon"
+import {
+	QueryClient,
+	QueryClientProvider,
+} from "@tanstack/react-query"
+import {
+	initialize as initializeMSW,
+	mswLoader,
+} from "msw-storybook-addon"
 import { handlers as mswHandlers } from "../src/mocks/handlers"
 import { useStore } from "../src/store"
 import { useEffect } from "react"
@@ -9,7 +15,8 @@ import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
 import { GlobalStyles } from "../src/components/common/styles/GlobalStyles"
 import GlobalStylesPortal from "../src/GlobalStylesPortal"
-initialize()
+
+initializeMSW()
 
 const queryClient = new QueryClient()
 
@@ -47,7 +54,9 @@ const preview: Preview = {
 		(Story) => {
 			return (
 				<CacheProvider
-					value={createCache({ key: "vs-client-emotion-cache--sb" })}
+					value={createCache({
+						key: "vs-client-emotion-cache--sb",
+					})}
 				>
 					<GlobalStyles />
 					<GlobalStylesPortal />
@@ -74,7 +83,10 @@ const preview: Preview = {
 
 				useEffect(() => {
 					setWorkflowLiveMode(context.globals.workflowLiveMode)
-				}, [setWorkflowLiveMode, context.globals.workflowLiveMode])
+				}, [
+					setWorkflowLiveMode,
+					context.globals.workflowLiveMode,
+				])
 
 				return <Story />
 			}

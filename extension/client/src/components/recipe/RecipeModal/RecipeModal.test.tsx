@@ -6,8 +6,8 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, test, expect, vi, beforeEach } from "vitest"
 import { RecipeModal } from "./RecipeModal"
-import { useStore } from "../store"
-import { Recipe } from "../types"
+import { useStore } from "../../../store"
+import { Recipe } from "../../../types"
 
 // Mock the store to control its state within tests
 vi.mock("../store", () => ({

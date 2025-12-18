@@ -3,7 +3,7 @@ import ConfigProvider from "antd/es/config-provider"
 
 import { Client } from "./components/Client"
 import GlobalStylesPortal from "./GlobalStylesPortal"
-import { RecipeModal } from "./components/RecipeModal"
+import { RecipeModal } from "./components/recipe/RecipeModal/RecipeModal"
 
 function App() {
 	return (
