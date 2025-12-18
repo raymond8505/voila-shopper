@@ -4,6 +4,7 @@ import {
 } from "./errors/CustomError"
 import { ErrorType } from "./errors/types"
 import { isVoilaProductArray } from "./types/helpers"
+import { parse } from "path"
 import type {
 	CategoryTree,
 	MinimalPrice,
@@ -119,4 +120,84 @@ export function decodeHtmlEntities(html: string): string {
 	textarea.innerHTML = html
 
 	return textarea.value
+}
+
+export interface ParsedISODurationUnit {
+	value: number
+	label: string
+	abbrLabel: string
+}
+
+export interface ParsedISODuration {
+	days: ParsedISODurationUnit
+	hours: ParsedISODurationUnit
+	minutes: ParsedISODurationUnit
+	seconds: ParsedISODurationUnit
+}
+
+export function shouldPluralize(val: unknown) {
+	const parsedVal = parseInt(val?.toString() || "0")
+
+	return Math.abs(parsedVal) > 1 || parsedVal === 0
+}
+
+/**
+ * Parses an ISO 8601 duration string and returns an object with days, hours, minutes, and seconds.
+ * Example: "P1DT2H30M" -> { days: 1, hours: 2, minutes: 30, seconds: 0 }
+ * @param duration The ISO 8601 duration string.
+ * @returns An object with the parsed duration components, or null if malformed
+ */
+export function parseISODuration(
+	duration: string
+): ParsedISODuration | null {
+	const regex =
+		/^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/
+
+	const matches = duration.match(regex)
+
+	if (!matches) {
+		console.warn(
+			`${duration} does not appear to be a valid ISO 8601 duration string`
+		)
+		return null
+	}
+
+	const [, days, hours, minutes, seconds] = matches
+
+	return {
+		days: {
+			value: parseInt(days) || 0,
+			label: `Day${shouldPluralize(days) ? "s" : ""}`,
+			abbrLabel: `Day${shouldPluralize(days) ? "s" : ""}`,
+		},
+		hours: {
+			value: parseInt(hours) || 0,
+			label: `Hour${shouldPluralize(hours) ? "s" : ""}`,
+			abbrLabel: `Hr${shouldPluralize(hours) ? "s" : ""}`,
+		},
+		minutes: {
+			value: parseInt(minutes) || 0,
+			label: `Minute${shouldPluralize(minutes) ? "s" : ""}`,
+			abbrLabel: `Min${shouldPluralize(minutes) ? "s" : ""}`,
+		},
+		seconds: {
+			value: parseInt(seconds) || 0,
+			label: `Second${shouldPluralize(seconds) ? "s" : ""}`,
+			abbrLabel: `Sec${shouldPluralize(seconds) ? "s" : ""}`,
+		},
+	}
+}
+
+export function isoDurationToMs(
+	duration: ParsedISODuration
+): number {
+	const { days, hours, minutes, seconds } = duration
+
+	return (
+		(days.value * 24 * 60 * 60 +
+			hours.value * 60 * 60 +
+			minutes.value * 60 +
+			seconds.value) *
+		1000
+	)
 }

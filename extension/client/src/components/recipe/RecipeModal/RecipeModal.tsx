@@ -2,9 +2,20 @@ import { Descriptions, Modal } from "antd"
 
 import { useStore } from "../../../store"
 import { useRef } from "react"
-import { decodeHtmlEntities } from "../../../helpers"
+import {
+	decodeHtmlEntities,
+	formatRecipeDuration,
+} from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
+import { Duration } from "../../common/Duration"
 
+/**
+ * A modal to display a recipe
+ * - uses Ant Modal
+ * - Singleton pattern- lives in App, controlled through store functions
+ * 	@see src\App.tsx
+ *  @see src\store\index.ts
+ */
 export function RecipeModal() {
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
 	const {
@@ -29,19 +40,33 @@ export function RecipeModal() {
 								{
 									key: "prep-time",
 									label: "Prep Time",
-									children: recipe?.prepTime,
+									value: recipe?.prepTime,
+									children: (
+										<Duration duration={recipe?.prepTime} />
+									),
 								},
 								{
 									key: "cook-time",
 									label: "Cook Time",
-									children: recipe?.cookTime,
+									value: recipe?.cookTime,
+									children: (
+										<Duration duration={recipe?.cookTime} />
+									),
+								},
+								{
+									key: "total-time",
+									label: "Total Time",
+									value: recipe?.totalTime,
+									children: (
+										<Duration duration={recipe?.totalTime} />
+									),
 								},
 								{
 									key: "servings",
 									label: "Servings",
-									children: recipe?.recipeYield,
+									value: recipe?.recipeYield,
 								},
-							].filter((i) => i.children !== undefined)}
+							].filter((i) => i.value !== undefined)}
 						/>
 					</section>
 					<section>

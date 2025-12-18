@@ -8,7 +8,9 @@ export const recipe: Recipe.Recipe = {
 		"Gurkensalat: authentic German creamy cucumber salad",
 	datePublished: "2023-09-07T02:17:44+00:00",
 	recipeYield: "3",
-	prepTime: "PT15M",
+	prepTime: "PT15S",
+	cookTime: "PT60M45S",
+	totalTime: "PT61H",
 	recipeIngredient: [
 		"600-700 g cucumber (I used field cucumbers, peeled, sliced very thin)",
 		"salt",
