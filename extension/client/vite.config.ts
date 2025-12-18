@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => {
 		],
 		test: {
 			environment: "jsdom",
+			globals: true,
+			setupFiles: "./src/vitest-setup.ts",
 		},
 		build: {
 			rollupOptions: {
@@ -47,9 +49,8 @@ export default defineConfig(({ mode }) => {
 			"import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
 				env.VITE_SUPABASE_URL
 			),
-			"import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS": JSON.stringify(
-				env.VITE_WORKFLOW_RECOMMEND_PRODUCTS
-			),
+			"import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS":
+				JSON.stringify(env.VITE_WORKFLOW_RECOMMEND_PRODUCTS),
 		},
 	}
 })

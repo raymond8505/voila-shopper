@@ -17,7 +17,7 @@ export function RecipeModal() {
 		<Wrapper ref={wrapperRef}>
 			<Modal
 				open={recipeModalOpen}
-				getContainer={() => wrapperRef.current ?? document.body}
+				//getContainer={() => document.body}
 				onCancel={() => setRecipeModalOpen(false)}
 				title={decodeHtmlEntities(recipe?.name ?? "")}
 				footer={null}
@@ -49,9 +49,13 @@ export function RecipeModal() {
 
 						{recipe?.recipeIngredient ? (
 							<ul>
-								{recipe?.recipeIngredient.map((ingredient, i) => (
-									<li key={i}>{decodeHtmlEntities(ingredient)}</li>
-								))}
+								{recipe?.recipeIngredient.map(
+									(ingredient, i) => (
+										<li key={i}>
+											{decodeHtmlEntities(ingredient)}
+										</li>
+									)
+								)}
 							</ul>
 						) : null}
 					</section>
@@ -60,9 +64,13 @@ export function RecipeModal() {
 						<strong>Instructions</strong>
 						{recipe?.recipeIngredient ? (
 							<ol>
-								{recipe?.recipeInstructions.map((instruction, i) => (
-									<li key={i}>{decodeHtmlEntities(instruction.text)}</li>
-								))}
+								{recipe?.recipeInstructions.map(
+									(instruction, i) => (
+										<li key={i}>
+											{decodeHtmlEntities(instruction.text)}
+										</li>
+									)
+								)}
 							</ol>
 						) : null}
 					</section>
@@ -75,24 +83,31 @@ export function RecipeModal() {
 								{
 									key: "calories",
 									label: "Cals",
-									children: `${recipe?.nutrition.calories ?? "unknown"}`,
+									children: `${
+										recipe?.nutrition.calories ?? "unknown"
+									}`,
 								},
 								{
 									key: "carbs",
 									label: "Carbs",
 									children: `${
-										recipe?.nutrition.carbohydrateContent ?? "unknown"
+										recipe?.nutrition.carbohydrateContent ??
+										"unknown"
 									}g`,
 								},
 								{
 									key: "fat",
 									label: "Fat",
-									children: `${recipe?.nutrition.fatContent ?? "unknown"}g`,
+									children: `${
+										recipe?.nutrition.fatContent ?? "unknown"
+									}g`,
 								},
 								{
 									key: "protein",
 									label: "Protein",
-									children: `${recipe?.nutrition.proteinContent ?? "unknown"}g`,
+									children: `${
+										recipe?.nutrition.proteinContent ?? "unknown"
+									}g`,
 								},
 							]}
 						/>

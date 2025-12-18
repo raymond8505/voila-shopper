@@ -4,7 +4,10 @@ import App from "./App.tsx"
 import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import {
+	QueryClient,
+	QueryClientProvider,
+} from "@tanstack/react-query"
 
 async function enableMocking() {
 	if (process.env.NODE_ENV !== "development") {
