@@ -17,7 +17,7 @@ export function RecipeModal() {
 		<Wrapper ref={wrapperRef}>
 			<Modal
 				open={recipeModalOpen}
-				//getContainer={() => document.body}
+				getContainer={() => wrapperRef.current ?? document.body}
 				onCancel={() => setRecipeModalOpen(false)}
 				title={decodeHtmlEntities(recipe?.name ?? "")}
 				footer={null}
