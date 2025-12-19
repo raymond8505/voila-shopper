@@ -3,6 +3,7 @@
     - [Browser Extension - "The Client"](#browser-extension---the-client)
     - [Database](#database)
     - [Workflows / AI](#workflows--ai)
+  - [AI Use](#ai-use)
   - [Resume Examples](#resume-examples)
     - [Qualifications](#qualifications)
       - [Proficient troubleshooter](#proficient-troubleshooter)
@@ -26,6 +27,8 @@
       - [Highcharts](#highcharts)
       - [Node](#node)
       - [Docker](#docker)
+  - [FAQs / Common Job requirement examples](#faqs--common-job-requirement-examples)
+    - [](#)
 # About Voila Shopper
 
 _A grocery shopping and recipe ideation app_
@@ -93,6 +96,14 @@ This is mostly what I use for personal projects
 - Talk through each workflow here, (maybe with screenshots of the whole workflow?)
   If you just want to use my n8n workflows `/n8n/` contains the workflows you can import to your own n8n instance, otherwise see `/extension/client/README.md` for how to configure your own endpoints
 
+## AI Use
+
+AI was used to write parts of the app- primarily used for 
+- type definition - object conversion / generation
+- boilerplate patterns / utility functions
+- general debugging, especially for complex type collisions and tool config
+- an in-IDE replacement for Stack Overflow that doesn't make me feel bad for asking questions
+
 ## Resume Examples
 
 My resume contains a long list of skills and qualities, below are examples of how I leveraged those things in this project
@@ -133,8 +144,12 @@ My resume contains a long list of skills and qualities, below are examples of ho
 #### n8n
 #### Storybook
 #### Jest
-- While this project uses vitest, it has significant overlap with Jest, so learning vitest on the go has been a non-issue.
+  - While this project uses vitest, it has significant overlap with Jest, so learning vitest on the go has been a non-issue.
   - I'm still angry I can't spy infra module function calls. Like, how is that not a thing here?
 #### Highcharts
 #### Node
 #### Docker
+
+## FAQs / Common Job requirement examples
+
+### 

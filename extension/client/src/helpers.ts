@@ -21,6 +21,10 @@ export function getMinimalPrice(
 		originalPrice: product.price.amount,
 	}
 }
+/**
+ * Takes an array of products and sorts them into a tree
+ * based on their categoryPath
+ */
 export function categoryTreeFromProducts({
 	products,
 	depth: depthIndexParam,
