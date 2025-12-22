@@ -5,7 +5,10 @@ import { forwardRef, ReactNode } from "react"
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
 
 export interface LoaderButtonProps
-	extends Omit<ButtonProps, "onClick" | "icon" | "loading" | "children"> {
+	extends Omit<
+		ButtonProps,
+		"onClick" | "icon" | "loading" | "children"
+	> {
 	onClick: React.MouseEventHandler<HTMLElement> | undefined
 	icon?: ReactNode
 	loading?: boolean
@@ -14,9 +17,23 @@ export interface LoaderButtonProps
 	type?: ButtonProps["type"]
 }
 
-export const LoaderButton = forwardRef<HTMLButtonElement, LoaderButtonProps>(
+/**
+ * Standard button that can be toggled into a Loading state
+ */
+export const LoaderButton = forwardRef<
+	HTMLButtonElement,
+	LoaderButtonProps
+>(
 	(
-		{ onClick, icon, loading, label, loadingLabel, type = "default", ...rest },
+		{
+			onClick,
+			icon,
+			loading,
+			label,
+			loadingLabel,
+			type = "default",
+			...rest
+		},
 		ref
 	) => {
 		return (
@@ -32,7 +49,13 @@ export const LoaderButton = forwardRef<HTMLButtonElement, LoaderButtonProps>(
 				{...rest}
 			>
 				{loading ? <LoadingOutlined /> : icon}
-				<span>{loading ? (loadingLabel ? loadingLabel : label) : label}</span>
+				<span>
+					{loading
+						? loadingLabel
+							? loadingLabel
+							: label
+						: label}
+				</span>
 			</Button>
 		)
 	}

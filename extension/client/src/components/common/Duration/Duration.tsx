@@ -8,7 +8,7 @@ import { AbbreviatedDurationUnit } from "./AbbreviatedDurationUnit"
 /**
  * Takes an an ISO 8601 duration string, formats it to be human readable
  * and wraps it in a time element.
- * If the given duration is not the correct format, it outputs that verbatim
+ * If the given duration is not the correct format, it renders that verbatim
  * and skips putting it in dateTime
  */
 export function Duration({ duration }: { duration?: string }) {

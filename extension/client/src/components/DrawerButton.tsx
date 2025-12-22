@@ -2,6 +2,10 @@ import DoubleLeftOutlined from "@ant-design/icons/DoubleLeftOutlined"
 import DoubleRightOutlined from "@ant-design/icons/DoubleRightOutlined"
 import { useStore } from "../store"
 import { Button } from "./DrawerButton.styles"
+
+/**
+ * Controls the open / close state of the client drawer
+ */
 export function DrawerButton() {
 	const { drawerOpen, setDrawerOpen } = useStore()
 	return (
@@ -11,7 +15,9 @@ export function DrawerButton() {
 				setDrawerOpen(!drawerOpen)
 			}}
 			drawerOpen={drawerOpen}
-			aria-label={drawerOpen ? "Close Voila Shopper" : "Open Voila Shopper"}
+			aria-label={
+				drawerOpen ? "Close Voila Shopper" : "Open Voila Shopper"
+			}
 		>
 			{drawerOpen ? (
 				<DoubleLeftOutlined aria-hidden />

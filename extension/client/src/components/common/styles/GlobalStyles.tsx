@@ -1,6 +1,9 @@
 import { Global } from "@emotion/react"
 import { CSS_RESET } from "./reset"
 
+/**
+ * Styles to apply across the whole app
+ */
 export const GlobalStyles = () => {
 	return (
 		<Global

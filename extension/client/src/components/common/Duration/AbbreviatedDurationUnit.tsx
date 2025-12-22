@@ -1,5 +1,8 @@
-import { ParsedISODurationUnit } from "../../helpers"
+import { ParsedISODurationUnit } from "@src/helpers"
 
+/**
+ * Takes a parsed duration unit and renders it with an abbr element
+ */
 export function AbbreviatedDurationUnit({
 	unit,
 }: {

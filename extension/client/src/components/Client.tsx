@@ -8,6 +8,9 @@ import { useStore } from "../store"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
 
+/**
+ * The main wrapper for the client drawer
+ */
 export function Client() {
 	const { drawerOpen } = useStore()
 
