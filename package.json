@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tanstack/react-query": "^5.90.12",
+    
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
     "xml2js": "^0.6.2"

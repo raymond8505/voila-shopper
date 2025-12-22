@@ -1,5 +1,4 @@
 import { GlobalStyles } from "./components/common/styles/GlobalStyles"
-import ConfigProvider from "antd/es/config-provider"
 
 import { Client } from "./components/Client"
 import GlobalStylesPortal from "./GlobalStylesPortal"

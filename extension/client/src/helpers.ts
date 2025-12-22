@@ -96,7 +96,10 @@ export function categoryTreeFromProducts({
 				} else if (
 					isVoilaProductArray(currentLevel[categoryName])
 				) {
-					currentLevel[categoryName].push(product)
+					const productArray = currentLevel[
+						categoryName
+					] as Voila.Product[]
+					productArray.push(product)
 				}
 			} else {
 				if (!currentLevel[categoryName]) {
