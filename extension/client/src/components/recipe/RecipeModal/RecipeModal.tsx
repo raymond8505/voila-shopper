@@ -4,7 +4,7 @@ import { useStore } from "../../../store"
 import { useRef } from "react"
 import { decodeHtmlEntities } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
-import { Duration } from "../../common/Duration"
+import { Duration } from "@src/components/common/Duration/Duration"
 import { DescriptionsItemType } from "antd/es/descriptions"
 
 /**

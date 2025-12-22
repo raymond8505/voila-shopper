@@ -4,23 +4,16 @@ import ConfigProvider from "antd/es/config-provider"
 import { Client } from "./components/Client"
 import GlobalStylesPortal from "./GlobalStylesPortal"
 import { RecipeModal } from "./components/recipe/RecipeModal/RecipeModal"
+import { AntConfigProvider } from "./AntConfigProvider"
 
 function App() {
 	return (
-		<ConfigProvider
-			theme={{
-				token: {
-					colorHighlight: "#00d6ff",
-					colorPrimaryActive: "#00d6ff",
-					colorText: "#004740",
-				},
-			}}
-		>
+		<AntConfigProvider>
 			<GlobalStyles />
 			<GlobalStylesPortal />
 			<Client />
 			<RecipeModal />
-		</ConfigProvider>
+		</AntConfigProvider>
 	)
 }
 

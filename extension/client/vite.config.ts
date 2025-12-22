@@ -6,6 +6,11 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "VITE_")
 	return {
 		base: "./",
+		resolve: {
+			alias: {
+				"@src": resolve(__dirname, "src"),
+			},
+		},
 		plugins: [
 			react({
 				jsxImportSource: "@emotion/react",

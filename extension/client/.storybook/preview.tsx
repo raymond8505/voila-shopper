@@ -15,6 +15,8 @@ import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
 import { GlobalStyles } from "../src/components/common/styles/GlobalStyles"
 import GlobalStylesPortal from "../src/GlobalStylesPortal"
+import ConfigProvider from "antd/es/config-provider"
+import { AntConfigProvider } from "../src/AntConfigProvider"
 
 initializeMSW()
 
@@ -53,15 +55,17 @@ const preview: Preview = {
 	decorators: [
 		(Story) => {
 			return (
-				<CacheProvider
-					value={createCache({
-						key: "vs-client-emotion-cache--sb",
-					})}
-				>
-					<GlobalStyles />
-					<GlobalStylesPortal />
-					<Story />
-				</CacheProvider>
+				<AntConfigProvider>
+					<CacheProvider
+						value={createCache({
+							key: "vs-client-emotion-cache--sb",
+						})}
+					>
+						<GlobalStyles />
+						<GlobalStylesPortal />
+						<Story />
+					</CacheProvider>
+				</AntConfigProvider>
 			)
 		},
 		(Story) => {

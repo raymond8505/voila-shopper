@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { LoaderButton } from "./common/LoaderButton"
+import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 
 export const Wrapper = styled.div`
 	display: grid;

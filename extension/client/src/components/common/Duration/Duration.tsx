@@ -1,9 +1,8 @@
-import { parse } from "path"
 import {
 	isoDurationToMs,
 	parseISODuration,
 	shouldPluralize,
-} from "../../helpers"
+} from "@src/helpers"
 import { AbbreviatedDurationUnit } from "./AbbreviatedDurationUnit"
 
 /**
