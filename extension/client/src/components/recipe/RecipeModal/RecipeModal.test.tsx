@@ -101,6 +101,31 @@ describe("RecipeModal", () => {
 		expect(screen.getByText("500")).toBeInTheDocument()
 	})
 
+	test("does not render time sections if times are undefined", () => {
+		const recipeWithoutTimes: Recipe.Recipe = {
+			...mockRecipe,
+			prepTime: undefined,
+			cookTime: undefined,
+		}
+
+		// Override default mock to use the recipe without time properties
+		vi.mocked(useStore).mockReturnValue({
+			recipeModalOpen: true,
+			currentModalRecipe: recipeWithoutTimes,
+			setRecipeModalOpen: mockSetRecipeModalOpen,
+		})
+
+		render(<RecipeModal />)
+
+		// The time sections should not be in the document
+		expect(
+			screen.queryByText("Prep Time")
+		).not.toBeInTheDocument()
+		expect(
+			screen.queryByText("Cook Time")
+		).not.toBeInTheDocument()
+	})
+
 	test("calls setRecipeModalOpen with false when the modal is closed", async () => {
 		render(<RecipeModal />)
 		const user = userEvent.setup()

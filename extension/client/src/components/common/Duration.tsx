@@ -33,10 +33,14 @@ export function Duration({ duration }: { duration?: string }) {
 							unit={{
 								value: Math.round(durationMins),
 								label: `Minute${
-									shouldPluralize(durationMins) ? "s" : ""
+									shouldPluralize(Math.round(durationMins))
+										? "s"
+										: ""
 								}`,
 								abbrLabel: `Min${
-									shouldPluralize(durationMins) ? "s" : ""
+									shouldPluralize(Math.round(durationMins))
+										? "s"
+										: ""
 								}`,
 							}}
 						/>
@@ -45,10 +49,14 @@ export function Duration({ duration }: { duration?: string }) {
 							unit={{
 								value: Math.round(durationMs / 1000),
 								label: `Second${
-									shouldPluralize(durationMins) ? "s" : ""
+									shouldPluralize(Math.round(durationMs / 1000))
+										? "s"
+										: ""
 								}`,
 								abbrLabel: `Sec${
-									shouldPluralize(durationMins) ? "s" : ""
+									shouldPluralize(Math.round(durationMs / 1000))
+										? "s"
+										: ""
 								}`,
 							}}
 						/>
