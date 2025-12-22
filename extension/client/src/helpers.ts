@@ -1,10 +1,7 @@
-import {
-	CustomError,
-	VoilaProductError,
-} from "./errors/CustomError"
+import { VoilaProductError } from "./errors/CustomError"
 import { ErrorType } from "./errors/types"
 import { isVoilaProductArray } from "./types/helpers"
-import { parse } from "path"
+
 import type {
 	CategoryTree,
 	MinimalPrice,
@@ -115,8 +112,6 @@ export function categoryTreeFromProducts({
 }
 /**
  * Decodes HTML entities (e.g., &nbsp;, &rsquo;, &amp;) in a given string.
- * @param html The string containing HTML entities to decode.
- * @returns The decoded plain text string.
  */
 export function decodeHtmlEntities(html: string): string {
 	const textarea = document.createElement("textarea")
@@ -142,13 +137,12 @@ export interface ParsedISODuration {
 export function shouldPluralize(val: unknown) {
 	const parsedVal = parseInt(val?.toString() || "0")
 
-	return Math.abs(parsedVal) > 1 || parsedVal === 0
+	return parsedVal === 0 || Math.abs(parsedVal) > 1
 }
 
 /**
  * Parses an ISO 8601 duration string and returns an object with days, hours, minutes, and seconds.
  * Example: "P1DT2H30M" -> { days: 1, hours: 2, minutes: 30, seconds: 0 }
- * @param duration The ISO 8601 duration string.
  * @returns An object with the parsed duration components, or null if malformed
  */
 export function parseISODuration(
@@ -192,6 +186,10 @@ export function parseISODuration(
 	}
 }
 
+/**
+ * Takes a processed ISO duration and converts to milliseconds
+ * @returns
+ */
 export function isoDurationToMs(
 	duration: ParsedISODuration
 ): number {
