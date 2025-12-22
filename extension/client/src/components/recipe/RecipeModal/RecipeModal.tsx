@@ -2,12 +2,10 @@ import { Descriptions, Modal } from "antd"
 
 import { useStore } from "../../../store"
 import { useRef } from "react"
-import {
-	decodeHtmlEntities,
-	formatRecipeDuration,
-} from "../../../helpers"
+import { decodeHtmlEntities } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
 import { Duration } from "../../common/Duration"
+import { DescriptionsItemType } from "antd/es/descriptions"
 
 /**
  * A modal to display a recipe
@@ -36,37 +34,41 @@ export function RecipeModal() {
 				<ModalBody>
 					<section>
 						<Descriptions
-							items={[
-								{
-									key: "prep-time",
-									label: "Prep Time",
-									value: recipe?.prepTime,
-									children: (
-										<Duration duration={recipe?.prepTime} />
-									),
-								},
-								{
-									key: "cook-time",
-									label: "Cook Time",
-									value: recipe?.cookTime,
-									children: (
-										<Duration duration={recipe?.cookTime} />
-									),
-								},
-								{
-									key: "total-time",
-									label: "Total Time",
-									value: recipe?.totalTime,
-									children: (
-										<Duration duration={recipe?.totalTime} />
-									),
-								},
-								{
-									key: "servings",
-									label: "Servings",
-									value: recipe?.recipeYield,
-								},
-							].filter((i) => i.value !== undefined)}
+							items={
+								[
+									{
+										key: "prep-time",
+										label: "Prep Time",
+										value: recipe?.prepTime,
+										children: (
+											<Duration duration={recipe?.prepTime} />
+										),
+									},
+									{
+										key: "cook-time",
+										label: "Cook Time",
+										value: recipe?.cookTime,
+										children: (
+											<Duration duration={recipe?.cookTime} />
+										),
+									},
+									{
+										key: "total-time",
+										label: "Total Time",
+										value: recipe?.totalTime,
+										children: (
+											<Duration duration={recipe?.totalTime} />
+										),
+									},
+									{
+										key: "servings",
+										label: "Servings",
+										value: recipe?.recipeYield,
+									},
+								].filter(
+									(i) => i.value !== undefined
+								) as unknown as DescriptionsItemType[]
+							}
 						/>
 					</section>
 					<section>

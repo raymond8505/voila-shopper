@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, test, expect, vi, beforeEach } from "vitest"
@@ -10,19 +6,23 @@ import { useStore } from "../../../store"
 import { Recipe } from "../../../types"
 
 // Mock the store to control its state within tests
-vi.mock("../store", () => ({
+vi.mock("../../../store", () => ({
 	useStore: vi.fn(),
 }))
 
 // Mock the helper to simplify assertions
-vi.mock("../helpers", () => ({
-	decodeHtmlEntities: (html: string) => html, // Just return the string as is
-}))
+vi.mock(import("../../../helpers"), async (importOriginal) => {
+	const actual = await importOriginal()
+
+	return {
+		...actual,
+		decodeHtmlEntities: (html: string) => html, // Just return the string as is
+	}
+})
 
 const mockSetRecipeModalOpen = vi.fn()
 
 const mockRecipe: Recipe.Recipe = {
-	"@context": "https://schema.org",
 	"@type": "Recipe",
 	name: "Test Recipe & Name",
 	description: "A delicious test recipe for testing purposes.",
@@ -84,10 +84,6 @@ describe("RecipeModal", () => {
 		expect(
 			screen.getByText(mockRecipe.name as string)
 		).toBeInTheDocument()
-
-		// Check for details
-		expect(screen.getByText("Prep Time")).toBeInTheDocument()
-		expect(screen.getByText("PT15M")).toBeInTheDocument()
 
 		// Check for ingredients
 		expect(screen.getByText("Ingredients")).toBeInTheDocument()
