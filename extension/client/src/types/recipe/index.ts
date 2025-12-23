@@ -1,6 +1,7 @@
 import Schema from "schema-dts"
 
 export namespace Recipe {
+	export type Source = { source: string; count: number }
 	export type Recipe = Omit<
 		Schema.Recipe,
 		"recipeInstructions" | "nutrition"

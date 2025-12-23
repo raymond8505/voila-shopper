@@ -19,12 +19,19 @@ import {
 } from "./RecipesPanel.styles"
 
 export function RecipesPanel() {
-	const { ingredients, removeIngredient, recipeCriteria, setRecipeCriteria } =
-		useStore()
-	const [recipes, setRecipes] = useState<Recipe.ApiResponse["recipeSchemas"]>()
+	const {
+		ingredients,
+		removeIngredient,
+		recipeCriteria,
+		setRecipeCriteria,
+	} = useStore()
+	const [recipes, setRecipes] =
+		useState<Recipe.ApiResponse["recipeSchemas"]>()
 	const [errorText, setErrorText] = useState<string | null>(null)
-	const { generateRecipeRecommendations, recipeRecommendationsLoading } =
-		useRecipes()
+	const {
+		generateRecipeRecommendations,
+		recipeRecommendationsLoading,
+	} = useRecipes()
 
 	const handleGetRecipesClick = useCallback(() => {
 		setErrorText(null)
@@ -46,7 +53,9 @@ export function RecipesPanel() {
 					})
 				} else {
 					setErrorText(null)
-					setRecipes((resp as Recipe.ApiResponse).recipeSchemas ?? [])
+					setRecipes(
+						(resp as Recipe.ApiResponse).recipeSchemas ?? []
+					)
 				}
 			}
 		})
@@ -72,7 +81,9 @@ export function RecipesPanel() {
 									<List.Item
 										actions={[
 											<UnstyledButton
-												onClick={() => removeIngredient(product.productId)}
+												onClick={() =>
+													removeIngredient(product.productId)
+												}
 											>
 												<CloseOutlined />
 											</UnstyledButton>,
@@ -80,7 +91,8 @@ export function RecipesPanel() {
 									>
 										<List.Item.Meta
 											avatar={
-												product.images && product.images.length > 0 ? (
+												product.images &&
+												product.images.length > 0 ? (
 													<img
 														alt={product.name}
 														src={product.images[0].src}
@@ -120,7 +132,7 @@ export function RecipesPanel() {
 									loading={recipeRecommendationsLoading}
 									type="primary"
 									onClick={handleGetRecipesClick}
-									label="Get Recipes"
+									label="Find Recipes"
 								/>
 								<div
 									css={css`
@@ -134,7 +146,11 @@ export function RecipesPanel() {
 							</RecipeResultsWrapper>
 							<RecipeResultsList>
 								{recipes?.map((recipe) => (
-									<li key={`recipe-${encodeURIComponent(recipe.name)}`}>
+									<li
+										key={`recipe-${encodeURIComponent(
+											recipe.name
+										)}`}
+									>
 										<RecipeResultButton recipe={recipe} />
 									</li>
 								))}
