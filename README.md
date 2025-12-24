@@ -71,13 +71,11 @@ This is mostly what I use for personal projects
 - Postgres Vector features
 - robust REST API
 - out of the box n8n support
-- edge functions and storage should I need them
-  - (a soft goal for this project has been to attempt a serverless solution)
+- edge functions and bucket storage should I need them
 
 **Tables and Functions**
 
-- TODO put .sql files for all required tables and functions in /db/
-  `/db/` contains sql files for all required tables and functions for the workflows
+`/sql/` contains sql files for all required tables and functions for the workflows
 
 ### Workflows / AI
 
@@ -142,13 +140,18 @@ My resume contains a long list of skills and qualities, below are examples of ho
 #### Langchain
   - I started my AI workflow journey with Langchain. Understanding the concepts of nodes and edges was invaluable to hit the ground running with n8n
 #### n8n
+  - All AI workflows and some other non AI workflows run on a self hosted n8n instance.
 #### Storybook
+  - Client uses Storybook 10 with custom toolbars and decorators
+  - custom toolbar for toggling between live and test workflow URLs when testing components
 #### Jest
   - While this project uses vitest, it has significant overlap with Jest, so learning vitest on the go has been a non-issue.
   - I'm still angry I can't spy infra module function calls. Like, how is that not a thing here?
 #### Highcharts
 #### Node
+- Self hosted Express server for custom tools like the recipe scraper
 #### Docker
+- All product stuff is hosted on a VPS with docker containers
 
 ## FAQs / Common Job requirement examples
 
