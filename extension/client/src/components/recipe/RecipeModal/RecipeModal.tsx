@@ -1,7 +1,7 @@
 import { Descriptions, Modal } from "antd"
 
 import { useStore } from "../../../store"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { decodeHtmlEntities } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
 import { Duration } from "@src/components/common/Duration/Duration"
@@ -17,10 +17,14 @@ import { DescriptionsItemType } from "antd/es/descriptions"
 export function RecipeModal() {
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
 	const {
-		currentModalRecipe: recipe,
+		currentModalRecipe: recipeMeta,
 		recipeModalOpen,
 		setRecipeModalOpen,
 	} = useStore()
+
+	const recipe = useMemo(() => {
+		return recipeMeta?.schema
+	}, [recipeMeta])
 
 	return (
 		<Wrapper ref={wrapperRef}>
@@ -32,6 +36,14 @@ export function RecipeModal() {
 				footer={null}
 			>
 				<ModalBody>
+					{recipeMeta?.source ? (
+						<>
+							<span>Source: </span>
+							<a href={recipeMeta?.url} target="_blank">
+								{recipeMeta?.source}
+							</a>
+						</>
+					) : null}
 					<section>
 						<Descriptions
 							items={

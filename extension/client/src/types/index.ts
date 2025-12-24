@@ -9,6 +9,8 @@ export interface TypedResponse<T> extends Response {
 	json(): Promise<T>
 }
 
+export type NonEmptyArray<T> = [T, ...T[]]
+
 export type JobProduct = Pick<
 	Voila.Product,
 	| "productId"
@@ -35,7 +37,8 @@ export type TrimmedProduct = Pick<
 	price: MinimalPrice
 }
 
-export interface RecommendationsWorkflowPayload extends Job.UnknownData {
+export interface RecommendationsWorkflowPayload
+	extends Job.UnknownData {
 	products: TrimmedProduct[]
 	includeCriteria: string
 	excludeCriteria: string

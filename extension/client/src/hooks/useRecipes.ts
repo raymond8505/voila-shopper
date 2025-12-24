@@ -18,9 +18,11 @@ export function useRecipes() {
 		({
 			ingredients,
 			extraCriteria,
+			sources = [],
 		}: {
 			ingredients: Voila.Product[]
 			extraCriteria?: string
+			sources?: Recipe.Source["source"][]
 		}) =>
 			callRecommendationsWorkflow({
 				hookOptions: {
@@ -28,6 +30,7 @@ export function useRecipes() {
 				},
 				payload: {
 					extraCriteria: extraCriteria ?? "",
+					sources,
 					ingredients: ingredients.map((ingredient) => {
 						return [
 							"productId",

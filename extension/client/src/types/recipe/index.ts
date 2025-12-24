@@ -16,8 +16,17 @@ export namespace Recipe {
 		recipeYield: string
 	}
 
+	export interface RecipeMetadata {
+		schema: Recipe
+		url: string
+		source: string
+		loc: {
+			lines: { to: string; from: string }[]
+		}
+		blobType: string
+	}
 	export interface ApiResponse {
-		recipeSchemas: Recipe[]
+		recipeSchemas: RecipeMetadata[]
 	}
 
 	export interface NutritionInformation {

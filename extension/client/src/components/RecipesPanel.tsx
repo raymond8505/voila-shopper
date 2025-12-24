@@ -17,6 +17,7 @@ import {
 	RecipeResultsWrapper,
 	Wrapper,
 } from "./RecipesPanel.styles"
+import { RecipeSourcePicker } from "./recipe/RecipeSourcePicker/RecipeSourcePicker"
 
 export function RecipesPanel() {
 	const {
@@ -28,6 +29,9 @@ export function RecipesPanel() {
 	const [recipes, setRecipes] =
 		useState<Recipe.ApiResponse["recipeSchemas"]>()
 	const [errorText, setErrorText] = useState<string | null>(null)
+	const [recipeSources, setRecipeSources] = useState<
+		Recipe.Source["source"][]
+	>([])
 	const {
 		generateRecipeRecommendations,
 		recipeRecommendationsLoading,
@@ -38,6 +42,7 @@ export function RecipesPanel() {
 		generateRecipeRecommendations({
 			ingredients,
 			extraCriteria: recipeCriteria,
+			sources: recipeSources,
 		}).then((resp) => {
 			if (resp) {
 				if (isWorkflowError(resp)) {
@@ -65,6 +70,7 @@ export function RecipesPanel() {
 		recipeCriteria,
 		setErrorText,
 		generateRecipeRecommendations,
+		recipeSources,
 	])
 
 	return (
@@ -127,6 +133,9 @@ export function RecipesPanel() {
 								}}
 								defaultValue={recipeCriteria}
 							></TextArea>
+
+							<RecipeSourcePicker onChange={setRecipeSources} />
+
 							<RecipeResultsWrapper>
 								<GetRecipesButton
 									loading={recipeRecommendationsLoading}
@@ -145,13 +154,15 @@ export function RecipesPanel() {
 								</div>
 							</RecipeResultsWrapper>
 							<RecipeResultsList>
-								{recipes?.map((recipe) => (
+								{recipes?.map((recipeMeta) => (
 									<li
 										key={`recipe-${encodeURIComponent(
-											recipe.name
+											recipeMeta.schema.name
 										)}`}
 									>
-										<RecipeResultButton recipe={recipe} />
+										<RecipeResultButton
+											recipeMeta={recipeMeta}
+										/>
 									</li>
 								))}
 							</RecipeResultsList>

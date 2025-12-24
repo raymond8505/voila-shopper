@@ -1,7 +1,10 @@
 import { create } from "zustand"
 import { Recipe, Voila } from "../types"
 import { subscribeWithSelector } from "zustand/middleware"
-import { getLocalStorageStore, setLocalStorageStore } from "./helpers"
+import {
+	getLocalStorageStore,
+	setLocalStorageStore,
+} from "./helpers"
 export interface Store {
 	ingredients: Voila.Product[]
 	setIngredients: (ingredients: Voila.Product[]) => void
@@ -15,8 +18,8 @@ export interface Store {
 	setDrawerOpen: (val: boolean) => void
 	recipeModalOpen: boolean
 	setRecipeModalOpen: (val: boolean) => void
-	currentModalRecipe?: Recipe.Recipe
-	setCurrentModalRecipe: (val: Recipe.Recipe) => void
+	currentModalRecipe?: Recipe.RecipeMetadata
+	setCurrentModalRecipe: (val: Recipe.RecipeMetadata) => void
 	recipeCriteria: string
 	setRecipeCriteria: (criteria: string) => void
 	workflowLiveMode: boolean
@@ -43,9 +46,11 @@ export const useStore = create<Store>()(
 				),
 			})),
 		includeCriteria: localStorageStore?.includeCriteria ?? "",
-		setIncludeCriteria: (criteria) => set({ includeCriteria: criteria }),
+		setIncludeCriteria: (criteria) =>
+			set({ includeCriteria: criteria }),
 		excludeCriteria: localStorageStore?.excludeCriteria ?? "",
-		setExcludeCriteria: (criteria) => set({ excludeCriteria: criteria }),
+		setExcludeCriteria: (criteria) =>
+			set({ excludeCriteria: criteria }),
 		drawerOpen: localStorageStore?.drawerOpen ?? true,
 		setDrawerOpen: (val) =>
 			set({
@@ -59,8 +64,10 @@ export const useStore = create<Store>()(
 		recipeModalOpen: false,
 		setRecipeModalOpen: (val) => set({ recipeModalOpen: val }),
 		recipeCriteria: localStorageStore?.recipeCriteria ?? "",
-		setRecipeCriteria: (criteria) => set({ recipeCriteria: criteria }),
-		workflowLiveMode: localStorageStore?.workflowLiveMode ?? false,
+		setRecipeCriteria: (criteria) =>
+			set({ recipeCriteria: criteria }),
+		workflowLiveMode:
+			localStorageStore?.workflowLiveMode ?? false,
 		setWorkflowLiveMode: (val) => set({ workflowLiveMode: val }),
 	}))
 )
