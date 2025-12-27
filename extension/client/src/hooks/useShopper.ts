@@ -10,7 +10,7 @@ import type {
 } from "../types/index"
 import { useWorkflow } from "./useWorkflow"
 import { getMinimalPrice } from "../helpers"
-import { useStore } from "../store"
+import { useStore } from "@store/client"
 import { isWorkflowError } from "../types/helpers"
 
 export function useShopper() {
@@ -19,14 +19,16 @@ export function useShopper() {
 	const { fetchJob } = useJobManager()
 	const [promosLoading, setPromosLoading] = useState(false)
 
-	const { call: callRecommendationsWorkflow, loading: recommendationsLoading } =
-		useWorkflow<ShopperJob>({
-			url: import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS,
-			auth: {
-				username: import.meta.env.VITE_WORKFLOW_USERNAME,
-				password: import.meta.env.VITE_WORKFLOW_PWD,
-			},
-		})
+	const {
+		call: callRecommendationsWorkflow,
+		loading: recommendationsLoading,
+	} = useWorkflow<ShopperJob>({
+		url: import.meta.env.VITE_WORKFLOW_RECOMMEND_PRODUCTS,
+		auth: {
+			username: import.meta.env.VITE_WORKFLOW_USERNAME,
+			password: import.meta.env.VITE_WORKFLOW_PWD,
+		},
+	})
 
 	const getRecommendations = useCallback(
 		async (jobId: string) => {
@@ -36,7 +38,9 @@ export function useShopper() {
 				jobData.flatMap((job) =>
 					job.data.products
 						.filter((id) => id !== null)
-						.filter((id, i) => job.data.products.indexOf(id) === i)
+						.filter(
+							(id, i) => job.data.products.indexOf(id) === i
+						)
 				)
 			)
 
@@ -72,7 +76,10 @@ export function useShopper() {
 				import.meta.env.VITE_RECOMMEND_PRODUCTS_BATCH_SIZE
 			)
 		).filter((prod, i, arr) => {
-			return arr.findIndex((p) => p.productId === prod.productId) === i
+			return (
+				arr.findIndex((p) => p.productId === prod.productId) ===
+				i
+			)
 		})
 
 		setPromosLoading(false)
@@ -89,24 +96,27 @@ export function useShopper() {
 					}
 				})
 
-				trimmedProduct["price"] = getMinimalPrice(decoratedProduct)
+				trimmedProduct["price"] =
+					getMinimalPrice(decoratedProduct)
 
 				return trimmedProduct
 			}
 		)
 
 		const recommendations =
-			await callRecommendationsWorkflow<RecommendationsWorkflowPayload>({
-				payload: {
-					products: trimmedProducts,
-					includeCriteria,
-					excludeCriteria,
-				},
-				responseType: "job",
-				hookOptions: {
-					method: "POST",
-				},
-			})
+			await callRecommendationsWorkflow<RecommendationsWorkflowPayload>(
+				{
+					payload: {
+						products: trimmedProducts,
+						includeCriteria,
+						excludeCriteria,
+					},
+					responseType: "job",
+					hookOptions: {
+						method: "POST",
+					},
+				}
+			)
 
 		if (!recommendations) {
 			return [] as Voila.Product[]
@@ -119,11 +129,16 @@ export function useShopper() {
 				? (await getProducts(recommendations?.products)).products
 				: ([] as Voila.Product[])
 		}
-	}, [callRecommendationsWorkflow, getPromotionProducts, setPromosLoading])
+	}, [
+		callRecommendationsWorkflow,
+		getPromotionProducts,
+		setPromosLoading,
+	])
 
 	return {
 		getRecommendations,
 		generateRecommendations,
-		recommendationsLoading: promosLoading || recommendationsLoading,
+		recommendationsLoading:
+			promosLoading || recommendationsLoading,
 	}
 }

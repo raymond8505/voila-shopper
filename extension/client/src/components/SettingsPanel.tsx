@@ -1,6 +1,6 @@
 import Divider from "antd/es/divider"
 import TextArea from "antd/es/input/TextArea"
-import { useStore } from "../store"
+import { useStore } from "@store/client"
 import Switch from "antd/es/switch"
 import { css } from "@emotion/react"
 

@@ -4,7 +4,7 @@ import { ProductsPanel } from "./ProductsPanel"
 import { RecipesPanel } from "./RecipesPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
-import { useStore } from "../store"
+import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
 

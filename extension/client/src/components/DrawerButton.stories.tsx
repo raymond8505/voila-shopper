@@ -1,4 +1,4 @@
-import { useStore } from "@src/store"
+import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { useEffect } from "react"
 

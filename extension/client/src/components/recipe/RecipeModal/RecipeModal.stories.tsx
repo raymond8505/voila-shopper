@@ -1,5 +1,5 @@
 import { RecipeModal } from "./RecipeModal"
-import { useStore } from "../../../store"
+import { useStore } from "@store/client"
 import { useEffect } from "react"
 import { recipe } from "../fixtures"
 import { Recipe } from "../../../types/recipe/index"

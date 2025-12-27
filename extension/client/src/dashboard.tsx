@@ -7,6 +7,7 @@ import {
 	QueryClient,
 	QueryClientProvider,
 } from "@tanstack/react-query"
+import { Dashboard } from "./components/dashboard/Dashboard.tsx"
 
 async function enableMocking() {
 	if (process.env.NODE_ENV !== "development") {
@@ -36,7 +37,7 @@ enableMocking().then(() => {
 			<QueryClientProvider client={queryClient}>
 				<CacheProvider value={emotionCache}>
 					<StyleProvider container={root}>
-						dashboard
+						<Dashboard />
 					</StyleProvider>
 				</CacheProvider>
 			</QueryClientProvider>

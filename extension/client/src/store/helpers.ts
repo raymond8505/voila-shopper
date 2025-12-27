@@ -1,15 +1,15 @@
-import type { Store } from "./index"
+import type { Store as ClientStore } from "./client/index"
 
 export const STORE_KEY = "vs-store"
 
 export function setLocalStorageStore(
-	state: Partial<Store>
-): Partial<Store> {
+	state: Partial<ClientStore>
+): Partial<ClientStore> {
 	window?.localStorage?.setItem(STORE_KEY, JSON.stringify(state))
 	return state
 }
 
-export function getLocalStorageStore(): Partial<Store> {
+export function getLocalStorageStore(): Partial<ClientStore> {
 	try {
 		const storedVal = window?.localStorage?.getItem(STORE_KEY)
 

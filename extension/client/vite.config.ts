@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: {
 				"@src": resolve(__dirname, "src"),
+				"@store": resolve(__dirname, "src/store"),
 			},
 		},
 		plugins: [

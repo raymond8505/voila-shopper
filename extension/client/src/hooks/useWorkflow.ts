@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import { Job, Workflow } from "../types/index"
 import { useJobManager } from "./useJobManager"
-import { useStore } from "../store"
+import { useStore } from "@store/client"
 import { useQueryClient } from "@tanstack/react-query"
 
 export function useWorkflow<T = Job.UnknownData>({
@@ -49,11 +49,15 @@ export function useWorkflow<T = Job.UnknownData>({
 					const fetchOptions = hookOptions ? hookOptions : {}
 
 					try {
-						const combinedHeaders = new Headers(fetchOptions.headers)
+						const combinedHeaders = new Headers(
+							fetchOptions.headers
+						)
 						if (auth) {
 							combinedHeaders.set(
 								"Authorization",
-								`Basic ${btoa(`${auth.username}:${auth.password}`)}`
+								`Basic ${btoa(
+									`${auth.username}:${auth.password}`
+								)}`
 							)
 						}
 
@@ -109,7 +113,15 @@ export function useWorkflow<T = Job.UnknownData>({
 				},
 			})
 		},
-		[url, loading, setLoading, workflowLiveMode, queryClient, pollJobData, auth]
+		[
+			url,
+			loading,
+			setLoading,
+			workflowLiveMode,
+			queryClient,
+			pollJobData,
+			auth,
+		]
 	)
 
 	return { loading, call }

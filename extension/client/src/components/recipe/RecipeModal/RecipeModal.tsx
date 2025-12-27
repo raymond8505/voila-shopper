@@ -1,6 +1,6 @@
 import { Descriptions, Modal } from "antd"
 
-import { useStore } from "../../../store"
+import { useStore } from "@store/client"
 import { useMemo, useRef } from "react"
 import { decodeHtmlEntities } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"

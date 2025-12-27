@@ -8,7 +8,7 @@ import {
 	mswLoader,
 } from "msw-storybook-addon"
 import { handlers as mswHandlers } from "../src/mocks/handlers"
-import { useStore } from "../src/store"
+import { useStore } from "../src/store/client"
 import { useEffect } from "react"
 import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
