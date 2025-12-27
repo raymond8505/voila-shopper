@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { scrapeRecipe } from "./recipeScraper";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,4 +28,11 @@ app.post("/api/webhook", (req: Request, res: Response) => {
 
 app.listen(PORT, () => {
   console.log(`[nodemon] Server is listening on port ${PORT}`);
+});
+
+scrapeRecipe(
+  //"https://www.instagram.com/reel/DRBuEJ2kTuK/?igsh=aTZicW1ucHViZDhs"
+  "https://www.google.com/search?q=Butadon+Myriad+Recipes&sca_esv=e5cbd14f40937cac&ucbcb=1&ie=UTF-8&=SG_REL&sei=ULBOad_FN_Lyi-gP9sGDoAk"
+).then((result) => {
+  console.log("Scrape result:", result);
 });
