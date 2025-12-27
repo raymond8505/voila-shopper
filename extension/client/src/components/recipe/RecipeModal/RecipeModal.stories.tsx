@@ -2,6 +2,7 @@ import { RecipeModal } from "./RecipeModal"
 import { useStore } from "../../../store"
 import { useEffect } from "react"
 import { recipe } from "../fixtures"
+import { Recipe } from "../../../types/recipe/index"
 export default {
 	title: "recipe/RecipeModal",
 	component: RecipeModal,
@@ -11,7 +12,9 @@ export default {
 				useStore()
 
 			useEffect(() => {
-				setCurrentModalRecipe(recipe)
+				setCurrentModalRecipe({
+					schema: recipe,
+				} as unknown as Recipe.RecipeMetadata)
 				setRecipeModalOpen(true)
 			}, [setRecipeModalOpen])
 			return (
