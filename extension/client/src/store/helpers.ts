@@ -1,4 +1,4 @@
-import type { Store } from "./index"
+import type { Store } from "./client/index"
 
 export const STORE_KEY = "vs-store"
 

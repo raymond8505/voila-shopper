@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import { useStore } from "./store"
+import { useStore } from "./store/client"
 
 /**
  * For styling the whole site with access to store
@@ -27,7 +27,9 @@ const GlobalStylesPortal: React.FC = () => {
 		<style
 			type="text/css"
 			id="vs-global-styles-portal"
-			dangerouslySetInnerHTML={{ __html: drawerOpen ? styleContent : "" }}
+			dangerouslySetInnerHTML={{
+				__html: drawerOpen ? styleContent : "",
+			}}
 		/>,
 		document.head
 	)

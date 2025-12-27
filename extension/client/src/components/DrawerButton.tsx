@@ -1,6 +1,6 @@
 import DoubleLeftOutlined from "@ant-design/icons/DoubleLeftOutlined"
 import DoubleRightOutlined from "@ant-design/icons/DoubleRightOutlined"
-import { useStore } from "../store"
+import { useStore } from "../store/client"
 import { Button } from "./DrawerButton.styles"
 
 /**
