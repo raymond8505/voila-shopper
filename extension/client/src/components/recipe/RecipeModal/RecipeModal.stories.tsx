@@ -1,5 +1,5 @@
 import { RecipeModal } from "./RecipeModal"
-import { useStore } from "../../../store"
+import { useStore } from "../../../store/client"
 import { useEffect } from "react"
 import { recipe } from "../fixtures"
 export default {
@@ -11,7 +11,13 @@ export default {
 				useStore()
 
 			useEffect(() => {
-				setCurrentModalRecipe(recipe)
+				setCurrentModalRecipe({
+					schema: recipe,
+					url: "https://example.com/recipe",
+					source: "Example Source",
+					loc: { lines: [{ from: "1", to: "10" }] },
+					blobType: "text/html",
+				})
 				setRecipeModalOpen(true)
 			}, [setRecipeModalOpen])
 			return (

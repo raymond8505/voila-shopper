@@ -4,17 +4,24 @@ import type { Voila } from "../types"
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 import FormOutlined from "@ant-design/icons/FormOutlined"
 import { addToCart } from "../api/voila"
-import { useStore } from "../store"
+import { useStore } from "../store/client"
 import { useMemo, useState } from "react"
 import { Wrapper } from "./ProductCard.styles"
-export function ProductCard({ product }: { product: Voila.Product }) {
+export function ProductCard({
+	product,
+}: {
+	product: Voila.Product
+}) {
 	const { addIngredient, ingredients } = useStore()
 	const [quantityInBasket, setQuantityInBasket] = useState(
 		product.quantityInBasket
 	)
 
 	const isIngredient = useMemo(
-		() => !!ingredients.find((i) => i.productId === product.productId),
+		() =>
+			!!ingredients.find(
+				(i) => i.productId === product.productId
+			),
 		[product.productId, ingredients]
 	)
 	return (
@@ -22,7 +29,10 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 			<Card
 				cover={
 					product.images && product.images.length > 0 ? (
-						<img alt={product.name} src={product.images[0].src} />
+						<img
+							alt={product.name}
+							src={product.images[0].src}
+						/>
 					) : null
 				}
 				key={product.productId}
@@ -34,9 +44,10 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 								productId: product.productId,
 								quantity: 1,
 							}).then((resp) => {
-								const basketItem = resp.basketUpdateResult.items.find(
-									(i) => i.productId === product.productId
-								)
+								const basketItem =
+									resp.basketUpdateResult.items.find(
+										(i) => i.productId === product.productId
+									)
 								setQuantityInBasket(basketItem?.quantity ?? 0)
 							})
 						}}
@@ -66,7 +77,9 @@ export function ProductCard({ product }: { product: Voila.Product }) {
 								}}
 							>
 								<dt>
-									<strong style={{ color: "#9d2500" }}>Sale Price</strong>
+									<strong style={{ color: "#9d2500" }}>
+										Sale Price
+									</strong>
 								</dt>
 								<dd>
 									<strong style={{ color: "#9d2500" }}>

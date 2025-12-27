@@ -1,5 +1,5 @@
 import { decodeHtmlEntities } from "../helpers"
-import { useStore } from "../store"
+import { useStore } from "../store/client"
 import { Recipe } from "../types/index"
 import { UnstyledButton } from "./common/elements.styles"
 

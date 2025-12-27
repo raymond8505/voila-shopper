@@ -7,6 +7,12 @@
   "host_permissions": [
     "<all_urls>"
   ],
+   "action": {
+    "default_title": "Open Shopper Dashboard"
+  },
+  "background": {
+    "service_worker": "client/dist/background.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://voila.ca/*"],
@@ -19,6 +25,11 @@
     {
       "resources": ["client/dist/dispatchInitialState.js"], 
       "matches": ["https://voila.ca/*"] ,
+      "type":"module"
+    },
+    {
+      "resources": ["client/dist/dashboard.html","client/dist/dashboard.js"], 
+      "matches": ["<all_urls>"] ,
       "type":"module"
     }
   ]

@@ -1,0 +1,19 @@
+{
+  "name": "shopper-app-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --watch './**/*.ts' --exec vite-node ./index.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "playwright": "^1.57.0",
+    "vite-node": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.1.11"
+  }
+}

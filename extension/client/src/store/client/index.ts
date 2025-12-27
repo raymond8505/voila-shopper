@@ -1,10 +1,10 @@
 import { create } from "zustand"
-import { Recipe, Voila } from "../types"
+import { Recipe, Voila } from "../../types"
 import { subscribeWithSelector } from "zustand/middleware"
 import {
 	getLocalStorageStore,
 	setLocalStorageStore,
-} from "./helpers"
+} from "../helpers"
 export interface Store {
 	ingredients: Voila.Product[]
 	setIngredients: (ingredients: Voila.Product[]) => void

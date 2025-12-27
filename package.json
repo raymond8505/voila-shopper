@@ -6,12 +6,12 @@
   "scripts": {
     "extension:client:dev": "cd ./extension && yarn client:dev",
     "extension:client:build": "cd ./extension && yarn client:build",
-    "scraper": "npx vite-node ./scraper/index.ts"
+    "scraper": "npx vite-node ./scraper/index.ts",
+    "server:dev": "cd ./server && yarn dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
     "xml2js": "^0.6.2"
@@ -21,6 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^8.49.0",
     "@typescript-eslint/parser": "^8.49.0",
     "eslint": "^9.39.1",
-    "eslint-plugin-import": "^2.32.0"
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.1.2"
   }
 }
