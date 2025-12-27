@@ -34,22 +34,6 @@ const emotionCache = createCache({
 	container: shadowRoot,
 })
 
-if (chrome?.runtime?.getURL) {
-	window.addEventListener("message", (msg) => {
-		if (msg.data.type === "VOILA_INITIAL_STATE_FROM_PAGE") {
-			window.__INITIAL_STATE__ = msg.data.payload
-		}
-	})
-	const injectScript = document.createElement("script")
-	injectScript.id = "dispatch-initial-state"
-
-	injectScript.src = chrome.runtime.getURL(
-		"client/dist/dispatchInitialState.js"
-	)
-
-	document.head.appendChild(injectScript)
-}
-
 const queryClient = new QueryClient()
 
 enableMocking().then(() => {

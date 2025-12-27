@@ -10,14 +10,14 @@
   "content_scripts": [
     {
       "matches": ["https://voila.ca/*"],
-      "js": ["client/dist/client.js"],
+      "js": ["client/dist/attach.js"],
       "run_at": "document_end",
       "type":"module"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["client/dist/dispatchInitialState.js"], 
+      "resources": ["client/dist/dispatchInitialState.js","client/dist/client.js"], 
       "matches": ["https://voila.ca/*"] ,
       "type":"module"
     }
