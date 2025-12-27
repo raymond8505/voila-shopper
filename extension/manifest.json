@@ -5,8 +5,12 @@
   "description": "Loads client/dist/client.js as a content script.",
   "permissions": [],
   "host_permissions": [
-    "<all_urls>"
+    "<all_urls>",
+    "tabs"
   ],
+   "action": {
+    "default_title": "Open Shopper Dashboard"
+  },
   "content_scripts": [
     {
       "matches": ["https://voila.ca/*"],
