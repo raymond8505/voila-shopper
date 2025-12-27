@@ -1,6 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-import App from "./App.tsx"
 import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
@@ -14,7 +13,7 @@ async function enableMocking() {
 		return
 	}
 
-	const { worker } = await import("./mocks/browser")
+	const { worker } = await import("./mocks/browser.ts")
 
 	// `worker.start()` returns a Promise that resolves
 	// once the Service Worker is up and ready to intercept requests.
@@ -22,27 +21,22 @@ async function enableMocking() {
 		onUnhandledRequest: "bypass",
 	})
 }
-
-const wrapper = document.createElement("div")
-wrapper.id = "vs-client-root"
-
-const shadowRoot = wrapper.attachShadow({ mode: "open" })
-document.body.appendChild(wrapper)
-
+const root =
+	document.getElementById("dashboard-root") ?? document.body
 const emotionCache = createCache({
 	key: "vs-client-emotion-cache",
-	container: shadowRoot,
+	container: root,
 })
 
 const queryClient = new QueryClient()
 
 enableMocking().then(() => {
-	ReactDOM.createRoot(shadowRoot).render(
+	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<CacheProvider value={emotionCache}>
-					<StyleProvider container={shadowRoot}>
-						<App />
+					<StyleProvider container={root}>
+						dashboard
 					</StyleProvider>
 				</CacheProvider>
 			</QueryClientProvider>

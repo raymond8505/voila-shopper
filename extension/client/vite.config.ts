@@ -27,8 +27,10 @@ export default defineConfig(({ mode }) => {
 		build: {
 			rollupOptions: {
 				input: {
-					client: resolve(__dirname, "src/main.tsx"),
+					client: resolve(__dirname, "src/client.tsx"),
+					dashboard: resolve(__dirname, "src/dashboard.tsx"),
 					attach: resolve(__dirname, "src/attach.ts"),
+					background: resolve(__dirname, "src/background.ts"),
 					dispatchInitialState: resolve(
 						__dirname,
 						"src/dispatchInitialState.ts"
@@ -37,6 +39,9 @@ export default defineConfig(({ mode }) => {
 				output: {
 					entryFileNames: (chunk) => {
 						return "[name].js"
+					},
+					chunkFileNames: (chunk) => {
+						return "chunk/[name].js"
 					},
 				},
 			},
