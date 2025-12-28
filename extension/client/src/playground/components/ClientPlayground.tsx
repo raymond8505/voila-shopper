@@ -1,10 +1,24 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
+import { dataLayerFixture } from "@src/api/voila.fixtures"
 
 export function ClientPlayground() {
-    return <div css={css`
-        width: 75vw;
-      `}>
-
-      <h1>Client Playground</h1>
-      </div>
+	function dataLayerPush() {
+		window.dataLayer?.push?.(dataLayerFixture)
+	}
+	return (
+		<div
+			css={css`
+				padding: 3vmin 3vmin 3vmin calc(28vw + 3vmin);
+			`}
+		>
+			<h1>Client Playground</h1>
+			<button
+				onClick={() => {
+					dataLayerPush()
+				}}
+			>
+				Push Data Layer Event
+			</button>
+		</div>
+	)
 }

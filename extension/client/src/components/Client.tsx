@@ -7,27 +7,33 @@ import { SettingsPanel } from "./SettingsPanel"
 import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
+import { useEffect } from "react"
 
+const originalPush = window.dataLayer?.push
 /**
  * The main wrapper for the client drawer
  */
 export function Client() {
 	const { drawerOpen } = useStore()
 
-	const originalPush = window.dataLayer?.push
+	useEffect(() => {
+		/**
+		 * Voila sends product info through the data layer on "view_item_list" events
+		 * We hook into this behaviour to get product info as the user browses the site
+		 */
+		if (window.dataLayer?.push) {
+			window.dataLayer.push = function (...args) {
+				originalPush?.apply(window.dataLayer, args)
 
-	if (window.dataLayer?.push) {
-		window.dataLayer.push = function (...args) {
-			originalPush?.apply(window.dataLayer, args)
-
-			if (args[0]?.eventAction === "view_item_list") {
-				console.log(
-					"item list viewed:",
-					args[0]?.ecommerce?.impressions
-				)
+				if (args[0]?.event === "view_item_list") {
+					console.log(
+						"item list viewed:",
+						args[0]?.ecommerce?.items
+					)
+				}
 			}
 		}
-	}
+	}, [])
 
 	const items: TabsProps["items"] = [
 		{

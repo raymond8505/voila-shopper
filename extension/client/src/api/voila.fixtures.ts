@@ -1,4 +1,135 @@
 import type { Voila } from "../types/voila/index"
+
+export const dataLayerFixture = {
+	event: "view_item_list",
+	ecommerce: {
+		currency: "CAD",
+		items: [
+			{
+				item_id: "182792EA",
+				item_name: "Oasis Juice Orange Pure Breakfast 960 ml",
+				index: 15,
+				item_brand: "Oasis",
+				hfss_display_restriction_group: null,
+				item_list_name: "promotions: on-offer",
+				item_variant: "960ml",
+				price: 2.79,
+				rating: null,
+				quantity: 1,
+				is_on_promotion: true,
+				promotion_ids:
+					"1000175010_1ea250ca-1254-4784-8954-d512d1ede85d",
+				is_favorite: false,
+				is_featured: false,
+				featured_campaign_id: null,
+				featured_campaign_name: null,
+				can_add_to_cart: true,
+				item_category: "Beverages",
+				item_category2: "Fruit & Vegetable Juice",
+				item_category3: "Orange Juice",
+				seller_id: null,
+			},
+			{
+				item_id: "433830CS",
+				item_name:
+					"Coca-Cola Soda Fridge Pack 12 x 355 ml (cans)",
+				index: 16,
+				item_brand: "Coca-Cola",
+				hfss_display_restriction_group: null,
+				item_list_name: "promotions: on-offer",
+				item_variant: "12 x 355ml",
+				price: 8.99,
+				rating: null,
+				quantity: 1,
+				is_on_promotion: true,
+				promotion_ids:
+					"7628192_c44ef765-f1a0-416f-85d2-a9dfae55cb83",
+				is_favorite: false,
+				is_featured: false,
+				featured_campaign_id: null,
+				featured_campaign_name: null,
+				can_add_to_cart: true,
+				item_category: "Beverages",
+				item_category2: "Soft Drinks",
+				item_category3: "Cola",
+				seller_id: null,
+			},
+			{
+				item_id: "276370EA",
+				item_name: "Maple Leaf Natural Bacon Original 375 g",
+				index: 17,
+				item_brand: "Maple Leaf",
+				hfss_display_restriction_group: null,
+				item_list_name: "promotions: on-offer",
+				item_variant: "375g",
+				price: 8.99,
+				rating: null,
+				quantity: 1,
+				is_on_promotion: true,
+				promotion_ids:
+					"92502_71c9ffde-fcb7-40be-b4d4-cee11d6dda37",
+				is_favorite: false,
+				is_featured: false,
+				featured_campaign_id: null,
+				featured_campaign_name: null,
+				can_add_to_cart: true,
+				item_category: "Meat & Seafood",
+				item_category2: "Bacon",
+				item_category3: "Pork Bacon",
+				seller_id: null,
+			},
+			{
+				item_id: "130324EA",
+				item_name: "Compliments Basil 20 g",
+				index: 18,
+				item_brand: "Compliments",
+				hfss_display_restriction_group: null,
+				item_list_name: "promotions: on-offer",
+				item_variant: "20g",
+				price: 2.49,
+				rating: null,
+				quantity: 1,
+				is_on_promotion: true,
+				promotion_ids:
+					"92572_a7befd7c-e389-43fe-b32d-343cfc0a4a56,7531936_0e557094-4750-4803-861b-74542bfc9efc",
+				is_favorite: false,
+				is_featured: false,
+				featured_campaign_id: null,
+				featured_campaign_name: null,
+				can_add_to_cart: true,
+				item_category: "Fresh Fruits & Vegetables",
+				item_category2: "Fresh Herbs",
+				seller_id: null,
+			},
+			{
+				item_id: "38004EA",
+				item_name: "GoodLeaf Cool Crisp Lettuce 113 g",
+				index: 19,
+				item_brand: "GoodLeaf",
+				hfss_display_restriction_group: null,
+				item_list_name: "promotions: on-offer",
+				item_variant: "113g",
+				price: 3.99,
+				rating: null,
+				quantity: 1,
+				is_on_promotion: true,
+				promotion_ids:
+					"92572_dbbfd195-beb6-4661-9753-8fa634595dd5",
+				is_favorite: false,
+				is_featured: false,
+				featured_campaign_id: null,
+				featured_campaign_name: null,
+				can_add_to_cart: true,
+				item_category: "Fresh Fruits & Vegetables",
+				item_category2: "Fresh Packaged Salads & Dressing",
+				item_category3: "Fresh Salad Kits & Mixes",
+				seller_id: null,
+			},
+		],
+	},
+	"gtm.uniqueEventId": 87,
+}
+
 export const decoratedProduct: Voila.DecoratedProduct = {
 	productId: "",
 	retailerProductId: "",
@@ -88,20 +219,22 @@ export const decoratedProduct: Voila.DecoratedProduct = {
 	checkoutTimeRestrictionMessage: "",
 }
 
-export const fetchPromotionPageResponse: Voila.FetchPromotionPageResponse = {
-	productGroups: [
-		{
-			decoratedProducts: [],
-		},
-	],
-	metadata: {},
-}
+export const fetchPromotionPageResponse: Voila.FetchPromotionPageResponse =
+	{
+		productGroups: [
+			{
+				decoratedProducts: [],
+			},
+		],
+		metadata: {},
+	}
 
-export const fetchProductsResponse: Voila.FetchProductsResponse = {
-	products: [],
-	missedPromotions: [],
-	restrictedGroups: {},
-}
+export const fetchProductsResponse: Voila.FetchProductsResponse =
+	{
+		products: [],
+		missedPromotions: [],
+		restrictedGroups: {},
+	}
 export const addToCartResponse: Voila.AddToCartResponse = {
 	basketUpdateResult: {
 		items: [],
