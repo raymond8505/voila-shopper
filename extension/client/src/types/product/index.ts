@@ -13,6 +13,8 @@ export namespace Product {
 		quantity?: number
 		source: string
 		sourceId: string
+		price: number
+		currency: string
 		//rawData: Record<string, unknown>
 	}
 }
