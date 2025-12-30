@@ -59,10 +59,11 @@ This is mostly what I use for personal projects
     - all components are well decorated with classes for bespoke changes plus a robus theming API
 - Emotion styled components
   - While Ant does have a robust suite of structure / layout components, I find they tend to be overkill for smaller projects / MVPs / PoCs. The cons of a full blown, opinionated layout / structure solution outweigh the pros at this stage / this use case
-- Vitest / Storybook for tests
+- Vitest / Storybook / MSW for tests
   - Vitest because there are complications trying to config Jest with Vite. Vitest has a lot of overlap with Jest, so it's easy enough to just adapt to the differences and migration tools exist should I want to switch in the future
   - Storybook is fantastic for developing components in isolation, significantly shortening the feedback loop when developing UI components deep within a user flow. Also for quickly mocking out complex states and an all around powerful suite of APIs
   - I have a lot of experience with Storybook, [having built my own Accessibility addon](https://github.com/raymond8505/storybook-addon-acrs)
+  - Voila API only accepts API requests from its own domain, so MSW seamlessly mocks API responses on dev
 
 ### Database
 
@@ -78,7 +79,8 @@ This is mostly what I use for personal projects
 
 **Tables and Functions**
 
-`/sql/` contains sql files for all required tables and functions for the workflows
+- `/sql/` contains sql files for all required tables and functions for the workflows
+- where it makes sense, created functions for complex, re-used queries to ensure Supabase is the single source of truth for all db related logic, making database dependent workflow maintenance and upgrading easier
 
 ### Workflows / AI
 
@@ -112,7 +114,7 @@ My resume contains a long list of skills and qualities, below are examples of ho
 ### Qualifications
 
 #### Proficient troubleshooter
-  - Voila sends a `x-csrf-token` token with each API fetch request. Finding how and where the page made that value available for the front end code required walking their minified front end code to find that the initial render also put a variable on window containing various data for the front end. Data included various session related values and an array of "above the fold" products, this is likely a strategy to improve various Core Web Vitals that would suffer if initial page load had to wait for a fetch before displaying content
+  - Walking Voila's minified code to reverse engineer their API
 #### Exemplary problem-solving skills
   - RAG performance hinges on a lot of variables, investigating and addressing those in my workflows took a lot of this. Context stuffing vs Vector matching, Temperature, result size, vector dimensionality and indexing, batching, caching, and trimming data- all of these were required to dial in the AI workflows. And Solving these problems them required an ability to recognize an effect and accurately identify its cause.
   - building out my RAG strategies in my workflows has been a fun exercise in problem solving and patience. Lots of patience...

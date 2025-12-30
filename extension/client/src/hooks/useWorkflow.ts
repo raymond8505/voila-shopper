@@ -34,6 +34,7 @@ export function useWorkflow<T = Job.UnknownData>({
 			 */
 			timeout?: number
 		}) => {
+			console.log("useWorkflow.call", { url, payload })
 			return queryClient.fetchQuery({
 				queryKey: [
 					"use-workflow",

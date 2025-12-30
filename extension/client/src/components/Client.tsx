@@ -8,6 +8,7 @@ import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
 import { useEffect } from "react"
+import { useProducts } from "@src/hooks/useProducts"
 
 const originalPush = window.dataLayer?.push
 /**
@@ -15,6 +16,7 @@ const originalPush = window.dataLayer?.push
  */
 export function Client() {
 	const { drawerOpen } = useStore()
+	const { hydrateProducts } = useProducts()
 
 	useEffect(() => {
 		/**
@@ -26,14 +28,11 @@ export function Client() {
 				originalPush?.apply(window.dataLayer, args)
 
 				if (args[0]?.event === "view_item_list") {
-					console.log(
-						"item list viewed:",
-						args[0]?.ecommerce?.items
-					)
+					hydrateProducts(args[0]?.ecommerce?.items)
 				}
 			}
 		}
-	}, [])
+	}, [hydrateProducts])
 
 	const items: TabsProps["items"] = [
 		{

@@ -2,9 +2,9 @@ import { Product } from "@src/types/product"
 import { create } from "zustand"
 
 export interface ProductsStore {
-	products: Product.Product[]
-	addProducts: (products: Product.Product[]) => void
-	removeProducts: (products: Product.Product[]) => void
+	products: Product.SourceProduct[]
+	addProducts: (products: Product.SourceProduct[]) => void
+	removeProducts: (products: Product.SourceProduct[]) => void
 }
 
 export const useStore = create<ProductsStore>()((set) => ({

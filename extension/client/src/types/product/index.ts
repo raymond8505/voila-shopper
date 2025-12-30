@@ -1,7 +1,18 @@
 export namespace Product {
-	export interface Product {
+	/**
+	 * A product containing all the relevant information
+	 * needed to identify and describe it
+	 */
+	export interface SourceProduct {
+		brand?: string
 		name: string
-		price: number
-		priceData?: {}
+		productType?: string
+		variants?: string[]
+		category?: string
+		packSizeDescription?: string
+		quantity?: number
+		source: string
+		sourceId: string
+		//rawData: Record<string, unknown>
 	}
 }
