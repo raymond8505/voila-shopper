@@ -28,10 +28,6 @@ export function Client() {
 			window.dataLayer.push = function (...args) {
 				originalPush?.apply(window.dataLayer, args)
 				if (isGA3ImpressionEvent(args[0])) {
-					console.log(
-						"dataLayer_push hydrating products",
-						args[0]?.ecommerce.impressions
-					)
 					hydrateProducts(args[0]?.ecommerce?.impressions)
 				}
 			}

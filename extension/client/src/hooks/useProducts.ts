@@ -9,6 +9,7 @@ function normalizeVoilaProduct(
 	rawProduct: Voila.Product
 ): Product.RawProduct {
 	const rawPrice = rawProduct.promoPrice ?? rawProduct.price
+
 	return {
 		brand: rawProduct.brand,
 		name: rawProduct.name,
@@ -16,7 +17,16 @@ function normalizeVoilaProduct(
 		packSizeDescription: rawProduct.packSizeDescription,
 		source: window.location.origin,
 		sourceId: rawProduct.productId,
-		price: Number(rawPrice.amount),
+		price: {
+			price: Number(rawPrice.amount),
+			currency: rawPrice.currency,
+			/**
+			 * only define originalPrice if there's a promo price
+			 */
+			originalPrice: rawProduct.promoPrice
+				? Number(rawProduct.price.amount)
+				: undefined,
+		},
 		currency: rawPrice.currency,
 	}
 }
@@ -46,6 +56,8 @@ export function useProducts() {
 			const newVoilaProducts = await getProducts(
 				newProducts.map((p) => p.productId as string)
 			)
+
+			console.log("Hydrating products:", newVoilaProducts)
 
 			const productsToCreate = newVoilaProducts.products.map(
 				normalizeVoilaProduct
