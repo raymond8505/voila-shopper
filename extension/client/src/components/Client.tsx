@@ -9,6 +9,7 @@ import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
 import { useEffect } from "react"
 import { useProducts } from "@src/hooks/useProducts"
+import { isGA3ImpressionEvent } from "@src/integrations/voila/helpers"
 
 const originalPush = window.dataLayer?.push
 /**
@@ -26,9 +27,12 @@ export function Client() {
 		if (window.dataLayer?.push) {
 			window.dataLayer.push = function (...args) {
 				originalPush?.apply(window.dataLayer, args)
-
-				if (args[0]?.event === "view_item_list") {
-					hydrateProducts(args[0]?.ecommerce?.items)
+				if (isGA3ImpressionEvent(args[0])) {
+					console.log(
+						"dataLayer_push hydrating products",
+						args[0]?.ecommerce.impressions
+					)
+					hydrateProducts(args[0]?.ecommerce?.impressions)
 				}
 			}
 		}

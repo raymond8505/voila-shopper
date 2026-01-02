@@ -1,20 +1,20 @@
 import { Voila } from "@src/types"
 import { Product } from "@src/types/product"
 import { useStore as useProductsStore } from "@store/products"
-import { useCallback, useEffect } from "react"
+import { useCallback } from "react"
 import { useVoila } from "./useVoila"
 import { useWorkflow } from "./useWorkflow"
 
 function normalizeVoilaProduct(
 	rawProduct: Voila.Product
-): Product.SourceProduct {
+): Product.RawProduct {
 	const rawPrice = rawProduct.promoPrice ?? rawProduct.price
 	return {
 		brand: rawProduct.brand,
 		name: rawProduct.name,
 		category: rawProduct.categoryPath.join(" > "),
 		packSizeDescription: rawProduct.packSizeDescription,
-		source: "voila.ca",
+		source: window.location.origin,
 		sourceId: rawProduct.productId,
 		price: Number(rawPrice.amount),
 		currency: rawPrice.currency,
@@ -33,13 +33,15 @@ export function useProducts() {
 
 	const hydrateProducts = useCallback(
 		async (productsToHydrate: Partial<Voila.Product>[]) => {
-			const newProducts = productsToHydrate.filter(
-				(newProduct) =>
-					!products.some(
-						(existingProduct) =>
-							existingProduct.name === newProduct.name
-					)
-			)
+			const newProducts = productsToHydrate
+				.filter((p) => !!p.productId)
+				.filter(
+					(newProduct) =>
+						!products.some(
+							(existingProduct) =>
+								existingProduct.raw?.name === newProduct.name
+						)
+				)
 
 			const newVoilaProducts = await getProducts(
 				newProducts.map((p) => p.productId as string)
@@ -49,7 +51,7 @@ export function useProducts() {
 				normalizeVoilaProduct
 			)
 
-			createProducts<{ products: Product.SourceProduct[] }>({
+			createProducts<{ products: Product.RawProduct[] }>({
 				payload: { products: productsToCreate },
 				hookOptions: {
 					method: "POST",

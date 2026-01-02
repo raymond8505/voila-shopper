@@ -1,9 +1,9 @@
 import { css } from "@emotion/react"
-import { dataLayerFixture } from "@src/api/voila.fixtures"
+import { dataLayerImpressionsFixture } from "@src/api/voila.fixtures"
 
 export function ClientPlayground() {
 	function dataLayerPush() {
-		window.dataLayer?.push?.(dataLayerFixture)
+		window.dataLayer?.push?.(dataLayerImpressionsFixture)
 	}
 	return (
 		<div
