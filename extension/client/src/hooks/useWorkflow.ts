@@ -37,12 +37,13 @@ export function useWorkflow<T = Job.UnknownData>({
 			console.log("useWorkflow.call", { url, payload })
 			return queryClient.fetchQuery({
 				queryKey: [
-					"use-workflow",
+					`use-workflow-${workflowLiveMode ? "live" : "test"}`,
 					url,
 					payload,
 					responseType,
 					respondOnStatus,
 					timeout,
+					workflowLiveMode,
 				],
 				queryFn: async () => {
 					setLoading(true)

@@ -17,7 +17,7 @@ const originalPush = window.dataLayer?.push
  */
 export function Client() {
 	const { drawerOpen } = useStore()
-	const { hydrateProducts } = useProducts()
+	const { hydrateProducts, products } = useProducts()
 
 	useEffect(() => {
 		/**
@@ -33,6 +33,18 @@ export function Client() {
 			}
 		}
 	}, [hydrateProducts])
+
+	useEffect(() => {
+		products.forEach((p) => {
+			if (p.full) {
+				const productCard = document.querySelectorAll(
+					`[data-test="fop-wrapper:${p.full.price_intelligence.current.external_id}"]`
+				)
+
+				console.log({ productCard })
+			}
+		})
+	}, [products])
 
 	const items: TabsProps["items"] = [
 		{

@@ -56,6 +56,63 @@ export namespace Product {
 		source: Source
 	}
 
+	// ============================================================================
+	// Price Intelligence Types
+	// ============================================================================
+
+	export interface CurrentPrice {
+		price: number
+		is_sale: boolean
+		original_price: number | null
+		source_name: string
+		source_slug: string
+		is_best_source: boolean
+		external_id: string
+	}
+
+	export interface BestSource {
+		source_id: string
+		source_name: string
+		source_slug: string
+		price: number
+	}
+
+	export interface ProductHistory {
+		product_id: string
+		observation_count: number
+		first_observed: string
+		last_observed: string
+		regular_count: number
+		avg_regular_price: number | null
+		lowest_regular_price: number | null
+		sale_count: number
+		avg_sale_price: number | null
+		lowest_sale_price: number | null
+		best_source: BestSource
+	}
+
+	export interface CommodityStats {
+		commodity_fingerprint: string
+		product_count: number
+		observation_count: number
+		regular_count: number
+		avg_regular_price: number | null
+		lowest_regular_price: number | null
+		sale_count: number
+		avg_sale_price: number | null
+		lowest_sale_price: number | null
+	}
+
+	export interface PriceIntelligence {
+		current: CurrentPrice
+		product_history: ProductHistory
+		commodity_stats: CommodityStats
+	}
+
+	// ============================================================================
+	// Product Types
+	// ============================================================================
+
 	export interface BaseProduct {
 		id: string
 		gtin: string | null
@@ -73,11 +130,16 @@ export namespace Product {
 		prices: Price[]
 	}
 
-	// Convenience alias for the full product shape
+	export interface WithPriceIntelligence extends BaseProduct {
+		price_intelligence: PriceIntelligence
+	}
+
+	// Convenience aliases
 	export type Full = WithPrices
+	export type WithIntelligence = WithPriceIntelligence
 
 	export type StoreProduct = {
 		raw?: RawProduct
-		full?: Full
+		full?: WithIntelligence
 	}
 }

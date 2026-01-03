@@ -4,6 +4,7 @@ import { useStore as useProductsStore } from "@store/products"
 import { useCallback } from "react"
 import { useVoila } from "./useVoila"
 import { useWorkflow } from "./useWorkflow"
+import { isCreateProductsResponse } from "@src/types/helpers"
 
 function normalizeVoilaProduct(
 	rawProduct: Voila.Product
@@ -33,7 +34,9 @@ function normalizeVoilaProduct(
 export function useProducts() {
 	const { addProducts, products } = useProductsStore()
 	const { getProducts } = useVoila()
-	const { call: createProducts } = useWorkflow({
+	const { call: createProducts } = useWorkflow<{
+		products: Product.WithIntelligence[]
+	}>({
 		url: import.meta.env.VITE_WORKFLOW_CREATE_PRODUCTS,
 		auth: {
 			username: import.meta.env.VITE_WORKFLOW_USERNAME,
@@ -57,8 +60,6 @@ export function useProducts() {
 				newProducts.map((p) => p.productId as string)
 			)
 
-			console.log("Hydrating products:", newVoilaProducts)
-
 			const productsToCreate = newVoilaProducts.products.map(
 				normalizeVoilaProduct
 			)
@@ -73,12 +74,28 @@ export function useProducts() {
 				.catch((error) => {
 					console.error("Error creating products:", error)
 				})
-				.then((t) => {
-					console.log("Created products workflow response:", t)
+				.then((resp) => {
+					if (isCreateProductsResponse(resp)) {
+						const { products } = resp
+
+						addProducts(
+							products.map((hydrated) => {
+								return {
+									full: hydrated,
+									raw: productsToCreate.find(
+										(raw) =>
+											raw.sourceId ===
+											hydrated.price_intelligence.current
+												.external_id // Assuming gtin maps to sourceId
+									) as Product.RawProduct,
+								}
+							})
+						)
+					}
 				})
 		},
 		[addProducts, products, getProducts]
 	)
 
-	return { hydrateProducts }
+	return { hydrateProducts, products }
 }

@@ -11,7 +11,14 @@ export const useStore = create<ProductsStore>()((set) => ({
 	products: [],
 	addProducts: (products) =>
 		set((state) => ({
-			products: [...state.products, ...products],
+			products: [...state.products, ...products].filter(
+				(p, index, self) => {
+					return (
+						index ===
+						self.findIndex((t) => t.full?.id === p.full?.id)
+					)
+				}
+			),
 		})),
 	removeProducts: (products) =>
 		set((state) => ({

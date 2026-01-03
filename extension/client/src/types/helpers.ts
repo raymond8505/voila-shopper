@@ -1,4 +1,5 @@
 import type { Workflow } from "./index"
+import { Product } from "./product"
 import type { Voila } from "./voila"
 
 /**
@@ -6,7 +7,9 @@ import type { Voila } from "./voila"
  * @param response
  * @returns
  */
-export function isWorkflowError(response: unknown): response is Workflow.Error {
+export function isWorkflowError(
+	response: unknown
+): response is Workflow.Error {
 	return (
 		(response as Workflow.Error).status !== undefined &&
 		typeof (response as Workflow.Error).status === "number"
@@ -18,7 +21,9 @@ export function isWorkflowError(response: unknown): response is Workflow.Error {
  * @param obj The object to check.
  * @returns True if the object is a Voila.Product, false otherwise.
  */
-export function isVoilaProduct(obj: unknown): obj is Voila.Product {
+export function isVoilaProduct(
+	obj: unknown
+): obj is Voila.Product {
 	if (typeof obj !== "object" || obj === null) {
 		return false
 	}
@@ -41,6 +46,24 @@ export function isVoilaProduct(obj: unknown): obj is Voila.Product {
  * @param obj The object to check.
  * @returns True if the object is an array of Voila.Product, false otherwise.
  */
-export function isVoilaProductArray(obj: unknown): obj is Voila.Product[] {
+export function isVoilaProductArray(
+	obj: unknown
+): obj is Voila.Product[] {
 	return Array.isArray(obj) && obj.every(isVoilaProduct)
+}
+
+export function isCreateProductsResponse(
+	response: unknown
+): response is { products: Product.WithIntelligence[] } {
+	if (typeof response !== "object" || response === null) {
+		return false
+	}
+
+	const resp = response as { products: unknown }
+
+	return (
+		typeof resp.products === "object" &&
+		resp.products !== null &&
+		Array.isArray(resp.products)
+	)
 }
