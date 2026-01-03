@@ -139,7 +139,7 @@ export namespace Product {
 	export type WithIntelligence = WithPriceIntelligence
 
 	export type StoreProduct = {
-		raw?: RawProduct
+		raw: RawProduct
 		full?: WithIntelligence
 	}
 }
