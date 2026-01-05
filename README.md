@@ -37,9 +37,9 @@
 
 _A grocery shopping and recipe ideation app_
 
-First and foremost, I built this because I legitimately want to automate my grocery shopping and recipe ideation with a focus on promotional items. It's fun having an ingredient constraint for recipes, but manually sifting through 1500-2000 items per week is tedious. Also manually tracking sale prices both historically and across competing brands and retailers to understand whether a sale is actually "good" is not an easy undertaking.
+First and foremost, I built this because I legitimately want to automate my grocery shopping and recipe ideation with a focus on easily finding the lowest prices for any ingredient. It's fun having an ingredient constraint for recipes, but manually sifting through 1500-2000 items per week is tedious. Also manually tracking sale prices both historically and across competing brands and retailers to understand whether a sale is actually "good" is not an easy manual undertaking.
 
-Right now the app is designed to work with voila.ca, a new panel is added to all voila.ca pages. AI features are powered by a variety of custom n8n workflows, mostly leveraging Gemini Flash 2.5 and Gemini Flash Lite 2.5
+Right now the app is designed to work with voila.ca, a new panel is added to all voila.ca pages. AI features are powered by a variety of custom n8n workflows, mostly leveraging Gemini Flash 2.5 & 3.0, and Gemini Flash Lite 2.5 & 3.0
 
 ## The Tech Stack
 
@@ -57,7 +57,7 @@ This is mostly what I use for personal projects
   - lots of experience
 - Ant UI components and icons
   - Branding is a low priority so Ant components are great for quick UI development balanced with robust customization options
-    - all components are well decorated with classes for bespoke changes plus a robus theming API
+    - all components are well decorated with classes for bespoke changes plus a robust theming API
 - Emotion styled components
   - While Ant does have a robust suite of structure / layout components, I find they tend to be overkill for smaller projects / MVPs / PoCs. The cons of a full blown, opinionated layout / structure solution outweigh the pros at this stage / this use case
 - Vitest / Storybook / MSW for tests

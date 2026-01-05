@@ -1,13 +1,8 @@
 import { useStoreProduct } from "@src/hooks/useStoreProduct"
 import GoldOutlined from "@ant-design/icons/GoldOutlined"
 import BarcodeOutlined from "@ant-design/icons/BarcodeOutlined"
+import { PriceDifferenceArrow } from "./PriceDifferenceArrow"
 
-function getPriceDifference(
-	currentPrice: number,
-	comparePrice: number
-) {
-	return (currentPrice - comparePrice) / comparePrice
-}
 export function PriceIntelligence({
 	productId,
 }: {
@@ -25,36 +20,58 @@ export function PriceIntelligence({
 			.avg_sale_price
 	const isSale = product.full.price_intelligence.current.is_sale
 
-	const productDiff = getPriceDifference(
-		product.full.price_intelligence.current.price,
-		/**
-		 * we return early above if price_intelligence doesn't exist.
-		 * If price_intelligence exists, so do these values.
-		 */
-		isSale ? avgSaleProductPrice! : avgRegProductPrice!
-	)
+	const shouldShowProductArrow = isSale
+		? !!avgSaleProductPrice
+		: !!avgRegProductPrice
+
+	const avgRegCommodityPrice =
+		product.full.price_intelligence.commodity_stats
+			.avg_regular_price
+	const avgSaleCommodityPrice =
+		product.full.price_intelligence.commodity_stats
+			.avg_sale_price
+
+	const shouldShowCommodityArrow = isSale
+		? !!avgSaleCommodityPrice
+		: !!avgRegCommodityPrice
+
 	return (
-		<div>
-			<div>
-				<BarcodeOutlined />
-				{productDiff.toFixed(2)}
-				<PriceDifferenceIcon
-					currentPrice={
-						product.full.price_intelligence.current.price
-					}
-					comparePrice={
-						isSale ? avgSaleProductPrice! : avgRegProductPrice!
-					}
-					tooltip={`dynamic message about price specifics`}
-				/>
-			</div>
-			<div>
-				<GoldOutlined />
-				{
-					product?.full?.price_intelligence?.commodity_stats
-						.avg_regular_price
-				}
-			</div>
+		<div
+			style={{
+				display: "flex",
+				gap: "4px",
+				alignItems: "center",
+				width: "100%",
+			}}
+		>
+			{shouldShowProductArrow ? (
+				<div>
+					<BarcodeOutlined />
+					<PriceDifferenceArrow
+						currentPrice={
+							product.full.price_intelligence.current.price
+						}
+						comparePrice={
+							isSale ? avgSaleProductPrice! : avgRegProductPrice!
+						}
+					/>
+				</div>
+			) : null}
+			{shouldShowCommodityArrow ? (
+				<div>
+					<GoldOutlined />
+					<PriceDifferenceArrow
+						currentPrice={
+							product.full.price_intelligence.current.price
+						}
+						comparePrice={
+							isSale
+								? avgSaleCommodityPrice!
+								: avgRegCommodityPrice!
+						}
+					/>
+				</div>
+			) : null}
 		</div>
 	)
 }

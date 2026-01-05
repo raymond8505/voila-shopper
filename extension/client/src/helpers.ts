@@ -206,3 +206,18 @@ export function isoDurationToMs(
 		1000
 	)
 }
+/**
+ * Gets the difference between 2 prices
+ */
+export function getPriceDifference(
+	currentPrice: number,
+	comparePrice: number
+) {
+	const decimal = currentPrice - comparePrice
+	const percent = decimal / comparePrice
+
+	return {
+		decimal,
+		percent,
+	}
+}

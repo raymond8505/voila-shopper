@@ -38,10 +38,10 @@ export function SourceIntegration() {
 						) as HTMLElement
 
 						if (!existingWrapper) {
-							const newWrapper = document.createElement("span")
+							const newWrapper = document.createElement("div")
 							newWrapper.classList.add("vs-price-intelligence")
 
-							parent.append(newWrapper)
+							parent.parentElement?.after(newWrapper)
 
 							wrappers.push(newWrapper)
 						} else {
