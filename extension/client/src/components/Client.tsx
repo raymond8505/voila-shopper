@@ -1,6 +1,6 @@
 import Tabs from "antd/es/tabs"
 import type { TabsProps } from "antd/es/tabs"
-import { ProductsPanel } from "./ProductsPanel"
+import { ProductsPanel } from "./ProductsPanelOLD"
 import { RecipesPanel } from "./RecipesPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
