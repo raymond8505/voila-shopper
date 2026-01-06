@@ -14,9 +14,12 @@ describe("setLocalStorageStore", () => {
 			ingredients: [],
 		}
 
-		setLocalStorageStore(state)
+		setLocalStorageStore(state, "client")
 
-		expect(setItemSpy).toHaveBeenCalledWith(STORE_KEY, JSON.stringify(state))
+		expect(setItemSpy).toHaveBeenCalledWith(
+			STORE_KEY,
+			JSON.stringify(state)
+		)
 	})
 })
 describe("getLocalStorageStore", () => {

@@ -122,33 +122,34 @@ export function RecipeModal() {
 								{
 									key: "calories",
 									label: "Cals",
-									value: recipe?.nutrition.calories,
+									value: recipe?.nutrition?.calories,
 									children:
-										recipe?.nutrition.calories ?? "unknown",
+										recipe?.nutrition?.calories ?? "unknown",
 								},
 								{
 									key: "carbs",
 									label: "Carbs",
-									value: recipe?.nutrition.carbohydrateContent,
+									value: recipe?.nutrition?.carbohydrateContent,
 									children: `${
-										recipe?.nutrition.carbohydrateContent ??
+										recipe?.nutrition?.carbohydrateContent ??
 										"unknown"
 									}g`,
 								},
 								{
 									key: "fat",
 									label: "Fat",
-									value: recipe?.nutrition.fatContent,
+									value: recipe?.nutrition?.fatContent,
 									children: `${
-										recipe?.nutrition.fatContent ?? "unknown"
+										recipe?.nutrition?.fatContent ?? "unknown"
 									}g`,
 								},
 								{
 									key: "protein",
 									label: "Protein",
-									value: recipe?.nutrition.proteinContent,
+									value: recipe?.nutrition?.proteinContent,
 									children: `${
-										recipe?.nutrition.proteinContent ?? "unknown"
+										recipe?.nutrition?.proteinContent ??
+										"unknown"
 									}g`,
 								},
 							].filter((i) => i.value !== undefined)}

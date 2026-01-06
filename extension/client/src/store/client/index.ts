@@ -29,7 +29,7 @@ export interface Store {
 const localStorageStore = getLocalStorageStore()
 export const useStore = create<Store>()(
 	subscribeWithSelector((set) => ({
-		ingredients: localStorageStore?.ingredients ?? [],
+		ingredients: localStorageStore?.client?.ingredients ?? [],
 
 		setIngredients: (ingredients) =>
 			set({
@@ -45,13 +45,15 @@ export const useStore = create<Store>()(
 					(ingredient) => ingredient.productId !== productId
 				),
 			})),
-		includeCriteria: localStorageStore?.includeCriteria ?? "",
+		includeCriteria:
+			localStorageStore?.client?.includeCriteria ?? "",
 		setIncludeCriteria: (criteria) =>
 			set({ includeCriteria: criteria }),
-		excludeCriteria: localStorageStore?.excludeCriteria ?? "",
+		excludeCriteria:
+			localStorageStore?.client?.excludeCriteria ?? "",
 		setExcludeCriteria: (criteria) =>
 			set({ excludeCriteria: criteria }),
-		drawerOpen: localStorageStore?.drawerOpen ?? true,
+		drawerOpen: localStorageStore?.client?.drawerOpen ?? true,
 		setDrawerOpen: (val) =>
 			set({
 				drawerOpen: val,
@@ -63,11 +65,12 @@ export const useStore = create<Store>()(
 			}),
 		recipeModalOpen: false,
 		setRecipeModalOpen: (val) => set({ recipeModalOpen: val }),
-		recipeCriteria: localStorageStore?.recipeCriteria ?? "",
+		recipeCriteria:
+			localStorageStore?.client?.recipeCriteria ?? "",
 		setRecipeCriteria: (criteria) =>
 			set({ recipeCriteria: criteria }),
 		workflowLiveMode:
-			localStorageStore?.workflowLiveMode ?? false,
+			localStorageStore?.client?.workflowLiveMode ?? false,
 		setWorkflowLiveMode: (val) => set({ workflowLiveMode: val }),
 	}))
 )
@@ -81,5 +84,5 @@ useStore.subscribe(
 		recipeCriteria: state.recipeCriteria,
 		workflowLiveMode: state.workflowLiveMode,
 	}),
-	setLocalStorageStore
+	(state) => setLocalStorageStore(state, "client")
 )

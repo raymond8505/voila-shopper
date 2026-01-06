@@ -17,9 +17,17 @@ export const GlobalStyles = () => {
           gap: 0 8px;
         }
 
-        strong
+        strong,
+        legend
         {
           font-weight: bold;
+        }
+
+        fieldset
+        {
+          border-bottom: 1px solid rgba(0,0,0,0.1);
+          padding-bottom: 8px;
+          margin-bottom: 16px;
         }
     `}
 		/>

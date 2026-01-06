@@ -9,7 +9,7 @@ export namespace Recipe {
 		recipeIngredient: string[]
 		recipeInstructions: { type?: string; text: string }[]
 		name: string
-		nutrition: NutritionInformation
+		nutrition?: NutritionInformation
 		prepTime?: string
 		cookTime?: string
 		totalTime?: string

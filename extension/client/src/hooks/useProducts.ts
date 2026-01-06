@@ -32,7 +32,8 @@ function normalizeVoilaProduct(
 	}
 }
 export function useProducts() {
-	const { addProducts, products } = useProductsStore()
+	const { addProducts, products, ignoredVariants } =
+		useProductsStore()
 	const { getProducts } = useVoila()
 	const { call: createProducts } = useWorkflow<{
 		products: Product.WithIntelligence[]
@@ -64,8 +65,11 @@ export function useProducts() {
 				normalizeVoilaProduct
 			)
 
-			createProducts<{ products: Product.RawProduct[] }>({
-				payload: { products: productsToCreate },
+			createProducts<{
+				products: Product.RawProduct[]
+				ignoredVariants: string[]
+			}>({
+				payload: { products: productsToCreate, ignoredVariants },
 				hookOptions: {
 					method: "POST",
 				},
@@ -94,7 +98,7 @@ export function useProducts() {
 					}
 				})
 		},
-		[addProducts, products, getProducts]
+		[addProducts, products, getProducts, ignoredVariants]
 	)
 
 	return { hydrateProducts, products }
