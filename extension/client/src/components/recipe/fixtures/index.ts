@@ -47,7 +47,7 @@ export const recipe: Recipe.Recipe = {
 		{
 			text: "Serve garnished with a radish rose if you&#39;re a fancy boy",
 		},
-	],
+	] as Recipe.HowToStep[],
 	recipeCategory: ["Salad"],
 	recipeCuisine: ["german"],
 	nutrition: {

@@ -32,8 +32,8 @@ const mockRecipe: Recipe.Recipe = {
 	recipeYield: "4 servings",
 	recipeIngredient: ["1 cup of flour", "2 eggs"],
 	recipeInstructions: [
-		{ type: "HowToStep", text: "Mix flour and eggs." },
-		{ type: "HowToStep", text: "Bake at 350." },
+		{ '@type': "HowToStep", text: "Mix flour and eggs." },
+		{ '@type': "HowToStep", text: "Bake at 350." },
 	],
 	nutrition: {
 		"@type": "NutritionInformation",

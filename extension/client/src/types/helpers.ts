@@ -1,7 +1,6 @@
 import type { Workflow } from "./index"
 import { Product } from "./product"
 import type { Voila } from "./voila"
-import { HowToSection } from "../components/recipe/RecipeModal/HowToSection"
 import { Recipe } from "./recipe/index"
 
 /**

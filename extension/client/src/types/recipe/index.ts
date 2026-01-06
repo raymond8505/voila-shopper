@@ -24,7 +24,10 @@ export namespace Recipe {
 		itemListElement?: HowToStep[]
 	}
 
-	export type HowToStep = Schema.HowToStep
+	export type HowToStep = Omit<Schema.HowToStep, "text"> & {
+		"@type"?: string
+		text?: string
+	}
 
 	export interface RecipeMetadata {
 		schema: Recipe
