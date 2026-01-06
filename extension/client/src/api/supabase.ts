@@ -7,7 +7,9 @@ export function supabaseRequest({
 	tableParams: Record<string, string | number>
 	opts?: RequestInit
 }) {
-	const url = new URL(`${import.meta.env.VITE_SUPABASE_URL}${table}`)
+	const url = new URL(
+		`${import.meta.env.VITE_SUPABASE_URL}${table}`
+	)
 
 	tableParams &&
 		Object.entries(tableParams).forEach(([key, value]) => {
@@ -17,7 +19,9 @@ export function supabaseRequest({
 	return fetch(url.toString(), {
 		headers: {
 			apikey: import.meta.env.VITE_SUPABASE_API_KEY,
-			Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_API_KEY}`,
+			Authorization: `Bearer ${
+				import.meta.env.VITE_SUPABASE_API_KEY
+			}`,
 			"Content-Type": "application/json",
 			...opts?.headers,
 		},

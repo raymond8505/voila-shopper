@@ -2,10 +2,13 @@ import { Descriptions, Modal } from "antd"
 
 import { useStore } from "@store/client"
 import { useMemo, useRef } from "react"
-import { decodeHtmlEntities } from "../../../helpers"
+import { decodeHtmlEntities, trimUnit } from "../../../helpers"
 import { ModalBody, Wrapper } from "./RecipeModal.styles"
 import { Duration } from "@src/components/common/Duration/Duration"
 import { DescriptionsItemType } from "antd/es/descriptions"
+import { isHowToSection } from "@src/types/helpers"
+import { HowToSection } from "./HowToSection"
+import { HowToStep } from "./HowToStep"
 
 /**
  * A modal to display a recipe
@@ -23,6 +26,7 @@ export function RecipeModal() {
 	} = useStore()
 
 	const recipe = useMemo(() => {
+		console.log(recipeMeta)
 		return recipeMeta?.schema
 	}, [recipeMeta])
 
@@ -76,6 +80,7 @@ export function RecipeModal() {
 										key: "servings",
 										label: "Servings",
 										value: recipe?.recipeYield,
+										children: recipe?.recipeYield,
 									},
 								].filter(
 									(i) => i.value !== undefined
@@ -104,11 +109,15 @@ export function RecipeModal() {
 						{recipe?.recipeIngredient ? (
 							<ol>
 								{recipe?.recipeInstructions.map(
-									(instruction, i) => (
-										<li key={i}>
-											{decodeHtmlEntities(instruction.text)}
-										</li>
-									)
+									(stepOrSection, i) =>
+										isHowToSection(stepOrSection) ? (
+											<HowToSection
+												key={i}
+												section={stepOrSection}
+											/>
+										) : (
+											<HowToStep key={i} step={stepOrSection} />
+										)
 								)}
 							</ol>
 						) : null}
@@ -123,16 +132,20 @@ export function RecipeModal() {
 									key: "calories",
 									label: "Cals",
 									value: recipe?.nutrition?.calories,
-									children:
-										recipe?.nutrition?.calories ?? "unknown",
+									children: recipe?.nutrition?.calories
+										? `${trimUnit(
+												recipe?.nutrition?.calories
+										  )}kcal`
+										: "unknown",
 								},
 								{
 									key: "carbs",
 									label: "Carbs",
 									value: recipe?.nutrition?.carbohydrateContent,
 									children: `${
-										recipe?.nutrition?.carbohydrateContent ??
-										"unknown"
+										trimUnit(
+											recipe?.nutrition?.carbohydrateContent
+										) ?? "unknown"
 									}g`,
 								},
 								{
@@ -140,7 +153,8 @@ export function RecipeModal() {
 									label: "Fat",
 									value: recipe?.nutrition?.fatContent,
 									children: `${
-										recipe?.nutrition?.fatContent ?? "unknown"
+										trimUnit(recipe?.nutrition?.fatContent) ??
+										"unknown"
 									}g`,
 								},
 								{
@@ -148,8 +162,9 @@ export function RecipeModal() {
 									label: "Protein",
 									value: recipe?.nutrition?.proteinContent,
 									children: `${
-										recipe?.nutrition?.proteinContent ??
-										"unknown"
+										trimUnit(
+											recipe?.nutrition?.proteinContent
+										) ?? "unknown"
 									}g`,
 								},
 							].filter((i) => i.value !== undefined)}

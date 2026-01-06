@@ -221,3 +221,7 @@ export function getPriceDifference(
 		percent,
 	}
 }
+
+export function trimUnit(str?: string) {
+	return str ? str.replace(/(g|kcal)$/gi, "") : str
+}

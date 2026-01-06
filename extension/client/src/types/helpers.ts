@@ -1,6 +1,8 @@
 import type { Workflow } from "./index"
 import { Product } from "./product"
 import type { Voila } from "./voila"
+import { HowToSection } from "../components/recipe/RecipeModal/HowToSection"
+import { Recipe } from "./recipe/index"
 
 /**
  * Workflow.Error type guard
@@ -66,4 +68,32 @@ export function isCreateProductsResponse(
 		resp.products !== null &&
 		Array.isArray(resp.products)
 	)
+}
+
+export function isHowToSection(
+	section: unknown
+): section is Recipe.HowToSection {
+	if (
+		!section ||
+		typeof section !== "object" ||
+		section?.["@type"] !== "HowToSection"
+	) {
+		return false
+	}
+
+	return true
+}
+
+export function isHowToStep(
+	section: unknown
+): section is Recipe.HowToStep {
+	if (
+		!section ||
+		typeof section !== "object" ||
+		section?.["@type"] !== "HowToStep"
+	) {
+		return false
+	}
+
+	return true
 }

@@ -7,7 +7,7 @@ export namespace Recipe {
 		"recipeInstructions" | "nutrition"
 	> & {
 		recipeIngredient: string[]
-		recipeInstructions: { type?: string; text: string }[]
+		recipeInstructions: (HowToSection | HowToStep)[]
 		name: string
 		nutrition?: NutritionInformation
 		prepTime?: string
@@ -15,6 +15,16 @@ export namespace Recipe {
 		totalTime?: string
 		recipeYield: string
 	}
+
+	export type HowToSection = Omit<
+		Schema.HowToSection,
+		"name" | "itemListElement"
+	> & {
+		name?: string
+		itemListElement?: HowToStep[]
+	}
+
+	export type HowToStep = Schema.HowToStep
 
 	export interface RecipeMetadata {
 		schema: Recipe
