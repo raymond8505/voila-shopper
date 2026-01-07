@@ -102,7 +102,6 @@ This is mostly what I use for personal projects
 
 ## AI Use
 
-AI was used to write parts of the app- primarily used for 
 - type definition - object conversion / generation
 - boilerplate patterns / utility functions
 - general debugging, especially for complex type collisions and tool config

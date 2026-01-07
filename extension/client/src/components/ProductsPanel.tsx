@@ -3,10 +3,14 @@ import { PriceTracker } from "./PriceTracker"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { isWorkflowError } from "@src/types/helpers"
 import { useState } from "react"
+import { PriceTracker as IPriceTracker } from "@src/types/product/price-tracker"
 
 export function ProductsPanel() {
 	const { createRule, createRuleLoading } = usePriceTracker()
 	const [ruleError, setRuleError] = useState<string | null>(null)
+	const [priceRules, setPriceRules] = useState<
+		IPriceTracker.Rule[]
+	>([])
 	return (
 		<div>
 			<strong>Price Tracking</strong>
@@ -37,14 +41,21 @@ export function ProductsPanel() {
 					editing={true}
 					loading={createRuleLoading}
 					onSubmit={async (rule) => {
+						setRuleError(null)
+
 						const createRuleResp = await createRule(rule)
 
+						console.log(createRuleResp)
 						if (isWorkflowError(createRuleResp)) {
 							setRuleError(
 								JSON.parse(createRuleResp.message).error
 							)
 						} else {
-							setRuleError(null)
+							const { products, rule } = createRuleResp
+
+							setPriceRules((prev) => {
+								return [{ ...rule }, ...prev]
+							})
 						}
 					}}
 				/>
@@ -56,6 +67,11 @@ export function ProductsPanel() {
 					description={ruleError}
 				/>
 			) : null}
+			<div>
+				{priceRules.map((rule) => (
+					<PriceTracker rule={rule} />
+				))}
+			</div>
 		</div>
 	)
 }

@@ -1,5 +1,6 @@
 import { css } from "@emotion/react"
 import { Product } from "@src/types/product"
+import type { PriceTracker as IPriceTracker } from "@src/types/product/price-tracker"
 import { Form, Input, InputNumber, Select } from "antd"
 import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
@@ -11,13 +12,13 @@ export function PriceTracker({
 	onSubmit,
 	loading = false,
 }: {
-	rule?: Product.PriceTrackerRule
+	rule?: IPriceTracker.Rule
 	editing?: boolean
 	onSubmit?: (
-		rule: Product.PriceTrackerRule,
+		rule: IPriceTracker.Rule,
 		resetFields: (fields?: any[] | undefined) => void
 	) => void
-	loading: boolean
+	loading?: boolean
 }) {
 	const buttonLabel = editing
 		? rule === undefined
@@ -29,10 +30,7 @@ export function PriceTracker({
 
 	const handleSubmit = useCallback(() => {
 		form.validateFields().then((fields) => {
-			onSubmit?.(
-				fields as Product.PriceTrackerRule,
-				form.resetFields
-			)
+			onSubmit?.(fields as IPriceTracker.Rule, form.resetFields)
 		})
 	}, [form, onSubmit])
 
@@ -41,7 +39,7 @@ export function PriceTracker({
 			<div
 				css={css`
 					display: grid;
-					grid-template-columns: 1fr 1fr 1fr 1fr;
+					grid-template-columns: repeat(1fr, 4);
 					grid-template-rows: auto auto;
 					gap: 8px;
 				`}
@@ -88,27 +86,6 @@ export function PriceTracker({
 				</div>
 				<div>
 					{editing ? (
-						<Form.Item name="isSale" required>
-							<Select
-								options={[
-									{
-										label: "Regular Price",
-										value: false,
-									},
-									{
-										label: "Sale Price",
-										value: true,
-									},
-								]}
-								placeholder="Regular or Sale Price"
-							></Select>
-						</Form.Item>
-					) : (
-						rule?.priceType
-					)}
-				</div>
-				<div>
-					{editing ? (
 						<Form.Item name="priceComparison" required>
 							<Select
 								options={[
@@ -136,12 +113,16 @@ export function PriceTracker({
 						rule?.priceComparison
 					)}
 				</div>
-				<Form.Item required name="price">
-					<InputNumber
-						placeholder="Price"
-						formatter={(value) => `$${value}`}
-					/>
-				</Form.Item>
+				{editing ? (
+					<Form.Item required name="price">
+						<InputNumber
+							placeholder="Price"
+							formatter={(value) => `$${value}`}
+						/>
+					</Form.Item>
+				) : (
+					rule?.price
+				)}
 				<div>
 					<LoaderButton
 						type="primary"

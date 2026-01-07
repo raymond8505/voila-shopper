@@ -1,15 +1,4 @@
 export namespace Product {
-	export interface PriceTrackerRule {
-		query: string
-		embedding?: number[] | null // null until vectorized
-		priceType: "package" | "unit"
-		priceComparison: "<=" | "<" | ">=" | ">"
-		price: number | null // null = no price constraint, just semantic match
-		isSale: boolean | null // null = any, true = on sale only, false = regular only
-		limit?: number // default 3
-		sourceBaseUrl?: string | null // reserved for future use
-		enabled?: boolean
-	}
 	/**
 	 * A product containing all the relevant information
 	 * needed to identify and describe it
