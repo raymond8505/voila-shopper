@@ -18,7 +18,7 @@ export function useWorkflow<T = Job.UnknownData>({
 	const queryClient = useQueryClient()
 
 	const call = useCallback(
-		async <Payload extends Job.UnknownData, CallT = T>({
+		async <Payload = unknown, CallT = T>({
 			payload,
 			responseType = "hook",
 			respondOnStatus = "done",

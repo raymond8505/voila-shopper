@@ -1,7 +1,9 @@
 import Alert from "antd/es/alert/Alert"
 import { PriceTracker } from "./PriceTracker"
+import { usePriceTracker } from "@src/hooks/usePriceTracker"
 
 export function ProductsPanel() {
+	const { createRule } = usePriceTracker()
 	return (
 		<div>
 			<strong>Price Tracking</strong>
@@ -28,9 +30,13 @@ export function ProductsPanel() {
 			></Alert>
 			<fieldset>
 				<legend>Add a Price Tracker</legend>
-				<PriceTracker editing={true} onSubmit={(rule) => {
-                    console.log(rule)
-                }} />
+				<PriceTracker
+					editing={true}
+					onSubmit={(rule) => {
+						console.log(rule)
+						createRule(rule)
+					}}
+				/>
 			</fieldset>
 		</div>
 	)

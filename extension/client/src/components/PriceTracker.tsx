@@ -25,15 +25,14 @@ export function PriceTracker({
 
 	const [form] = useForm()
 
-	const handleSubmit = useCallback(
-		(e) => {
+	const handleSubmit = useCallback(() => {
+		form.validateFields().then((fields) => {
 			onSubmit?.(
-				form.getFieldsValue() as Product.PriceTrackerRule,
+				fields as Product.PriceTrackerRule,
 				form.resetFields
 			)
-		},
-		[form, onSubmit]
-	)
+		})
+	}, [form, onSubmit])
 
 	return (
 		<Form form={form}>
@@ -53,7 +52,7 @@ export function PriceTracker({
 					{editing ? (
 						<Form.Item
 							required
-							name="price"
+							name="query"
 							help={
 								"Describe the product or commodity to track, we'll try to find the closest matches and then apply the price rules."
 							}
@@ -66,7 +65,7 @@ export function PriceTracker({
 				</div>
 				<div>
 					{editing ? (
-						<Form.Item name="priceType">
+						<Form.Item name="priceType" required>
 							<Select
 								options={[
 									{
@@ -87,7 +86,7 @@ export function PriceTracker({
 				</div>
 				<div>
 					{editing ? (
-						<Form.Item name="isSale">
+						<Form.Item name="isSale" required>
 							<Select
 								options={[
 									{
@@ -108,7 +107,7 @@ export function PriceTracker({
 				</div>
 				<div>
 					{editing ? (
-						<Form.Item name="priceComparison">
+						<Form.Item name="priceComparison" required>
 							<Select
 								options={[
 									{
@@ -135,7 +134,7 @@ export function PriceTracker({
 						rule?.priceComparison
 					)}
 				</div>
-				<Form.Item required name="query">
+				<Form.Item required name="price">
 					<InputNumber
 						placeholder="Price"
 						formatter={(value) => `$${value}`}
