@@ -3,7 +3,7 @@ import { PriceTracker } from "./PriceTracker"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 
 export function ProductsPanel() {
-	const { createRule } = usePriceTracker()
+	const { createRule, createRuleLoading } = usePriceTracker()
 	return (
 		<div>
 			<strong>Price Tracking</strong>
@@ -32,6 +32,7 @@ export function ProductsPanel() {
 				<legend>Add a Price Tracker</legend>
 				<PriceTracker
 					editing={true}
+					loading={createRuleLoading}
 					onSubmit={(rule) => {
 						console.log(rule)
 						createRule(rule)

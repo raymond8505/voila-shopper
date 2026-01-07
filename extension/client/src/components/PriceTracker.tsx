@@ -9,6 +9,7 @@ export function PriceTracker({
 	rule,
 	editing = false,
 	onSubmit,
+	loading = false,
 }: {
 	rule?: Product.PriceTrackerRule
 	editing?: boolean
@@ -16,6 +17,7 @@ export function PriceTracker({
 		rule: Product.PriceTrackerRule,
 		resetFields: (fields?: any[] | undefined) => void
 	) => void
+	loading: boolean
 }) {
 	const buttonLabel = editing
 		? rule === undefined
@@ -146,6 +148,7 @@ export function PriceTracker({
 						htmlType="button"
 						onClick={handleSubmit}
 						label={buttonLabel}
+						loading={loading}
 					/>
 				</div>
 			</div>
