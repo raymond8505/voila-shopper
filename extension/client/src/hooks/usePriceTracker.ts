@@ -16,15 +16,14 @@ export function usePriceTracker() {
 
 	const createRule = useCallback(
 		async (newRule: Product.PriceTrackerRule) => {
-			const resp =
-				await callCreatePriceTrackerRule<Product.PriceTrackerRule>(
-					{
-						payload: newRule,
-						hookOptions: {
-							method: "POST",
-						},
-					}
-				)
+			return await callCreatePriceTrackerRule<Product.PriceTrackerRule>(
+				{
+					payload: newRule,
+					hookOptions: {
+						method: "POST",
+					},
+				}
+			)
 		},
 		[callCreatePriceTrackerRule]
 	)

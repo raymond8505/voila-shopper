@@ -1,9 +1,12 @@
 import Alert from "antd/es/alert/Alert"
 import { PriceTracker } from "./PriceTracker"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
+import { isWorkflowError } from "@src/types/helpers"
+import { useState } from "react"
 
 export function ProductsPanel() {
 	const { createRule, createRuleLoading } = usePriceTracker()
+	const [ruleError, setRuleError] = useState<string | null>(null)
 	return (
 		<div>
 			<strong>Price Tracking</strong>
@@ -33,12 +36,26 @@ export function ProductsPanel() {
 				<PriceTracker
 					editing={true}
 					loading={createRuleLoading}
-					onSubmit={(rule) => {
-						console.log(rule)
-						createRule(rule)
+					onSubmit={async (rule) => {
+						const createRuleResp = await createRule(rule)
+
+						if (isWorkflowError(createRuleResp)) {
+							setRuleError(
+								JSON.parse(createRuleResp.message).error
+							)
+						} else {
+							setRuleError(null)
+						}
 					}}
 				/>
 			</fieldset>
+			{ruleError ? (
+				<Alert
+					type="error"
+					message="Rule Error"
+					description={ruleError}
+				/>
+			) : null}
 		</div>
 	)
 }
