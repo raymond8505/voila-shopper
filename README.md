@@ -29,6 +29,7 @@
       - [Docker](#docker)
   - [FAQs / Common Job requirement examples](#faqs--common-job-requirement-examples)
   - [Lessons Learned](#lessons-learned)
+    - [General Project](#general-project)
     - [From Claude](#from-claude)
       - [Postgres trigger functions](#postgres-trigger-functions)
       - [Google fallback for Instagram recipe scraper](#google-fallback-for-instagram-recipe-scraper)
@@ -162,22 +163,26 @@ My resume contains a long list of skills and qualities, below are examples of ho
 
 ## Lessons Learned
 
+### General Project
+
+- n8n is a fantastic solution for rapid backend prototyping. Going forward all my personal projects will probably sit on this stack, and only when something is ready to move out of MVP will I consider a proper backend (Node.js / Express).
+
 ### From Claude
 
 #### Postgres trigger functions
 
 My SQL experience is with MySQL and a little rusty. I can read an SQL query and understand it, but it's been awhile since I had to write anything really complex. 
 
-In talking to Claude about how to architect the product tables I mentioned n8n vectorization inserts the row automatically after generation and only allows passing JSON to a column "metadata" So Claude just wrote me a trigger function to spread the given JSON data across the other named columns saving me an extra n8n step of filling them in after initial vectorization
+In talking to Claude about how to architect the product tables I mentioned n8n vectorization inserts the row automatically after generation and only allows passing JSON to a column "metadata" So Claude just wrote me a trigger function to spread the given JSON data across the other named columns, that was pretty neat.
 
 #### Google fallback for Instagram recipe scraper
 
 Sometimes instagram posts will say something like "google `my blog name` `the recipe name`". So I added rules in the scraping process for that and wired it up to the Google Search API. 
 
-One time when no other rules matched, the LLM tried to Google a recipe and it occurred to me- the recipe ideation goal doesn't require that a recipe be specific to its source, it's just meant as a source of inspiration for what ingredients go well together.
-
-I opted to exclude that broader Googling fallback for now, because I knew it would need better guardrails if I was going to have it looking at any ol' search results.
+When no other rules matched, the LLM tried to Google a recipe and it occurred to me- the recipe ideation goal doesn't require that a recipe be specific to its source, it's just meant as a source of inspiration for what ingredients go well together.
+****
+I opted to exclude that broader Googling fallback for now, because I knew it would need better guardrails if I was going to have it looking at any ol' search results, but I'm glad the AI did something unexpected.
 
 #### GA4 Types
 
-I asked claude to rough out some type definitions based on some objects I gave it. It correctly recognized that they were GA4 and GA3 events without prompting and pointed me to a type library so instead of accidentally duplicating known types, Claude naturally directed me to the better solution AND made me realize that relying on the GA3 event over the GA4 event could be problematic down the line since GA3 is deprecated so those events could eventually get removed from Voila.
+I asked Claude to rough out some type definitions based on some objects I was seeing often on Voila. It correctly recognized that they were GA4 and GA3 events without prompting and pointed me to a type library so instead of accidentally duplicating known types, Claude naturally directed me to the better solution AND made me realize that relying on the GA3 event over the GA4 event could be problematic down the line since GA3 is deprecated so those events could eventually get removed from Voila.

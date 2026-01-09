@@ -1,3 +1,5 @@
+import { Product } from ".."
+
 export namespace PriceTracker {
 	export interface Rule {
 		query: string
@@ -8,6 +10,7 @@ export namespace PriceTracker {
 		limit?: number // default 3
 		sourceBaseUrl?: string | null // reserved for future use
 		enabled?: boolean
+		matches?: Product.WithPriceIntelligence[]
 	}
 	export interface RuleWithEmbedding extends Rule {
 		embedding: string

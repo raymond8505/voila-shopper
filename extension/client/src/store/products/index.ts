@@ -5,6 +5,7 @@ import {
 	getLocalStorageStore,
 	setLocalStorageStore,
 } from "../helpers"
+import { PriceTracker } from "@src/types/product/price-tracker"
 export interface ProductsStore {
 	products: Product.StoreProduct[]
 	addProducts: (products: Product.StoreProduct[]) => void
@@ -13,6 +14,10 @@ export interface ProductsStore {
 	setAllVariants: (variants: string[]) => void
 	ignoredVariants: string[]
 	setIgnoredVariants: (variants: string[]) => void
+	priceTrackerRules: PriceTracker.RuleWithEmbedding[]
+	setPriceTrackerRules: (
+		rules: PriceTracker.RuleWithEmbedding[]
+	) => void
 }
 const localStorageStore = getLocalStorageStore()
 console.log(localStorageStore.products)
@@ -42,12 +47,22 @@ export const useStore = create<ProductsStore>()(
 					(product) => !products.includes(product)
 				),
 			})),
+		priceTrackerRules:
+			localStorageStore.products?.priceTrackerRules ?? [],
+		setPriceTrackerRules: (rules) =>
+			set({
+				priceTrackerRules: rules,
+			}),
 	}))
 )
 
 useStore.subscribe(
 	(state) => ({
 		ignoredVariants: state.ignoredVariants,
+		priceTrackerRules: state.priceTrackerRules.map((r) => ({
+			...r,
+			matches: undefined,
+		})),
 	}),
 	(state) => setLocalStorageStore(state, "products")
 )

@@ -136,10 +136,9 @@ export namespace Product {
 
 	// Convenience aliases
 	export type Full = WithPrices
-	export type WithIntelligence = WithPriceIntelligence
 
 	export type StoreProduct = {
 		raw: RawProduct
-		full?: WithIntelligence
+		full?: WithPriceIntelligence
 	}
 }

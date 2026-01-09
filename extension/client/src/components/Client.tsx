@@ -1,9 +1,9 @@
 import Tabs from "antd/es/tabs"
 import type { TabsProps } from "antd/es/tabs"
-import { ProductsPanel } from "./ProductsPanelOLD"
+import { ProductsPanel } from "./ProductsPanel"
 import { RecipesPanel } from "./RecipesPanel"
 import { SettingsPanel } from "./SettingsPanel"
-
+import SettingOutlined from "@ant-design/icons/SettingOutlined"
 import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
@@ -48,8 +48,8 @@ export function Client() {
 
 	const items: TabsProps["items"] = [
 		{
-			key: "products",
-			label: "Products",
+			key: "price-tracker",
+			label: "Price Tracker",
 			children: <ProductsPanel />,
 		},
 		{
@@ -61,12 +61,17 @@ export function Client() {
 			key: "settings",
 			label: "Settings",
 			children: <SettingsPanel />,
+			icon: <SettingOutlined />,
 		},
 	]
 	return (
 		<Wrapper drawerOpen={drawerOpen}>
 			<div>
-				<Tabs defaultActiveKey="settings" items={items} />
+				<Tabs
+					defaultActiveKey="products"
+					items={items}
+					size="small"
+				/>
 			</div>
 			<DrawerButton />
 		</Wrapper>
