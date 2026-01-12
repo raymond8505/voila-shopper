@@ -3,18 +3,19 @@ import type { ButtonProps } from "antd/es/button"
 
 import { forwardRef, ReactNode } from "react"
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
+import { UnstyledButton } from "../elements.styles"
 
 export interface LoaderButtonProps
 	extends Omit<
 		ButtonProps,
-		"onClick" | "icon" | "loading" | "children"
+		"onClick" | "icon" | "loading" | "children" | "type"
 	> {
 	onClick: React.MouseEventHandler<HTMLElement> | undefined
 	icon?: ReactNode
 	loading?: boolean
 	label: string
 	loadingLabel?: string
-	type?: ButtonProps["type"]
+	type: ButtonProps["type"] | "unstyled"
 }
 
 /**
@@ -36,18 +37,19 @@ export const LoaderButton = forwardRef<
 		},
 		ref
 	) => {
-		return (
-			<Button
-				type={type}
-				onClick={onClick}
-				disabled={loading}
-				ref={ref}
-				style={{
-					display: "flex",
-					gap: "4px",
-				}}
-				{...rest}
-			>
+		const sharedProps = {
+			onClick,
+			disabled: loading,
+			ref: ref as any,
+			style: {
+				display: "flex",
+				gap: "4px",
+			},
+			...rest,
+		}
+
+		const content = (
+			<>
 				{loading ? <LoadingOutlined /> : icon}
 				<span>
 					{loading
@@ -56,6 +58,17 @@ export const LoaderButton = forwardRef<
 							: label
 						: label}
 				</span>
+			</>
+		)
+
+		return type === "unstyled" ? (
+			<UnstyledButton {...sharedProps}>{content}</UnstyledButton>
+		) : (
+			<Button
+				type={type as ButtonProps["type"]}
+				{...sharedProps}
+			>
+				{content}
 			</Button>
 		)
 	}

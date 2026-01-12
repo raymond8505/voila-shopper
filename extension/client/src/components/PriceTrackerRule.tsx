@@ -1,17 +1,28 @@
 import { css } from "@emotion/react"
 import type { PriceTracker as IPriceTracker } from "@src/types/product/price-tracker"
-import { Form, Input, InputNumber, Select, Tooltip } from "antd"
+import {
+	ConfigProvider,
+	Flex,
+	Form,
+	Input,
+	InputNumber,
+	Select,
+	Tooltip,
+} from "antd"
 import Space from "antd/es/space"
 import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined"
 import { UnstyledButton } from "./common/elements.styles"
+import EditOutlined from "@ant-design/icons/EditOutlined"
+import CloseOutlined from "@ant-design/icons/CloseOutlined"
+
 export function PriceTrackerRule({
 	rule,
-	editing = false,
-	onSubmit,
-	loading = false,
+	editing: editingParam = false,
+	onSubmit: onSubmitParam,
+	loading: loadingParam = false,
 	showHelp = false,
 }: {
 	rule?: IPriceTracker.Rule
@@ -23,68 +34,129 @@ export function PriceTrackerRule({
 	loading?: boolean
 	showHelp?: boolean
 }) {
+	const [editing, setEditing] = useState(editingParam)
+	const [loading, setLoading] = useState(loadingParam)
+
 	const buttonLabel = editing
 		? rule === undefined
 			? "Create"
 			: "Edit"
-		: "Edit"
+		: ""
 
 	const [form] = useForm()
 
-	const handleSubmit = useCallback(() => {
+	const onSubmit = useCallback(() => {
+		setLoading(true)
 		form.validateFields().then((fields) => {
-			onSubmit?.(fields as IPriceTracker.Rule, form.resetFields)
+			setEditing(editingParam)
+			setLoading(false)
+			onSubmitParam?.(
+				fields as IPriceTracker.Rule,
+				form.resetFields
+			)
 		})
-	}, [form, onSubmit])
+	}, [form, onSubmitParam, setLoading])
+
+	const onEditClick = useCallback((e) => {
+		setEditing(!editingParam)
+		form.setFieldsValue({
+			query: rule?.query,
+		})
+	}, [])
+
+	const onCloseClick = useCallback(() => {
+		setEditing(false)
+	}, [])
 
 	return (
-		<Form form={form}>
-			<div></div>
-			<div
-				css={css`
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: ${editing
-						? "space-between"
-						: "flex-start"};
-					gap: ${editing ? "8px" : ".2em"};
-					border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-					padding-bottom: 8px;
-					margin-bottom: 16px;
-
-					> * {
-						// only grow when editing
-						flex-grow: ${Number(editing)};
-					}
-				`}
-			>
+		<ConfigProvider
+			theme={{
+				components: {
+					Form: {
+						itemMarginBottom: 0,
+					},
+				},
+			}}
+		>
+			<Form form={form}>
 				<div
 					css={css`
-						width: 100%;
-						display: flex;
-						align-items: flex-start;
+						border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+						padding-bottom: 8px;
+						margin-bottom: 16px;
 					`}
 				>
-					{editing ? (
-						<>
-							<Form.Item
-								required
-								layout="horizontal"
-								name="query"
-								help={
-									<div
-										css={css`
-											font-size: 13px;
-											line-height: 1;
-										`}
-									>
-										Ex: "Greek yogurt", "3-ply toilet paper",
-										"Kraft Dinner"
-									</div>
-								}
+					<div>
+						{editing ? (
+							<>
+								<Form.Item
+									required
+									layout="horizontal"
+									name="query"
+									help={
+										<div
+											css={css`
+												font-size: 13px;
+												line-height: 1;
+											`}
+										>
+											Ex: "Greek yogurt", "3-ply toilet paper",
+											"Kraft Dinner"
+										</div>
+									}
+								>
+									<Input placeholder="Search Query" />
+								</Form.Item>
+							</>
+						) : (
+							<div
+								css={css`
+									font-weight: bold;
+									font-size: 1.2em;
+									line-height: 1;
+								`}
 							>
-								<Input placeholder="Search Query" />
-							</Form.Item>
+								{rule?.query}
+							</div>
+						)}
+					</div>
+
+					<Flex justify="space-between">
+						{editing ? (
+							<Space.Compact>
+								<Form.Item required name="price">
+									<InputNumber
+										placeholder="Price"
+										formatter={(value) => `$${value}`}
+									/>
+								</Form.Item>
+
+								<Space.Addon>/</Space.Addon>
+								<Form.Item name="priceType" required>
+									<Select
+										options={[
+											{
+												label: "Package",
+												value: "package",
+											},
+											{
+												label: "Unit",
+												value: "unit",
+											},
+										]}
+										placeholder="Package"
+										getPopupContainer={(e) => e}
+									></Select>
+								</Form.Item>
+							</Space.Compact>
+						) : (
+							<div>
+								<div>
+									${rule?.price} / {rule?.priceType}
+								</div>
+							</div>
+						)}
+						<div>
 							{showHelp ? (
 								<Tooltip
 									placement="right"
@@ -97,66 +169,26 @@ export function PriceTrackerRule({
 										/>
 									</UnstyledButton>
 								</Tooltip>
-							) : null}
-						</>
-					) : (
-						<div
-							css={css`
-								font-weight: bold;
-								font-size: 1.2em;
-								line-height: 1;
-							`}
-						>
-							{rule?.query}
+							) : (
+								<UnstyledButton onClick={onCloseClick}>
+									<CloseOutlined />
+								</UnstyledButton>
+							)}
+							<>
+								<LoaderButton
+									type={editing ? "primary" : "unstyled"}
+									htmlType="button"
+									onClick={editing ? onSubmit : onEditClick}
+									label={buttonLabel}
+									loading={loading}
+									icon={editing ? undefined : <EditOutlined />}
+									style={{ marginLeft: 8 }}
+								/>
+							</>
 						</div>
-					)}
+					</Flex>
 				</div>
-
-				{editing ? (
-					<Space.Compact style={{ marginTop: "8px" }}>
-						<Form.Item required name="price">
-							<InputNumber
-								placeholder="Price"
-								formatter={(value) => `$${value}`}
-							/>
-						</Form.Item>
-						<Space.Addon>/</Space.Addon>
-						<Form.Item name="priceType" required>
-							<Select
-								options={[
-									{
-										label: "Package",
-										value: "package",
-									},
-									{
-										label: "Unit",
-										value: "unit",
-									},
-								]}
-								placeholder="Package"
-								getPopupContainer={(e) => e}
-							></Select>
-						</Form.Item>
-					</Space.Compact>
-				) : (
-					<>
-						<strong>${rule?.price}</strong>
-						<span>or less</span>
-					</>
-				)}
-
-				{editing ? (
-					<div css={css``}>
-						<LoaderButton
-							type="primary"
-							htmlType="button"
-							onClick={handleSubmit}
-							label={buttonLabel}
-							loading={loading}
-						/>
-					</div>
-				) : null}
-			</div>
-		</Form>
+			</Form>
+		</ConfigProvider>
 	)
 }
