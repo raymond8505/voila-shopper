@@ -6,8 +6,8 @@ export namespace Recipe {
 		Schema.Recipe,
 		"recipeInstructions" | "nutrition"
 	> & {
-		recipeIngredient: string[]
-		recipeInstructions: (HowToSection | HowToStep)[]
+		recipeIngredient?: string[]
+		recipeInstructions?: (HowToSection | HowToStep)[]
 		name: string
 		nutrition?: NutritionInformation
 		prepTime?: string

@@ -6,6 +6,7 @@
   "scripts": {
     "extension:client:dev": "cd ./extension && yarn client:dev",
     "extension:client:build": "cd ./extension && yarn client:build",
+    "extension:client:storybook": "cd ./extension/client && yarn storybook",
     "scraper": "npx vite-node ./scraper/index.ts",
     "server:dev": "cd ./server && yarn dev"
   },

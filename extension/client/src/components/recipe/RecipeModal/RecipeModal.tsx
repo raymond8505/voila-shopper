@@ -1,4 +1,4 @@
-import { Descriptions, Modal } from "antd"
+import { Alert, Descriptions, Modal } from "antd"
 
 import { useStore } from "@store/client"
 import { useMemo, useRef } from "react"
@@ -106,9 +106,9 @@ export function RecipeModal() {
 
 					<section>
 						<strong>Instructions</strong>
-						{recipe?.recipeIngredient ? (
+						{recipe?.recipeInstructions ? (
 							<ol>
-								{recipe?.recipeInstructions.map(
+								{recipe.recipeInstructions.map(
 									(stepOrSection, i) =>
 										isHowToSection(stepOrSection) ? (
 											<HowToSection
@@ -120,7 +120,14 @@ export function RecipeModal() {
 										)
 								)}
 							</ol>
-						) : null}
+						) : (
+							<p>
+								<Alert
+									type="warning"
+									description="no instructions found"
+								></Alert>
+							</p>
+						)}
 					</section>
 
 					<section>
