@@ -1,16 +1,13 @@
 import { useCallback, useState } from "react"
 import Splitter from "antd/es/splitter"
-import List from "antd/es/list"
 import { css } from "@emotion/react"
 import { useStore } from "@store/client"
-import CloseOutlined from "@ant-design/icons/CloseOutlined"
-import { UnstyledButton } from "./common/elements.styles"
 import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { RecipeResultButton } from "./RecipeResultButton"
 import { isWorkflowError } from "../types/helpers"
-import { Alert } from "antd"
+import { Alert, Flex, Tooltip } from "antd"
 import {
 	GetRecipesButton,
 	RecipeResultsList,
@@ -18,14 +15,12 @@ import {
 	Wrapper,
 } from "./RecipesPanel.styles"
 import { RecipeSourcePicker } from "./recipe/RecipeSourcePicker/RecipeSourcePicker"
+import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined"
+import { UnstyledButton } from "./common/elements.styles"
+import { Help } from "./common/Help"
 
 export function RecipesPanel() {
-	const {
-		ingredients,
-		removeIngredient,
-		recipeCriteria,
-		setRecipeCriteria,
-	} = useStore()
+	const { recipeCriteria, setRecipeCriteria } = useStore()
 	const [recipes, setRecipes] =
 		useState<Recipe.ApiResponse["recipeSchemas"]>()
 	const [errorText, setErrorText] = useState<string | null>(null)
@@ -40,7 +35,6 @@ export function RecipesPanel() {
 	const handleGetRecipesClick = useCallback(() => {
 		setErrorText(null)
 		generateRecipeRecommendations({
-			ingredients,
 			extraCriteria: recipeCriteria,
 			sources: recipeSources,
 		}).then((resp) => {
@@ -66,7 +60,6 @@ export function RecipesPanel() {
 		})
 	}, [
 		setRecipes,
-		ingredients,
 		recipeCriteria,
 		setErrorText,
 		generateRecipeRecommendations,
@@ -76,73 +69,35 @@ export function RecipesPanel() {
 	return (
 		<Wrapper>
 			<div>
-				<Splitter layout="vertical">
-					<Splitter.Panel min={188} defaultSize={208}>
-						<div style={{ padding: "8px 0" }}>
-							<strong>Ingredients</strong>
-							<List
-								itemLayout="horizontal"
-								dataSource={ingredients}
-								renderItem={(product) => (
-									<List.Item
-										actions={[
-											<UnstyledButton
-												onClick={() =>
-													removeIngredient(product.productId)
-												}
-											>
-												<CloseOutlined />
-											</UnstyledButton>,
-										]}
-									>
-										<List.Item.Meta
-											avatar={
-												product.images &&
-												product.images.length > 0 ? (
-													<img
-														alt={product.name}
-														src={product.images[0].src}
-														style={{
-															width: 50,
-															height: 50,
-															objectFit: "cover",
-														}}
-													/>
-												) : null
-											}
-											title={product.name}
-											description={`Price: ${
-												product.promoPrice
-													? product.promoPrice.amount
-													: product.price.amount
-											}`}
-										/>
-									</List.Item>
-								)}
-							></List>
-						</div>
-					</Splitter.Panel>
+				<Splitter orientation="vertical">
 					<Splitter.Panel min={192} style={{ padding: "8px" }}>
-						<div style={{ margin: "8px 0" }}>
-							<strong>Recipes</strong>
+						<div>
 							<TextArea
 								rows={15}
-								placeholder={`Extra recipe criteria, for example "Indian" or "No Dairy"`}
+								placeholder={`ex: "Indian", "No Dairy", "Chicken, rice, Greek yogurt", "under 30 minutes"`}
 								onChange={(e) => {
 									setRecipeCriteria(e.target.value)
 								}}
 								defaultValue={recipeCriteria}
+								style={{ marginBottom: 8 }}
 							></TextArea>
 
 							<RecipeSourcePicker onChange={setRecipeSources} />
 
 							<RecipeResultsWrapper>
-								<GetRecipesButton
-									loading={recipeRecommendationsLoading}
-									type="primary"
-									onClick={handleGetRecipesClick}
-									label="Find Recipes"
-								/>
+								<Flex
+									justify="flex-end"
+									align="center"
+									gap={"8px"}
+								>
+									<GetRecipesButton
+										loading={recipeRecommendationsLoading}
+										type="primary"
+										onClick={handleGetRecipesClick}
+										label="Find Recipes"
+									/>
+									<Help text="Search for recipes by anything- ingredients, cuisine, time, diet, meal type, etc" />
+								</Flex>
 								<div
 									css={css`
 										padding: 8px 0;

@@ -28,3 +28,5 @@ pocketbase.exe
 recipes*.csv
 *storybook.log
 storybook-static
+
+nul

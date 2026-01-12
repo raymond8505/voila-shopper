@@ -16,11 +16,9 @@ export function useRecipes() {
 
 	const generateRecipeRecommendations = useCallback(
 		({
-			ingredients,
 			extraCriteria,
 			sources = [],
 		}: {
-			ingredients: Voila.Product[]
 			extraCriteria?: string
 			sources?: Recipe.Source["source"][]
 		}) =>
@@ -31,21 +29,6 @@ export function useRecipes() {
 				payload: {
 					extraCriteria: extraCriteria ?? "",
 					sources,
-					ingredients: ingredients.map((ingredient) => {
-						return [
-							"productId",
-							"name",
-							"packageSizeDescription",
-							"price",
-							"promoPrice",
-							"unitPrice",
-							"promoUnitPrice",
-							"categoryPath",
-						].reduce((acc, key) => {
-							acc[key] = ingredient[key]
-							return acc
-						}, {})
-					}),
 				},
 			}),
 

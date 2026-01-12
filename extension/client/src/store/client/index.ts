@@ -1,15 +1,11 @@
 import { create } from "zustand"
-import { Recipe, Voila } from "../../types"
+import { Recipe } from "../../types"
 import { subscribeWithSelector } from "zustand/middleware"
 import {
 	getLocalStorageStore,
 	setLocalStorageStore,
 } from "../helpers"
 export interface Store {
-	ingredients: Voila.Product[]
-	setIngredients: (ingredients: Voila.Product[]) => void
-	addIngredient: (ingredient: Voila.Product) => void
-	removeIngredient: (productId: string) => void
 	includeCriteria: string
 	setIncludeCriteria: (criteria: string) => void
 	excludeCriteria: string
@@ -29,22 +25,6 @@ export interface Store {
 const localStorageStore = getLocalStorageStore()
 export const useStore = create<Store>()(
 	subscribeWithSelector((set) => ({
-		ingredients: localStorageStore?.client?.ingredients ?? [],
-
-		setIngredients: (ingredients) =>
-			set({
-				ingredients,
-			}),
-		addIngredient: (ingredient) =>
-			set((state) => ({
-				ingredients: [...state.ingredients, ingredient],
-			})),
-		removeIngredient: (productId) =>
-			set((state) => ({
-				ingredients: state.ingredients.filter(
-					(ingredient) => ingredient.productId !== productId
-				),
-			})),
 		includeCriteria:
 			localStorageStore?.client?.includeCriteria ?? "",
 		setIncludeCriteria: (criteria) =>
@@ -77,7 +57,6 @@ export const useStore = create<Store>()(
 
 useStore.subscribe(
 	(state) => ({
-		ingredients: state.ingredients,
 		includeCriteria: state.includeCriteria,
 		excludeCriteria: state.excludeCriteria,
 		drawerOpen: state.drawerOpen,

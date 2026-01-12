@@ -1,7 +1,7 @@
 import Schema from "schema-dts"
 
 export namespace Recipe {
-	export type Source = { source: string; count: number }
+	export type Source = { source: string; recipe_count: number }
 	export type Recipe = Omit<
 		Schema.Recipe,
 		"recipeInstructions" | "nutrition"
@@ -33,10 +33,6 @@ export namespace Recipe {
 		schema: Recipe
 		url: string
 		source: string
-		loc: {
-			lines: { to: string; from: string }[]
-		}
-		blobType: string
 	}
 	export interface ApiResponse {
 		recipeSchemas: RecipeMetadata[]

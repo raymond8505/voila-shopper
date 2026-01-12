@@ -14,11 +14,8 @@ export function RecipeSourcePicker({
 		queryKey: ["recipe-sources"],
 		queryFn: async () => {
 			const resp = await supabaseRequest({
-				table: "recipes_embedding_sources",
-				tableParams: {
-					order: "source.asc",
-					select: "*",
-				},
+				table: "recipe_sources",
+				tableParams: {},
 			})
 
 			return resp.json()
@@ -34,7 +31,7 @@ export function RecipeSourcePicker({
 				options={
 					data?.map((s) => ({
 						value: s.source,
-						label: `${s.source} (${s.count})`,
+						label: `${s.source} (${s.recipe_count})`,
 					})) ?? []
 				}
 				mode="multiple"
