@@ -14,10 +14,9 @@ export interface ProductsStore {
 	setAllVariants: (variants: string[]) => void
 	ignoredVariants: string[]
 	setIgnoredVariants: (variants: string[]) => void
-	priceTrackerRules: PriceTracker.RuleWithEmbedding[]
-	setPriceTrackerRules: (
-		rules: PriceTracker.RuleWithEmbedding[]
-	) => void
+	priceTrackerRules: PriceTracker.Rule[]
+	setPriceTrackerRules: (rules: PriceTracker.Rule[]) => void
+	deletePriceTrackerRule: (rule: PriceTracker.Rule) => void
 }
 const localStorageStore = getLocalStorageStore()
 console.log(localStorageStore.products)
@@ -53,6 +52,18 @@ export const useStore = create<ProductsStore>()(
 			set({
 				priceTrackerRules: rules,
 			}),
+		deletePriceTrackerRule: (rule) =>
+			set((state) => ({
+				priceTrackerRules: state.priceTrackerRules.filter(
+					(r) => {
+						console.log(
+							{ r, rule },
+							JSON.stringify(r) !== JSON.stringify(rule)
+						)
+						return JSON.stringify(r) !== JSON.stringify(rule)
+					}
+				),
+			})),
 	}))
 )
 

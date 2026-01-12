@@ -7,16 +7,17 @@ import {
 	Input,
 	InputNumber,
 	Select,
-	Tooltip,
 } from "antd"
 import Space from "antd/es/space"
 import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
 import { useCallback, useState } from "react"
-import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined"
+
 import { UnstyledButton } from "./common/elements.styles"
 import EditOutlined from "@ant-design/icons/EditOutlined"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
+import { Help } from "./common/Help"
+import { usePriceTracker } from "@src/hooks/usePriceTracker"
 
 export function PriceTrackerRule({
 	rule,
@@ -37,6 +38,8 @@ export function PriceTrackerRule({
 	const [editing, setEditing] = useState(editingParam)
 	const [loading, setLoading] = useState(loadingParam)
 
+	const { deleteRule } = usePriceTracker()
+
 	const buttonLabel = editing
 		? rule === undefined
 			? "Create"
@@ -48,6 +51,7 @@ export function PriceTrackerRule({
 	const onSubmit = useCallback(() => {
 		setLoading(true)
 		form.validateFields().then((fields) => {
+			console.log({ fields })
 			setEditing(editingParam)
 			setLoading(false)
 			onSubmitParam?.(
@@ -57,16 +61,26 @@ export function PriceTrackerRule({
 		})
 	}, [form, onSubmitParam, setLoading])
 
-	const onEditClick = useCallback((e) => {
+	const onEditClick = useCallback(() => {
 		setEditing(!editingParam)
-		form.setFieldsValue({
-			query: rule?.query,
-		})
-	}, [])
+		console.log({ editing, editingParam })
+
+		if (editing) {
+			onSubmit()
+		} else {
+			form.setFieldsValue({
+				...rule,
+			})
+		}
+	}, [editing, editingParam, onSubmit, form, rule])
 
 	const onCloseClick = useCallback(() => {
 		setEditing(false)
-	}, [])
+
+		if (rule) {
+			deleteRule(rule)
+		}
+	}, [rule, deleteRule, setEditing])
 
 	return (
 		<ConfigProvider
@@ -98,6 +112,7 @@ export function PriceTrackerRule({
 											css={css`
 												font-size: 13px;
 												line-height: 1;
+												padding: 8px 0 16px;
 											`}
 										>
 											Ex: "Greek yogurt", "3-ply toilet paper",
@@ -158,17 +173,9 @@ export function PriceTrackerRule({
 						)}
 						<div>
 							{showHelp ? (
-								<Tooltip
-									placement="right"
-									title={`Search for something and add a price, we'll let you know when anything matches.`}
-									getPopupContainer={(e) => e}
-								>
-									<UnstyledButton>
-										<QuestionCircleOutlined
-											style={{ margin: "10px 0 0 8px" }}
-										/>
-									</UnstyledButton>
-								</Tooltip>
+								<Help
+									text={`Search for something and add a price, we'll let you know when anything matches.`}
+								/>
 							) : (
 								<UnstyledButton onClick={onCloseClick}>
 									<CloseOutlined />

@@ -18,6 +18,8 @@ export function ProductsPanel() {
 			setRuleError(null)
 			reset()
 
+			console.log("creating rule", { rule })
+
 			const createRuleResp = await createRule(rule)
 
 			if (isWorkflowError(createRuleResp)) {
@@ -58,7 +60,11 @@ export function ProductsPanel() {
 			) : null}
 			<div>
 				{priceTrackerRules.map((rule, i) => (
-					<PriceTrackerRule rule={rule} key={i} />
+					<PriceTrackerRule
+						rule={rule}
+						key={i}
+						onSubmit={handleCreatePriceTrackerSubmit}
+					/>
 				))}
 			</div>
 		</div>

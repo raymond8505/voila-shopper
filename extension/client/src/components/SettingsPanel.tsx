@@ -39,7 +39,7 @@ export function SettingsPanel() {
 
 	const variantSelectRef = useRef<HTMLDivElement>(null)
 
-	console.log({ ignoredVariants })
+	//console.log({ ignoredVariants })
 
 	return (
 		<div>

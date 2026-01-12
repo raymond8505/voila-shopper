@@ -41,7 +41,7 @@ export function Client() {
 					`[data-test="fop-wrapper:${p.full.price_intelligence.current.external_id}"]`
 				)
 
-				console.log({ productCard })
+				//console.log({ productCard })
 			}
 		})
 	}, [products])

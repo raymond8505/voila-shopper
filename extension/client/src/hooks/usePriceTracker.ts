@@ -18,8 +18,11 @@ export function usePriceTracker() {
 		},
 	})
 
-	const { priceTrackerRules, setPriceTrackerRules } =
-		useProductStore()
+	const {
+		priceTrackerRules,
+		setPriceTrackerRules,
+		deletePriceTrackerRule,
+	} = useProductStore()
 
 	const createRule = useCallback(
 		async (newRule: PriceTracker.Rule) => {
@@ -37,6 +40,7 @@ export function usePriceTracker() {
 
 	return {
 		createRule,
+		deleteRule: deletePriceTrackerRule,
 		createRuleLoading,
 		priceTrackerRules,
 		setPriceTrackerRules,
