@@ -1,8 +1,10 @@
 import { Product } from "@src/types/product"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useWorkflow } from "./useWorkflow"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import { useStore as useProductStore } from "@store/products"
+import { isWorkflowError } from "@src/types/helpers"
+import { rulesAreEqual } from "@src/helpers"
 
 export function usePriceTracker() {
 	const {
@@ -19,10 +21,58 @@ export function usePriceTracker() {
 	})
 
 	const {
+		call: getRuleMatches,
+		loading: getLatestMatchesLoading,
+	} = useWorkflow<{
+		rules: PriceTracker.RuleWithEmbedding[]
+	}>({
+		url: import.meta.env
+			.VITE_WORKFLOW_GET_PRICE_TRACKER_RULE_MATCHES,
+		auth: {
+			username: import.meta.env.VITE_WORKFLOW_USERNAME,
+			password: import.meta.env.VITE_WORKFLOW_PWD,
+		},
+	})
+
+	const {
 		priceTrackerRules,
 		setPriceTrackerRules,
 		deletePriceTrackerRule,
 	} = useProductStore()
+
+	const getLatestMatches = useCallback(
+		async (rules: PriceTracker.Rule[]) => {
+			if (rules.length === 0) {
+				return
+			}
+			const response = await getRuleMatches({
+				payload: { rules },
+				hookOptions: {
+					method: "POST",
+				},
+			})
+
+			if (!isWorkflowError(response)) {
+				const newRules = [...priceTrackerRules]
+				response.rules.map((newRule) => {
+					const existingRuleIndex = newRules.findIndex((r) =>
+						rulesAreEqual(r, newRule)
+					)
+
+					if (existingRuleIndex !== -1) {
+						newRules[existingRuleIndex] = newRule
+					}
+				})
+
+				setPriceTrackerRules(newRules)
+
+				return response.rules
+			}
+
+			return response
+		},
+		[getRuleMatches, setPriceTrackerRules, priceTrackerRules]
+	)
 
 	const createRule = useCallback(
 		async (newRule: PriceTracker.Rule) => {
@@ -44,5 +94,7 @@ export function usePriceTracker() {
 		createRuleLoading,
 		priceTrackerRules,
 		setPriceTrackerRules,
+		getLatestMatches,
+		latestMatchesLoading: getLatestMatchesLoading,
 	}
 }

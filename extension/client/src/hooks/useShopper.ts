@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { useVoila } from "./useVoila"
-import { useJobManager } from "./useJobManager"
+
 import type {
 	RecommendationsWorkflowPayload,
 	ShopperJob,
@@ -16,7 +16,6 @@ import { isWorkflowError } from "../types/helpers"
 export function useShopper() {
 	const { getProducts, getPromotionProducts } = useVoila()
 	const { includeCriteria, excludeCriteria } = useStore()
-	const { fetchJob } = useJobManager()
 	const [promosLoading, setPromosLoading] = useState(false)
 
 	const {
@@ -29,27 +28,6 @@ export function useShopper() {
 			password: import.meta.env.VITE_WORKFLOW_PWD,
 		},
 	})
-
-	const getRecommendations = useCallback(
-		async (jobId: string) => {
-			const jobData = await fetchJob<ShopperJob>(jobId)
-
-			const voilaProducts = await getProducts(
-				jobData.flatMap((job) =>
-					job.data.products
-						.filter((id) => id !== null)
-						.filter(
-							(id, i) => job.data.products.indexOf(id) === i
-						)
-				)
-			)
-
-			console.log("Voila Products:", { voilaProducts, jobData })
-
-			return voilaProducts.products as Voila.Product[]
-		},
-		[fetchJob, getProducts]
-	)
 
 	const generateRecommendations: () => Promise<
 		Workflow.Error | Voila.Product[]
@@ -136,7 +114,6 @@ export function useShopper() {
 	])
 
 	return {
-		getRecommendations,
 		generateRecommendations,
 		recommendationsLoading:
 			promosLoading || recommendationsLoading,

@@ -7,6 +7,7 @@ import type {
 	MinimalPrice,
 	Voila,
 } from "./types/index"
+import { PriceTracker } from "./types/product/price-tracker"
 
 export function getMinimalPrice(
 	product: Voila.DecoratedProduct
@@ -224,4 +225,17 @@ export function getPriceDifference(
 
 export function trimUnit(str?: string) {
 	return str ? str.replace(/(g|kcal)$/gi, "") : str
+}
+
+export function rulesAreEqual(
+	ruleA: PriceTracker.Rule,
+	ruleB: PriceTracker.Rule
+): boolean {
+	const ruleAWithoutMatches = { ...ruleA, matches: undefined }
+	const ruleBWithoutMatches = { ...ruleB, matches: undefined }
+
+	return (
+		JSON.stringify(ruleAWithoutMatches) ===
+		JSON.stringify(ruleBWithoutMatches)
+	)
 }

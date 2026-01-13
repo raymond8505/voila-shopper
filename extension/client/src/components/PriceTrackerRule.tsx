@@ -11,7 +11,7 @@ import {
 import Space from "antd/es/space"
 import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { UnstyledButton } from "./common/elements.styles"
 import EditOutlined from "@ant-design/icons/EditOutlined"
@@ -131,7 +131,7 @@ export function PriceTrackerRule({
 									line-height: 1;
 								`}
 							>
-								{rule?.query}
+								({rule?.matches?.length ?? 0}) {rule?.query}
 							</div>
 						)}
 					</div>

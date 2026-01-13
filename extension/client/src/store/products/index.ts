@@ -72,6 +72,10 @@ useStore.subscribe(
 		ignoredVariants: state.ignoredVariants,
 		priceTrackerRules: state.priceTrackerRules.map((r) => ({
 			...r,
+			/**
+			 * We don't want to store matches in local storage
+			 * We want fresh matches every time
+			 */
 			matches: undefined,
 		})),
 	}),

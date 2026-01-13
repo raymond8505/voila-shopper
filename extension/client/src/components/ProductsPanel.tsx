@@ -2,7 +2,8 @@ import Alert from "antd/es/alert/Alert"
 import { PriceTrackerRule } from "./PriceTrackerRule"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { isWorkflowError } from "@src/types/helpers"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { PriceTracker } from "@src/types/product/price-tracker"
 
 export function ProductsPanel() {
 	const {
@@ -10,7 +11,40 @@ export function ProductsPanel() {
 		createRuleLoading,
 		priceTrackerRules,
 		setPriceTrackerRules,
+		latestMatchesLoading,
+		getLatestMatches,
 	} = usePriceTracker()
+
+	const [latestMatches, setLatestMatches] = useState<
+		PriceTracker.RuleWithEmbedding[]
+	>([])
+
+	useEffect(() => {
+		let rulesWithoutMatches: PriceTracker.Rule[] = []
+
+		if (!latestMatchesLoading && latestMatches.length === 0) {
+			rulesWithoutMatches = priceTrackerRules.filter(
+				(r) => r.matches === undefined
+			)
+
+			getLatestMatches(rulesWithoutMatches).then((rules) => {
+				if (rules && !isWorkflowError(rules)) {
+					setLatestMatches(rules)
+				}
+			})
+		}
+		console.log({
+			priceTrackerRules,
+			latestMatchesLoading,
+			rulesWithoutMatches,
+		})
+	}, [
+		priceTrackerRules,
+		latestMatchesLoading,
+		latestMatches,
+		setLatestMatches,
+	])
+
 	const [ruleError, setRuleError] = useState<string | null>(null)
 
 	const handleCreatePriceTrackerSubmit = useCallback(
