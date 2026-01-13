@@ -7,7 +7,7 @@ import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { RecipeResultButton } from "./RecipeResultButton"
 import { isWorkflowError } from "../types/helpers"
-import { Alert, Flex, Tooltip } from "antd"
+import { Alert, Flex } from "antd"
 import {
 	GetRecipesButton,
 	RecipeResultsList,
@@ -15,8 +15,6 @@ import {
 	Wrapper,
 } from "./RecipesPanel.styles"
 import { RecipeSourcePicker } from "./recipe/RecipeSourcePicker/RecipeSourcePicker"
-import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined"
-import { UnstyledButton } from "./common/elements.styles"
 import { Help } from "./common/Help"
 
 export function RecipesPanel() {

@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import { Recipe, Voila } from "../types/index"
+import { Recipe } from "../types/index"
 import { useWorkflow } from "./useWorkflow"
 
 export function useRecipes() {

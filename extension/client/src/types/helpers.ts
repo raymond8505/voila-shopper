@@ -55,7 +55,7 @@ export function isVoilaProductArray(
 
 export function isCreateProductsResponse(
 	response: unknown
-): response is { products: Product.WithIntelligence[] } {
+): response is { products: Product.WithPriceIntelligence[] } {
 	if (typeof response !== "object" || response === null) {
 		return false
 	}

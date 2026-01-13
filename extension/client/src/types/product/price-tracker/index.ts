@@ -10,14 +10,24 @@ export namespace PriceTracker {
 		limit?: number // default 3
 		sourceBaseUrl?: string | null // reserved for future use
 		enabled?: boolean
-		matches?: Product.WithPriceIntelligence[]
+		matches?: PriceRuleMatch[]
 	}
 	export interface RuleWithEmbedding extends Rule {
 		embedding: string
 	}
-	export interface CreateRuleResponse<ProductsType> {
-		products: ProductsType[]
+	export interface CreateRuleResponse {
+		products: PriceRuleMatch[]
 		rule: RuleWithEmbedding
 		queryVector: string
+	}
+	export interface PriceRuleMatch {
+		latest_prices: Product.SourcePrice[]
+		product: Omit<Product.BaseProduct, "productType"> & {
+			product_type: string
+			metadata: Product.Metadata
+		}
+		price_stats: Product.ProductHistory
+		product_id: string
+		similarity: number
 	}
 }

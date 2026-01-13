@@ -224,7 +224,7 @@ export function getPriceDifference(
 }
 
 export function trimUnit(str?: string) {
-	return str ? str.replace(/(g|kcal)$/gi, "") : str
+	return str ? str.replace(/(g|kcal|calories)$/gi, "") : str
 }
 
 export function rulesAreEqual(

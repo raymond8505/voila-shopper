@@ -4,6 +4,8 @@ import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { isWorkflowError } from "@src/types/helpers"
 import { useCallback, useEffect, useState } from "react"
 import { PriceTracker } from "@src/types/product/price-tracker"
+import Collapse from "antd/es/collapse/Collapse"
+import { css } from "@emotion/react"
 
 export function ProductsPanel() {
 	const {
@@ -33,11 +35,6 @@ export function ProductsPanel() {
 				}
 			})
 		}
-		console.log({
-			priceTrackerRules,
-			latestMatchesLoading,
-			rulesWithoutMatches,
-		})
 	}, [
 		priceTrackerRules,
 		latestMatchesLoading,
@@ -75,6 +72,26 @@ export function ProductsPanel() {
 			priceTrackerRules,
 		]
 	)
+
+	const ruleItems = priceTrackerRules.map((rule, i) => ({
+		label: (
+			<PriceTrackerRule
+				rule={rule}
+				key={i}
+				onSubmit={handleCreatePriceTrackerSubmit}
+			/>
+		),
+		showArrow: false,
+		children: (
+			<ul>
+				{rule.matches?.map((match, j) => (
+					<li key={j}>
+						{match.product.metadata.raw_input.product.name}
+					</li>
+				))}
+			</ul>
+		),
+	}))
 	return (
 		<div>
 			<PriceTrackerRule
@@ -92,14 +109,12 @@ export function ProductsPanel() {
 					closable
 				/>
 			) : null}
-			<div>
-				{priceTrackerRules.map((rule, i) => (
-					<PriceTrackerRule
-						rule={rule}
-						key={i}
-						onSubmit={handleCreatePriceTrackerSubmit}
-					/>
-				))}
+			<div
+				css={css`
+					margin-top: 16px;
+				`}
+			>
+				<Collapse items={ruleItems}></Collapse>
 			</div>
 		</div>
 	)

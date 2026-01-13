@@ -36,7 +36,7 @@ export function useProducts() {
 		useProductsStore()
 	const { getProducts } = useVoila()
 	const { call: createProducts } = useWorkflow<{
-		products: Product.WithIntelligence[]
+		products: Product.WithPriceIntelligence[]
 	}>({
 		url: import.meta.env.VITE_WORKFLOW_CREATE_PRODUCTS,
 		auth: {

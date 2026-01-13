@@ -56,6 +56,19 @@ export namespace Product {
 		source: Source
 	}
 
+	export interface SourcePrice {
+		is_sale: boolean
+		observed_at: string
+		original_price: number | null
+		price: number
+		source_id: string
+		source_name: string
+		source_slug: string
+		unit_price: number
+		unit_price_unit: string
+	}
+
+	export interface PriceRuleMatch {}
 	// ============================================================================
 	// Price Intelligence Types
 	// ============================================================================
@@ -124,6 +137,12 @@ export namespace Product {
 		category: string
 		commodity: Commodity
 		package: Package
+	}
+
+	export interface Metadata {
+		raw_input: {
+			product: RawProduct
+		}
 	}
 
 	export interface WithPrices extends BaseProduct {

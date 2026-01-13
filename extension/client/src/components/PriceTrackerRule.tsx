@@ -11,11 +11,11 @@ import {
 import Space from "antd/es/space"
 import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 
 import { UnstyledButton } from "./common/elements.styles"
 import EditOutlined from "@ant-design/icons/EditOutlined"
-import CloseOutlined from "@ant-design/icons/CloseOutlined"
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined"
 import { Help } from "./common/Help"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 
@@ -93,13 +93,7 @@ export function PriceTrackerRule({
 			}}
 		>
 			<Form form={form}>
-				<div
-					css={css`
-						border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-						padding-bottom: 8px;
-						margin-bottom: 16px;
-					`}
-				>
+				<div>
 					<div>
 						{editing ? (
 							<>
@@ -178,7 +172,7 @@ export function PriceTrackerRule({
 								/>
 							) : (
 								<UnstyledButton onClick={onCloseClick}>
-									<CloseOutlined />
+									<DeleteOutlined />
 								</UnstyledButton>
 							)}
 							<>

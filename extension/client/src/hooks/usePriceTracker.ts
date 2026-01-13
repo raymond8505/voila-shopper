@@ -1,5 +1,4 @@
-import { Product } from "@src/types/product"
-import { useCallback, useEffect } from "react"
+import { useCallback } from "react"
 import { useWorkflow } from "./useWorkflow"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import { useStore as useProductStore } from "@store/products"
@@ -10,9 +9,7 @@ export function usePriceTracker() {
 	const {
 		call: callCreatePriceTrackerRule,
 		loading: createRuleLoading,
-	} = useWorkflow<
-		PriceTracker.CreateRuleResponse<Product.WithPriceIntelligence>
-	>({
+	} = useWorkflow<PriceTracker.CreateRuleResponse>({
 		url: import.meta.env.VITE_WORKFLOW_CREATE_PRICE_TRACKER_RULE,
 		auth: {
 			username: import.meta.env.VITE_WORKFLOW_USERNAME,
