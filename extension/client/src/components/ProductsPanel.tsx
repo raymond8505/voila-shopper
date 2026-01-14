@@ -18,22 +18,35 @@ export function ProductsPanel() {
 	} = usePriceTracker()
 
 	const [latestMatches, setLatestMatches] = useState<
-		PriceTracker.RuleWithEmbedding[]
+		PriceTracker.RuleWithEmbedding[] | null
 	>([])
 
 	useEffect(() => {
 		let rulesWithoutMatches: PriceTracker.Rule[] = []
 
-		if (!latestMatchesLoading && latestMatches.length === 0) {
+		if (!latestMatchesLoading && latestMatches?.length === 0) {
 			rulesWithoutMatches = priceTrackerRules.filter(
 				(r) => r.matches === undefined
 			)
 
-			getLatestMatches(rulesWithoutMatches).then((rules) => {
-				if (rules && !isWorkflowError(rules)) {
-					setLatestMatches(rules)
-				}
+			console.log({
+				latestMatches,
+				latestMatchesLoading,
+				rulesWithoutMatches,
 			})
+
+			getLatestMatches(rulesWithoutMatches)
+				.then((rules) => {
+					console.log("returned rules", rules)
+
+					if (rules) {
+						setLatestMatches(rules)
+					}
+				})
+				.catch((e) => {
+					setLatestMatches(null)
+					console.error("error getting latest matches", e)
+				})
 		}
 	}, [
 		priceTrackerRules,
@@ -51,11 +64,9 @@ export function ProductsPanel() {
 
 			console.log("creating rule", { rule })
 
-			const createRuleResp = await createRule(rule)
+			try {
+				const createRuleResp = await createRule(rule)
 
-			if (isWorkflowError(createRuleResp)) {
-				setRuleError(JSON.parse(createRuleResp.message).error)
-			} else {
 				setPriceTrackerRules([
 					{
 						...createRuleResp.rule,
@@ -63,6 +74,10 @@ export function ProductsPanel() {
 					},
 					...priceTrackerRules,
 				])
+			} catch (e) {
+				setRuleError(
+					(e as Error).message || "Unknown error creating rule"
+				)
 			}
 		},
 		[
@@ -85,9 +100,7 @@ export function ProductsPanel() {
 		children: (
 			<ul>
 				{rule.matches?.map((match, j) => (
-					<li key={j}>
-						{match.product.metadata.raw_input.product.name}
-					</li>
+					<li key={j}>{match.product_view.product.raw_name}</li>
 				))}
 			</ul>
 		),

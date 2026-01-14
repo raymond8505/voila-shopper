@@ -2,7 +2,6 @@ import { useCallback } from "react"
 import { useWorkflow } from "./useWorkflow"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import { useStore as useProductStore } from "@store/products"
-import { isWorkflowError } from "@src/types/helpers"
 import { rulesAreEqual } from "@src/helpers"
 
 export function usePriceTracker() {
@@ -49,24 +48,28 @@ export function usePriceTracker() {
 				},
 			})
 
-			if (!isWorkflowError(response)) {
-				const newRules = [...priceTrackerRules]
-				response.rules.map((newRule) => {
-					const existingRuleIndex = newRules.findIndex((r) =>
-						rulesAreEqual(r, newRule)
-					)
+			const newRules = [...priceTrackerRules].map((r) => {
+				return {
+					...r,
+					matches: [],
+				} as unknown as PriceTracker.RuleWithEmbedding
+			})
+			response.rules.map((newRule) => {
+				if (!newRule.matches) {
+					newRule.matches = []
+				}
+				const existingRuleIndex = newRules.findIndex((r) =>
+					rulesAreEqual(r, newRule)
+				)
 
-					if (existingRuleIndex !== -1) {
-						newRules[existingRuleIndex] = newRule
-					}
-				})
+				if (existingRuleIndex !== -1) {
+					newRules[existingRuleIndex] = newRule
+				}
+			})
 
-				setPriceTrackerRules(newRules)
+			setPriceTrackerRules(newRules)
 
-				return response.rules
-			}
-
-			return response
+			return newRules
 		},
 		[getRuleMatches, setPriceTrackerRules, priceTrackerRules]
 	)

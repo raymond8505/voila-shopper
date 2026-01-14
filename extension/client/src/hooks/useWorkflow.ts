@@ -34,7 +34,6 @@ export function useWorkflow<T = Job.UnknownData>({
 			 */
 			timeout?: number
 		}) => {
-			console.log("useWorkflow.call", { url, payload })
 			return queryClient.fetchQuery({
 				queryKey: [
 					`use-workflow-${workflowLiveMode ? "live" : "test"}`,
@@ -81,36 +80,22 @@ export function useWorkflow<T = Job.UnknownData>({
 								setLoading(false)
 								return hookJSON as CallT
 							} else {
-								try {
-									const job = await pollJobData<CallT>(
-										hookJSON.id,
-										respondOnStatus,
-										timeout
-									)
-									setLoading(false)
-									return job?.data as CallT
-								} catch (e) {
-									setLoading(false)
-									return {
-										status: 200,
-										message: e?.["message"],
-									} as Workflow.Error
-								}
+								const job = await pollJobData<CallT>(
+									hookJSON.id,
+									respondOnStatus,
+									timeout
+								)
+								setLoading(false)
+								return job?.data as CallT
 							}
 						} else {
 							setLoading(false)
-							return {
-								status: hookResp.status,
-								message: await hookResp.text(),
-							} as Workflow.Error
+							throw new Error(
+								`Workflow hook error: ${await hookResp.text()}`
+							)
 						}
-					} catch (e) {
+					} finally {
 						setLoading(false)
-
-						return {
-							status: 200,
-							message: e?.["message"],
-						} as Workflow.Error
 					}
 				},
 			})

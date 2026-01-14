@@ -1,4 +1,4 @@
-import { Product } from ".."
+import { ProductView } from "../product-view"
 
 export namespace PriceTracker {
 	export interface Rule {
@@ -21,13 +21,7 @@ export namespace PriceTracker {
 		queryVector: string
 	}
 	export interface PriceRuleMatch {
-		latest_prices: Product.SourcePrice[]
-		product: Omit<Product.BaseProduct, "productType"> & {
-			product_type: string
-			metadata: Product.Metadata
-		}
-		price_stats: Product.ProductHistory
-		product_id: string
+		product_view: ProductView.ProductView
 		similarity: number
 	}
 }
