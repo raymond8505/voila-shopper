@@ -9,6 +9,20 @@ import type {
 } from "./types/index"
 import { PriceTracker } from "./types/product/price-tracker"
 
+export function slugify(name: string): string {
+	return name
+		.toLowerCase()
+		.normalize("NFD") // decompose accented characters
+		.replace(/[\u0300-\u036f]/g, "") // remove diacritical marks
+		.replace(/&/g, "and")
+		.replace(/\+/g, "plus")
+		.replace(/#/g, "number")
+		.replace(/[^a-z0-9\s-]/g, "") // remove special characters
+		.trim()
+		.replace(/\s+/g, "-") // spaces to dashes
+		.replace(/-+/g, "-") // collapse multiple dashes
+		.replace(/^-|-$/g, "") // trim leading/trailing dashes
+}
 export function getMinimalPrice(
 	product: Voila.DecoratedProduct
 ): MinimalPrice {

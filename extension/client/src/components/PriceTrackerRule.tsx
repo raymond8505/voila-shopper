@@ -161,7 +161,7 @@ export function PriceTrackerRule({
 						) : (
 							<div>
 								<div>
-									${rule?.price} / {rule?.priceType}
+									${rule?.price?.toFixed(2)} / {rule?.priceType}
 								</div>
 							</div>
 						)}

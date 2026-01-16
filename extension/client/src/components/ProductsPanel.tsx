@@ -1,11 +1,12 @@
 import Alert from "antd/es/alert/Alert"
 import { PriceTrackerRule } from "./PriceTrackerRule"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
-import { isWorkflowError } from "@src/types/helpers"
 import { useCallback, useEffect, useState } from "react"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
+import LinkOutlined from "@ant-design/icons/LinkOutlined"
 import { css } from "@emotion/react"
+import { ConfigProvider, Table } from "antd"
 
 export function ProductsPanel() {
 	const {
@@ -98,37 +99,96 @@ export function ProductsPanel() {
 		),
 		showArrow: false,
 		children: (
-			<ul>
-				{rule.matches?.map((match, j) => (
-					<li key={j}>{match.product_view.product.raw_name}</li>
-				))}
-			</ul>
+			<Table
+				dataSource={
+					rule.matches?.map((match, j) => ({
+						price: `$${match.product_view.best_current_price.price?.toFixed(
+							2
+						)}`,
+						name: match.product_view.product.raw_name,
+						match,
+						key: match.product_view.product.id + "-" + j,
+					})) ?? []
+				}
+				pagination={{
+					pageSize: 3,
+				}}
+				columns={[
+					{
+						title: "Price",
+						dataIndex: "price",
+						render: (_: any, record: any) => {
+							return <strong>{record.price}</strong>
+						},
+					},
+					{
+						title: "Product Name",
+						dataIndex: "name",
+					},
+					{
+						title: "Visit",
+						dataIndex: "visit",
+						render: (_: any, record: any) => {
+							return record.match.product_view.best_current_price
+								.source_product_url ? (
+								<a
+									href={
+										new URL(
+											record.match.product_view.best_current_price.source_product_url
+										).pathname
+									}
+								>
+									<LinkOutlined />
+								</a>
+							) : null
+						},
+					},
+				]}
+			></Table>
 		),
 	}))
 	return (
-		<div>
-			<PriceTrackerRule
-				editing={true}
-				loading={createRuleLoading}
-				onSubmit={handleCreatePriceTrackerSubmit}
-				showHelp
-			/>
-
-			{ruleError ? (
-				<Alert
-					type="error"
-					message="Rule Error"
-					description={ruleError}
-					closable
+		<ConfigProvider
+			theme={{
+				components: {
+					Table: {
+						fontSize: 12,
+						cellPaddingBlock: 4,
+					},
+					Pagination: {
+						fontSize: 12,
+						itemSize: 20,
+					},
+					Collapse: {
+						contentPadding: 4,
+					},
+				},
+			}}
+		>
+			<div>
+				<PriceTrackerRule
+					editing={true}
+					loading={createRuleLoading}
+					onSubmit={handleCreatePriceTrackerSubmit}
+					showHelp
 				/>
-			) : null}
-			<div
-				css={css`
-					margin-top: 16px;
-				`}
-			>
-				<Collapse items={ruleItems}></Collapse>
+
+				{ruleError ? (
+					<Alert
+						type="error"
+						message="Rule Error"
+						description={ruleError}
+						closable
+					/>
+				) : null}
+				<div
+					css={css`
+						margin-top: 16px;
+					`}
+				>
+					<Collapse items={ruleItems}></Collapse>
+				</div>
 			</div>
-		</div>
+		</ConfigProvider>
 	)
 }

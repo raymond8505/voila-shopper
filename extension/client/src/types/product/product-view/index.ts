@@ -48,6 +48,7 @@ export namespace ProductView {
 		original_price: number | null
 		source_name: string | null
 		source_slug: string | null
+		source_product_url?: string
 	}
 
 	export interface PriceStats {

@@ -1,21 +1,6 @@
-import type { Workflow } from "./index"
 import { Product } from "./product"
 import type { Voila } from "./voila"
 import { Recipe } from "./recipe/index"
-
-/**
- * Workflow.Error type guard
- * @param response
- * @returns
- */
-export function isWorkflowError(
-	response: unknown
-): response is Workflow.Error {
-	return (
-		(response as Workflow.Error).status !== undefined &&
-		typeof (response as Workflow.Error).status === "number"
-	)
-}
 
 /**
  * Type guard to check if an object is a Voila.Product.

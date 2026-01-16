@@ -19,6 +19,7 @@ export namespace Product {
 			originalPrice?: number
 		}
 		currency: string
+		url?: string
 		//rawData: Record<string, unknown>
 	}
 

@@ -6,7 +6,6 @@ import TextArea from "antd/es/input/TextArea"
 import type { Recipe } from "../types"
 import { useRecipes } from "../hooks/useRecipes"
 import { RecipeResultButton } from "./RecipeResultButton"
-import { isWorkflowError } from "../types/helpers"
 import { Alert, Flex } from "antd"
 import {
 	GetRecipesButton,
@@ -35,27 +34,27 @@ export function RecipesPanel() {
 		generateRecipeRecommendations({
 			extraCriteria: recipeCriteria,
 			sources: recipeSources,
-		}).then((resp) => {
-			if (resp) {
-				if (isWorkflowError(resp)) {
-					setErrorText(() => {
-						switch (resp.status) {
-							case 403:
-								return "Incorrect username or password"
-							case 404:
-								return "Workflow not found"
-							default:
-								return resp.message
-						}
-					})
-				} else {
+		})
+			.then((resp) => {
+				if (resp) {
 					setErrorText(null)
 					setRecipes(
 						(resp as Recipe.ApiResponse).recipeSchemas ?? []
 					)
 				}
-			}
-		})
+			})
+			.catch((err) => {
+				setErrorText(() => {
+					switch (err.status) {
+						case 403:
+							return "Incorrect username or password"
+						case 404:
+							return "Workflow not found"
+						default:
+							return err.message
+					}
+				})
+			})
 	}, [
 		setRecipes,
 		recipeCriteria,

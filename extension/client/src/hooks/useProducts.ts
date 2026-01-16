@@ -5,7 +5,16 @@ import { useCallback } from "react"
 import { useVoila } from "./useVoila"
 import { useWorkflow } from "./useWorkflow"
 import { isCreateProductsResponse } from "@src/types/helpers"
+import { slugify } from "@src/helpers"
 
+function voilaProductURL(product: Voila.Product): string {
+	// Voila single product view selects by retailerProductId
+	// the slug can be anything- at a glance it seems like standard
+	// slugification of the product name
+	return `https://voila.ca/products/${slugify(product.name)}/${
+		product.retailerProductId
+	}`
+}
 function normalizeVoilaProduct(
 	rawProduct: Voila.Product
 ): Product.RawProduct {
@@ -29,6 +38,7 @@ function normalizeVoilaProduct(
 				: undefined,
 		},
 		currency: rawPrice.currency,
+		url: voilaProductURL(rawProduct),
 	}
 }
 export function useProducts() {
