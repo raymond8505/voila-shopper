@@ -111,7 +111,7 @@ export function ProductsPanel() {
 					})) ?? []
 				}
 				pagination={{
-					pageSize: 3,
+					pageSize: 5,
 				}}
 				columns={[
 					{
@@ -176,7 +176,7 @@ export function ProductsPanel() {
 				{ruleError ? (
 					<Alert
 						type="error"
-						message="Rule Error"
+						title="Rule Error"
 						description={ruleError}
 						closable
 					/>
