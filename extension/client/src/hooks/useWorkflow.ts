@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Job, Workflow } from "../types/index"
 import { useJobManager } from "./useJobManager"
 import { useStore } from "@store/client"
@@ -24,6 +24,7 @@ export function useWorkflow<T = Job.UnknownData>({
 			respondOnStatus = "done",
 			hookOptions = {},
 			timeout = 1000 * 60 * 15, // 15 minutes,
+			ttl,
 		}: {
 			payload: Payload
 			responseType?: Workflow.ResponseType
@@ -33,18 +34,32 @@ export function useWorkflow<T = Job.UnknownData>({
 			 * only for responseType "job"
 			 */
 			timeout?: number
+			ttl?: number
 		}) => {
+			const queryKey = [
+				`use-workflow-${workflowLiveMode ? "live" : "test"}`,
+				url,
+				payload,
+				responseType,
+				respondOnStatus,
+				timeout,
+				workflowLiveMode,
+			]
+			const hashedKey = `price-tracker${btoa(
+				JSON.stringify(queryKey)
+			)}`
 			return queryClient.fetchQuery({
-				queryKey: [
-					`use-workflow-${workflowLiveMode ? "live" : "test"}`,
-					url,
-					payload,
-					responseType,
-					respondOnStatus,
-					timeout,
-					workflowLiveMode,
-				],
+				queryKey,
 				queryFn: async () => {
+					if (ttl) {
+						const cached =
+							window.sessionStorage.getItem(hashedKey)
+
+						if (cached) {
+							return JSON.parse(cached) as CallT
+						}
+					}
+
 					setLoading(true)
 
 					const fetchOptions = hookOptions ? hookOptions : {}
@@ -78,6 +93,10 @@ export function useWorkflow<T = Job.UnknownData>({
 
 							if (responseType === "hook") {
 								setLoading(false)
+								window.sessionStorage.setItem(
+									hashedKey,
+									JSON.stringify(hookJSON)
+								)
 								return hookJSON as CallT
 							} else {
 								const job = await pollJobData<CallT>(
@@ -86,6 +105,10 @@ export function useWorkflow<T = Job.UnknownData>({
 									timeout
 								)
 								setLoading(false)
+								window.sessionStorage.setItem(
+									hashedKey,
+									JSON.stringify(job?.data)
+								)
 								return job?.data as CallT
 							}
 						} else {

@@ -46,6 +46,7 @@ export function usePriceTracker() {
 				hookOptions: {
 					method: "POST",
 				},
+				ttl: 1000 * 60 * 5, // 5 minutes
 			})
 
 			const newRules = [...priceTrackerRules].map((r) => {
