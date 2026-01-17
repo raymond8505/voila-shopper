@@ -1,6 +1,6 @@
 import { Tooltip } from "antd"
 import { forwardRef } from "react"
-import { UnstyledButton } from "./elements.styles"
+import { UnstyledButtonElement } from "./UnstyledButton"
 import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined"
 import { TooltipRef } from "antd/es/tooltip"
 
@@ -16,10 +16,13 @@ export const Help = forwardRef<TooltipRef, HelpProps>(
 				trigger={["hover", "focus"]}
 				ref={ref}
 			>
-				<UnstyledButton>
+				<UnstyledButtonElement
+					type="button"
+					aria-label={props.text}
+				>
 					<QuestionCircleOutlined />
-				</UnstyledButton>
+				</UnstyledButtonElement>
 			</Tooltip>
 		)
-	}
+	},
 )

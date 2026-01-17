@@ -2,7 +2,7 @@ import { formatCurrency, getPriceDifference } from "@src/helpers"
 import { useMemo } from "react"
 import MinusOutlined from "@ant-design/icons/MinusOutlined"
 import ArrowUpOutlined from "@ant-design/icons/ArrowUpOutlined"
-import { UnstyledButton } from "../common/elements.styles"
+import { UnstyledButton } from "../common/UnstyledButton"
 
 /**
  *

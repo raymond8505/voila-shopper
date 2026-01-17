@@ -1,14 +1,19 @@
 import styled from "@emotion/styled"
-import { UnstyledButton } from "./common/elements.styles"
+import { UnstyledButton } from "./common/UnstyledButton"
 
-export const Button = styled(UnstyledButton)<{ drawerOpen: boolean }>`
+export const Button = styled(UnstyledButton)<{
+	drawerOpen: boolean
+}>`
 	position: absolute;
 
-	//top-most banner is 3rem height this puts the button between that and the logo so neither is fully obstructed
+	// Voila.ca top-most banner is 3rem height this puts the button between
+	// that and the logo so neither is fully obstructed
 	top: 1.5rem;
 	right: 0;
 	transform: translateX(-8px);
-	transition: background-color 200ms ease-in-out, transform 100ms ease-in-out,
+	transition:
+		background-color 200ms ease-in-out,
+		transform 100ms ease-in-out,
 		color 200ms ease-out;
 	background-color: #f9f3eb;
 	padding: 8px;

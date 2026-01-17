@@ -13,7 +13,7 @@ import { LoaderButton } from "./common/LoaderButton/LoaderButton"
 import { useForm } from "antd/es/form/Form"
 import { useCallback, useState } from "react"
 
-import { UnstyledButton } from "./common/elements.styles"
+import { UnstyledButton } from "./common/UnstyledButton"
 import EditOutlined from "@ant-design/icons/EditOutlined"
 import DeleteOutlined from "@ant-design/icons/DeleteOutlined"
 import CloseOutlined from "@ant-design/icons/CloseOutlined"
@@ -195,16 +195,17 @@ export function PriceTrackerRule({
 							<>
 								{mode === "edit" ? (
 									editing ? (
-										<UnstyledButton
-											onClick={onEditClick}
-											type="button"
-										>
+										<UnstyledButton onClick={onEditClick}>
 											<CloseOutlined />
 										</UnstyledButton>
 									) : (
 										<UnstyledButton
-											onClick={onDeleteClick}
-											type="button"
+											confirmProps={{
+												title:
+													"Are you sure you want to delete this rule?",
+												onConfirm: onDeleteClick,
+											}}
+											aria-label="delete price tracker rule"
 										>
 											<DeleteOutlined />
 										</UnstyledButton>

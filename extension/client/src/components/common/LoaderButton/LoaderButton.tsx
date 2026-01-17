@@ -3,13 +3,12 @@ import type { ButtonProps } from "antd/es/button"
 
 import { forwardRef, ReactNode } from "react"
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined"
-import { UnstyledButton } from "../elements.styles"
+import { UnstyledButton } from "../UnstyledButton"
 
-export interface LoaderButtonProps
-	extends Omit<
-		ButtonProps,
-		"onClick" | "icon" | "loading" | "children" | "type"
-	> {
+export interface LoaderButtonProps extends Omit<
+	ButtonProps,
+	"onClick" | "icon" | "loading" | "children" | "type"
+> {
 	onClick: React.MouseEventHandler<HTMLElement> | undefined
 	icon?: ReactNode
 	loading?: boolean
@@ -35,7 +34,7 @@ export const LoaderButton = forwardRef<
 			type = "default",
 			...rest
 		},
-		ref
+		ref,
 	) => {
 		const sharedProps = {
 			onClick,
@@ -71,5 +70,5 @@ export const LoaderButton = forwardRef<
 				{content}
 			</Button>
 		)
-	}
+	},
 )

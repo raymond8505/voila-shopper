@@ -1,7 +1,7 @@
 import { decodeHtmlEntities } from "../helpers"
 import { useStore } from "@store/client"
 import { Recipe } from "../types/index"
-import { UnstyledButton } from "./common/elements.styles"
+import { UnstyledButton } from "./common/UnstyledButton"
 
 export function RecipeResultButton({
 	recipeMeta,
