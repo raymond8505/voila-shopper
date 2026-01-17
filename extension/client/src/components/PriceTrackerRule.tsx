@@ -16,6 +16,7 @@ import { useCallback, useState } from "react"
 import { UnstyledButton } from "./common/elements.styles"
 import EditOutlined from "@ant-design/icons/EditOutlined"
 import DeleteOutlined from "@ant-design/icons/DeleteOutlined"
+import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { Help } from "./common/Help"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { formatCurrency } from "../helpers"
@@ -193,12 +194,21 @@ export function PriceTrackerRule({
 						>
 							<>
 								{mode === "edit" ? (
-									<UnstyledButton
-										onClick={onDeleteClick}
-										type="button"
-									>
-										<DeleteOutlined />
-									</UnstyledButton>
+									editing ? (
+										<UnstyledButton
+											onClick={onEditClick}
+											type="button"
+										>
+											<CloseOutlined />
+										</UnstyledButton>
+									) : (
+										<UnstyledButton
+											onClick={onDeleteClick}
+											type="button"
+										>
+											<DeleteOutlined />
+										</UnstyledButton>
+									)
 								) : null}
 
 								<LoaderButton
