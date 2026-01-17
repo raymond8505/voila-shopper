@@ -1,14 +1,13 @@
 import Alert from "antd/es/alert/Alert"
-import { PriceTrackerRule } from "./PriceTrackerRule"
+import { PriceTrackerRule } from "./PriceTrackerRule/PriceTrackerRule"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { useCallback, useEffect, useState } from "react"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
-import LinkOutlined from "@ant-design/icons/LinkOutlined"
+
 import { css } from "@emotion/react"
 import { ConfigProvider, Splitter, Table } from "antd"
-import Panel from "antd/es/splitter/Panel"
-import { formatCurrency } from "@src/helpers"
+import { MatchTable } from "./PriceTrackerRule/MatchTable"
 
 export function ProductsPanel() {
 	const {
@@ -105,53 +104,7 @@ export function ProductsPanel() {
 			/>
 		),
 		showArrow: false,
-		children: (
-			<Table
-				dataSource={
-					rule.matches?.map((match, j) => ({
-						price: `$${formatCurrency(match.product_view.best_current_price.price)}`,
-						name: match.product_view.product.raw_name,
-						match,
-						key: match.product_view.product.id + "-" + j,
-					})) ?? []
-				}
-				pagination={{
-					pageSize: 5,
-				}}
-				columns={[
-					{
-						title: "Price",
-						dataIndex: "price",
-						render: (_: any, record: any) => {
-							return <strong>{record.price}</strong>
-						},
-					},
-					{
-						title: "Product Name",
-						dataIndex: "name",
-					},
-					{
-						title: "Visit",
-						dataIndex: "visit",
-						render: (_: any, record: any) => {
-							return record.match.product_view.best_current_price
-								.source_product_url ? (
-								<a
-									href={
-										new URL(
-											record.match.product_view
-												.best_current_price.source_product_url,
-										).pathname
-									}
-								>
-									<LinkOutlined />
-								</a>
-							) : null
-						},
-					},
-				]}
-			></Table>
-		),
+		children: <MatchTable matches={rule.matches} />,
 	}))
 	return (
 		<ConfigProvider
