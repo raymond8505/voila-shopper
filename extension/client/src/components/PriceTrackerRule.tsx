@@ -32,7 +32,7 @@ export function PriceTrackerRule({
 	onSubmit?: (
 		rule: IPriceTracker.Rule,
 		resetFields: (fields?: any[] | undefined) => void,
-		mode: "create" | "edit"
+		mode: "create" | "edit",
 	) => void
 	loading?: boolean
 	showHelp?: boolean
@@ -63,31 +63,41 @@ export function PriceTrackerRule({
 					id: rule?.id,
 				} as IPriceTracker.Rule,
 				form.resetFields,
-				mode
+				mode,
 			)
 			setEditing(editingParam)
 		})
 	}, [form, onSubmitParam, setLoading, editingParam, mode])
 
-	const onEditClick = useCallback(() => {
-		setEditing(!editingParam)
+	const onEditClick = useCallback(
+		(e) => {
+			e.preventDefault()
+			e.stopPropagation()
+			setEditing(!editingParam)
 
-		if (editing) {
-			onSubmit()
-		} else {
-			form.setFieldsValue({
-				...rule,
-			})
-		}
-	}, [editing, editingParam, onSubmit, form, rule])
+			if (editing) {
+				onSubmit()
+			} else {
+				form.setFieldsValue({
+					...rule,
+				})
+			}
+		},
+		[editing, editingParam, onSubmit, form, rule],
+	)
 
-	const onDeleteClick = useCallback(() => {
-		setEditing(false)
+	const onDeleteClick = useCallback(
+		(e) => {
+			e.preventDefault()
+			e.stopPropagation()
+			setEditing(false)
 
-		if (rule) {
-			deleteRule(rule)
-		}
-	}, [rule, deleteRule, setEditing])
+			if (rule) {
+				deleteRule(rule)
+			}
+		},
+		[rule, deleteRule, setEditing],
+	)
 
 	return (
 		<ConfigProvider

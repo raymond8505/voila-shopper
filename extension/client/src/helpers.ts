@@ -7,7 +7,6 @@ import type {
 	MinimalPrice,
 	Voila,
 } from "./types/index"
-import { PriceTracker } from "./types/product/price-tracker"
 
 export function slugify(name: string): string {
 	return name
@@ -24,7 +23,7 @@ export function slugify(name: string): string {
 		.replace(/^-|-$/g, "") // trim leading/trailing dashes
 }
 export function getMinimalPrice(
-	product: Voila.DecoratedProduct
+	product: Voila.DecoratedProduct,
 ): MinimalPrice {
 	return {
 		currentPrice: product.promoPrice
@@ -61,7 +60,7 @@ export function categoryTreeFromProducts({
 	const badCatPathProducts = products.filter(
 		(product) =>
 			product.categoryPath === undefined ||
-			product.categoryPath.length !== pathLength
+			product.categoryPath.length !== pathLength,
 	)
 
 	const badProducts = badCatPathProducts.map((p) => ({
@@ -79,14 +78,14 @@ export function categoryTreeFromProducts({
 			throw new VoilaProductError(
 				ErrorType.BAD_VOILA_CATEGORY_PATH,
 				message,
-				badProducts
+				badProducts,
 			)
 		}
 	}
 
 	const depthIndex = Math.min(
 		depthIndexParam ?? pathLength - 1,
-		pathLength - 1
+		pathLength - 1,
 	)
 
 	for (const product of products) {
@@ -97,7 +96,7 @@ export function categoryTreeFromProducts({
 		}
 		const depth = Math.min(
 			product.categoryPath.length,
-			depthIndex
+			depthIndex,
 		)
 		let currentLevel: CategoryTree = categoryTree
 
@@ -164,7 +163,7 @@ export function shouldPluralize(val: unknown) {
  * @returns An object with the parsed duration components, or null if malformed
  */
 export function parseISODuration(
-	duration: string
+	duration: string,
 ): ParsedISODuration | null {
 	const regex =
 		/^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/
@@ -173,7 +172,7 @@ export function parseISODuration(
 
 	if (!matches) {
 		console.warn(
-			`${duration} does not appear to be a valid ISO 8601 duration string`
+			`${duration} does not appear to be a valid ISO 8601 duration string`,
 		)
 		return null
 	}
@@ -209,7 +208,7 @@ export function parseISODuration(
  * @returns
  */
 export function isoDurationToMs(
-	duration: ParsedISODuration
+	duration: ParsedISODuration,
 ): number {
 	const { days, hours, minutes, seconds } = duration
 
@@ -226,7 +225,7 @@ export function isoDurationToMs(
  */
 export function getPriceDifference(
 	currentPrice: number,
-	comparePrice: number
+	comparePrice: number,
 ) {
 	const decimal = currentPrice - comparePrice
 	const percent = decimal / comparePrice

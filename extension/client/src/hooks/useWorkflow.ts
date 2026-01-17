@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { Job, Workflow } from "../types/index"
 import { useJobManager } from "./useJobManager"
 import { useStore } from "@store/client"
@@ -46,7 +46,7 @@ export function useWorkflow<T = Job.UnknownData>({
 				workflowLiveMode,
 			]
 			const hashedKey = `price-tracker${btoa(
-				JSON.stringify(queryKey)
+				JSON.stringify(queryKey),
 			)}`
 			return queryClient.fetchQuery({
 				queryKey,
@@ -66,14 +66,14 @@ export function useWorkflow<T = Job.UnknownData>({
 
 					try {
 						const combinedHeaders = new Headers(
-							fetchOptions.headers
+							fetchOptions.headers,
 						)
 						if (auth) {
 							combinedHeaders.set(
 								"Authorization",
 								`Basic ${btoa(
-									`${auth.username}:${auth.password}`
-								)}`
+									`${auth.username}:${auth.password}`,
+								)}`,
 							)
 						}
 
@@ -85,7 +85,7 @@ export function useWorkflow<T = Job.UnknownData>({
 								body: JSON.stringify(payload),
 								...fetchOptions,
 								headers: combinedHeaders,
-							}
+							},
 						)
 
 						if (hookResp.ok) {
@@ -95,26 +95,26 @@ export function useWorkflow<T = Job.UnknownData>({
 								setLoading(false)
 								window.sessionStorage.setItem(
 									hashedKey,
-									JSON.stringify(hookJSON)
+									JSON.stringify(hookJSON),
 								)
 								return hookJSON as CallT
 							} else {
 								const job = await pollJobData<CallT>(
 									hookJSON.id,
 									respondOnStatus,
-									timeout
+									timeout,
 								)
 								setLoading(false)
 								window.sessionStorage.setItem(
 									hashedKey,
-									JSON.stringify(job?.data)
+									JSON.stringify(job?.data),
 								)
 								return job?.data as CallT
 							}
 						} else {
 							setLoading(false)
 							throw new Error(
-								`Workflow hook error: ${await hookResp.text()}`
+								`Workflow hook error: ${await hookResp.text()}`,
 							)
 						}
 					} finally {
@@ -131,7 +131,7 @@ export function useWorkflow<T = Job.UnknownData>({
 			queryClient,
 			pollJobData,
 			auth,
-		]
+		],
 	)
 
 	return { loading, call }

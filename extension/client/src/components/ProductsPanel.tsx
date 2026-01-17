@@ -6,7 +6,8 @@ import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
 import LinkOutlined from "@ant-design/icons/LinkOutlined"
 import { css } from "@emotion/react"
-import { ConfigProvider, Table } from "antd"
+import { ConfigProvider, Splitter, Table } from "antd"
+import Panel from "antd/es/splitter/Panel"
 
 export function ProductsPanel() {
 	const {
@@ -27,7 +28,7 @@ export function ProductsPanel() {
 
 		if (!latestMatchesLoading && latestMatches?.length === 0) {
 			rulesWithoutMatches = priceTrackerRules.filter(
-				(r) => r.matches === undefined
+				(r) => r.matches === undefined,
 			)
 
 			console.log({
@@ -80,7 +81,7 @@ export function ProductsPanel() {
 				])
 			} catch (e) {
 				setRuleError(
-					(e as Error).message || "Unknown error creating rule"
+					(e as Error).message || "Unknown error creating rule",
 				)
 			}
 		},
@@ -89,10 +90,11 @@ export function ProductsPanel() {
 			createRule,
 			setPriceTrackerRules,
 			priceTrackerRules,
-		]
+		],
 	)
 
 	const ruleItems = priceTrackerRules.map((rule, i) => ({
+		key: rule.id,
 		label: (
 			<PriceTrackerRule
 				rule={rule}
@@ -107,7 +109,7 @@ export function ProductsPanel() {
 				dataSource={
 					rule.matches?.map((match, j) => ({
 						price: `$${match.product_view.best_current_price.price?.toFixed(
-							2
+							2,
 						)}`,
 						name: match.product_view.product.raw_name,
 						match,
@@ -138,7 +140,8 @@ export function ProductsPanel() {
 								<a
 									href={
 										new URL(
-											record.match.product_view.best_current_price.source_product_url
+											record.match.product_view
+												.best_current_price.source_product_url,
 										).pathname
 									}
 								>
@@ -169,31 +172,34 @@ export function ProductsPanel() {
 				},
 			}}
 		>
-			<div>
-				<PriceTrackerRule
-					editing={true}
-					loading={createRuleLoading}
-					onSubmit={handleCreatePriceTrackerSubmit}
-					showHelp
-					mode="create"
-				/>
-
-				{ruleError ? (
-					<Alert
-						type="error"
-						title="Rule Error"
-						description={ruleError}
-						closable
+			<Splitter orientation="vertical">
+				<Splitter.Panel resizable={false} min={12} size={12}>
+					<PriceTrackerRule
+						editing={true}
+						loading={createRuleLoading}
+						onSubmit={handleCreatePriceTrackerSubmit}
+						showHelp
+						mode="create"
 					/>
-				) : null}
-				<div
-					css={css`
-						margin-top: 16px;
-					`}
-				>
-					<Collapse items={ruleItems}></Collapse>
-				</div>
-			</div>
+				</Splitter.Panel>
+				<Splitter.Panel size={88}>
+					{ruleError ? (
+						<Alert
+							type="error"
+							title="Rule Error"
+							description={ruleError}
+							closable
+						/>
+					) : null}
+					<div
+						css={css`
+							margin-top: 16px;
+						`}
+					>
+						<Collapse items={ruleItems}></Collapse>
+					</div>
+				</Splitter.Panel>
+			</Splitter>
 		</ConfigProvider>
 	)
 }
