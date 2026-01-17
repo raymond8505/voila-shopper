@@ -6,7 +6,7 @@ import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
 
 import { css } from "@emotion/react"
-import { ConfigProvider, Splitter, Table } from "antd"
+import { ConfigProvider, Splitter } from "antd"
 import { MatchTable } from "./PriceTrackerRule/MatchTable"
 
 export function ProductsPanel() {

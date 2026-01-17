@@ -92,7 +92,6 @@ export function PriceTrackerRule({
 		(e) => {
 			e.preventDefault()
 			e.stopPropagation()
-			setEditing(false)
 
 			if (rule) {
 				deleteRule(rule)
@@ -190,7 +189,14 @@ export function PriceTrackerRule({
 						<>
 							{mode === "edit" ? (
 								editing ? (
-									<UnstyledButton onClick={onEditClick}>
+									<UnstyledButton
+										onClick={(e) => {
+											setEditing(false)
+											e.preventDefault()
+											e.stopPropagation()
+										}}
+										aria-label="cancel edititing"
+									>
 										<CloseOutlined />
 									</UnstyledButton>
 								) : (
