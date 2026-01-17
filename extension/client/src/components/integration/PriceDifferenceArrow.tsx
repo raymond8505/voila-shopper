@@ -1,4 +1,4 @@
-import { getPriceDifference } from "@src/helpers"
+import { formatCurrency, getPriceDifference } from "@src/helpers"
 import { useMemo } from "react"
 import MinusOutlined from "@ant-design/icons/MinusOutlined"
 import ArrowUpOutlined from "@ant-design/icons/ArrowUpOutlined"
@@ -16,7 +16,7 @@ export function PriceDifferenceArrow({
 }) {
 	const productDiff = getPriceDifference(
 		currentPrice,
-		comparePrice
+		comparePrice,
 	)
 
 	const shouldShowArrow =
@@ -43,9 +43,7 @@ export function PriceDifferenceArrow({
 
 	return (
 		<UnstyledButton
-			title={`${(productDiff.percent * 100).toFixed(
-				2
-			)}% (compared to $${comparePrice.toFixed(2)})`}
+			title={`${formatCurrency(productDiff.percent * 100)}% (compared to $${formatCurrency(comparePrice)})`}
 		>
 			{Icon}
 		</UnstyledButton>

@@ -18,6 +18,7 @@ import EditOutlined from "@ant-design/icons/EditOutlined"
 import DeleteOutlined from "@ant-design/icons/DeleteOutlined"
 import { Help } from "./common/Help"
 import { usePriceTracker } from "@src/hooks/usePriceTracker"
+import { formatCurrency } from "../helpers"
 
 export function PriceTrackerRule({
 	rule,
@@ -178,7 +179,8 @@ export function PriceTrackerRule({
 						) : (
 							<div>
 								<div>
-									${rule?.price?.toFixed(2)} / {rule?.priceType}
+									${formatCurrency(rule?.price)} /{" "}
+									{rule?.priceType}
 								</div>
 							</div>
 						)}

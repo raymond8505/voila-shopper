@@ -8,6 +8,23 @@ import type {
 	Voila,
 } from "./types/index"
 
+export function formatCurrency(
+	price?: number | null,
+	currency: string = "CAD",
+): string {
+	if (price === undefined || price === null || isNaN(price)) {
+		return "-"
+	}
+
+	/**
+	 * laying grouynds for potential i18n support later
+	 */
+	return new Intl.NumberFormat("en-CA", {
+		style: "currency",
+		currency,
+	}).format(price)
+}
+
 export function slugify(name: string): string {
 	return name
 		.toLowerCase()

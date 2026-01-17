@@ -8,6 +8,7 @@ import LinkOutlined from "@ant-design/icons/LinkOutlined"
 import { css } from "@emotion/react"
 import { ConfigProvider, Splitter, Table } from "antd"
 import Panel from "antd/es/splitter/Panel"
+import { formatCurrency } from "@src/helpers"
 
 export function ProductsPanel() {
 	const {
@@ -108,9 +109,7 @@ export function ProductsPanel() {
 			<Table
 				dataSource={
 					rule.matches?.map((match, j) => ({
-						price: `$${match.product_view.best_current_price.price?.toFixed(
-							2,
-						)}`,
+						price: `$${formatCurrency(match.product_view.best_current_price.price)}`,
 						name: match.product_view.product.raw_name,
 						match,
 						key: match.product_view.product.id + "-" + j,
