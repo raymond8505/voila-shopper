@@ -59,11 +59,11 @@ export function ProductsPanel() {
 	const [ruleError, setRuleError] = useState<string | null>(null)
 
 	const handleCreatePriceTrackerSubmit = useCallback(
-		async (rule, reset) => {
+		async (rule: PriceTracker.Rule, reset, mode) => {
 			setRuleError(null)
 			reset()
 
-			console.log("creating rule", { rule })
+			console.log({ rule })
 
 			try {
 				const createRuleResp = await createRule(rule)
@@ -73,7 +73,10 @@ export function ProductsPanel() {
 						...createRuleResp.rule,
 						matches: createRuleResp.products,
 					},
-					...priceTrackerRules,
+					// if we're editing, remove the old rule
+					...(mode === "edit"
+						? priceTrackerRules.filter((r) => r.id !== rule.id)
+						: priceTrackerRules),
 				])
 			} catch (e) {
 				setRuleError(
@@ -95,6 +98,7 @@ export function ProductsPanel() {
 				rule={rule}
 				key={i}
 				onSubmit={handleCreatePriceTrackerSubmit}
+				mode="edit"
 			/>
 		),
 		showArrow: false,
@@ -171,6 +175,7 @@ export function ProductsPanel() {
 					loading={createRuleLoading}
 					onSubmit={handleCreatePriceTrackerSubmit}
 					showHelp
+					mode="create"
 				/>
 
 				{ruleError ? (

@@ -2,6 +2,7 @@ import { ProductView } from "../product-view"
 
 export namespace PriceTracker {
 	export interface Rule {
+		id: string
 		query: string
 		priceType: "package" | "unit"
 		priceComparison: "<=" | "<" | ">=" | ">"

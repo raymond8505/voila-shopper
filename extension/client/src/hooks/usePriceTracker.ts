@@ -2,7 +2,6 @@ import { useCallback } from "react"
 import { useWorkflow } from "./useWorkflow"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import { useStore as useProductStore } from "@store/products"
-import { rulesAreEqual } from "@src/helpers"
 
 export function usePriceTracker() {
 	const {
@@ -59,8 +58,8 @@ export function usePriceTracker() {
 				if (!newRule.matches) {
 					newRule.matches = []
 				}
-				const existingRuleIndex = newRules.findIndex((r) =>
-					rulesAreEqual(r, newRule)
+				const existingRuleIndex = newRules.findIndex(
+					(r) => r.id === newRule.id
 				)
 
 				if (existingRuleIndex !== -1) {
@@ -77,6 +76,9 @@ export function usePriceTracker() {
 
 	const createRule = useCallback(
 		async (newRule: PriceTracker.Rule) => {
+			if (!newRule.id) {
+				newRule.id = crypto.randomUUID()
+			}
 			return await callCreatePriceTrackerRule<PriceTracker.Rule>(
 				{
 					payload: newRule,

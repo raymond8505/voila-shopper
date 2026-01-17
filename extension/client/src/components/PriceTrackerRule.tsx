@@ -25,15 +25,18 @@ export function PriceTrackerRule({
 	onSubmit: onSubmitParam,
 	loading: loadingParam = false,
 	showHelp = false,
+	mode = "edit",
 }: {
 	rule?: IPriceTracker.Rule
 	editing?: boolean
 	onSubmit?: (
 		rule: IPriceTracker.Rule,
-		resetFields: (fields?: any[] | undefined) => void
+		resetFields: (fields?: any[] | undefined) => void,
+		mode: "create" | "edit"
 	) => void
 	loading?: boolean
 	showHelp?: boolean
+	mode?: "create" | "edit"
 }) {
 	const [editing, setEditing] = useState(editingParam)
 	const [loading, setLoading] = useState(loadingParam)
@@ -50,20 +53,24 @@ export function PriceTrackerRule({
 
 	const onSubmit = useCallback(() => {
 		setLoading(true)
+
 		form.validateFields().then((fields) => {
 			console.log({ fields })
-			setEditing(editingParam)
 			setLoading(false)
 			onSubmitParam?.(
-				fields as IPriceTracker.Rule,
-				form.resetFields
+				{
+					...fields,
+					id: rule?.id,
+				} as IPriceTracker.Rule,
+				form.resetFields,
+				mode
 			)
+			setEditing(editingParam)
 		})
-	}, [form, onSubmitParam, setLoading])
+	}, [form, onSubmitParam, setLoading, editingParam, mode])
 
 	const onEditClick = useCallback(() => {
 		setEditing(!editingParam)
-		console.log({ editing, editingParam })
 
 		if (editing) {
 			onSubmit()
@@ -74,7 +81,7 @@ export function PriceTrackerRule({
 		}
 	}, [editing, editingParam, onSubmit, form, rule])
 
-	const onCloseClick = useCallback(() => {
+	const onDeleteClick = useCallback(() => {
 		setEditing(false)
 
 		if (rule) {
@@ -92,7 +99,7 @@ export function PriceTrackerRule({
 				},
 			}}
 		>
-			<Form form={form}>
+			<Form form={form} onFinish={onSubmit}>
 				<div>
 					<div>
 						{editing ? (
@@ -114,7 +121,7 @@ export function PriceTrackerRule({
 										</div>
 									}
 								>
-									<Input placeholder="Search Query" />
+									<Input placeholder="Search Query" required />
 								</Form.Item>
 							</>
 						) : (
@@ -165,17 +172,23 @@ export function PriceTrackerRule({
 								</div>
 							</div>
 						)}
-						<div>
-							{showHelp ? (
-								<Help
-									text={`Search for something and add a price, we'll let you know when anything matches.`}
-								/>
-							) : (
-								<UnstyledButton onClick={onCloseClick}>
-									<DeleteOutlined />
-								</UnstyledButton>
-							)}
+						<div
+							css={css`
+								display: flex;
+								align-items: center;
+								gap: 8px;
+							`}
+						>
 							<>
+								{mode === "edit" ? (
+									<UnstyledButton
+										onClick={onDeleteClick}
+										type="button"
+									>
+										<DeleteOutlined />
+									</UnstyledButton>
+								) : null}
+
 								<LoaderButton
 									type={editing ? "primary" : "unstyled"}
 									htmlType="button"
@@ -183,9 +196,13 @@ export function PriceTrackerRule({
 									label={buttonLabel}
 									loading={loading}
 									icon={editing ? undefined : <EditOutlined />}
-									style={{ marginLeft: 8 }}
 								/>
 							</>
+							{showHelp ? (
+								<Help
+									text={`Search for something and add a price, we'll let you know when anything matches.`}
+								/>
+							) : null}
 						</div>
 					</Flex>
 				</div>

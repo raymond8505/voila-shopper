@@ -240,16 +240,3 @@ export function getPriceDifference(
 export function trimUnit(str?: string) {
 	return str ? str.replace(/(g|kcal|calories)$/gi, "") : str
 }
-
-export function rulesAreEqual(
-	ruleA: PriceTracker.Rule,
-	ruleB: PriceTracker.Rule
-): boolean {
-	const ruleAWithoutMatches = { ...ruleA, matches: undefined }
-	const ruleBWithoutMatches = { ...ruleB, matches: undefined }
-
-	return (
-		JSON.stringify(ruleAWithoutMatches) ===
-		JSON.stringify(ruleBWithoutMatches)
-	)
-}
