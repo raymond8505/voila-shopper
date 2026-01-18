@@ -344,4 +344,30 @@ describe("PriceTrackerRule", () => {
 			).not.toBeInTheDocument()
 		})
 	})
+
+	describe("loading state", () => {
+		it("disables all form fields and buttons when loading is true", () => {
+			const { container } = render(
+				<PriceTrackerRule
+					rule={mockRule}
+					editing={true}
+					loading={true}
+					mode="edit"
+				/>,
+			)
+
+			// Form inputs should be disabled
+			expect(screen.getByPlaceholderText("Search Query")).toBeDisabled()
+			expect(screen.getByPlaceholderText("Price")).toBeDisabled()
+
+			// Ant Design Select adds ant-select-disabled class to wrapper
+			const selectWrapper = container.querySelector(".ant-select")
+			expect(selectWrapper).toHaveClass("ant-select-disabled")
+
+			// Cancel button should be disabled
+			expect(
+				screen.getByRole("button", { name: /cancel edititing/i }),
+			).toBeDisabled()
+		})
+	})
 })

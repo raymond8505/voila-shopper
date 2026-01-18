@@ -134,7 +134,11 @@ export function PriceTrackerRule({
 									</div>
 								}
 							>
-								<Input placeholder="Search Query" required />
+								<Input
+									placeholder="Search Query"
+									required
+									disabled={loading}
+								/>
 							</Form.Item>
 						</>
 					) : (
@@ -156,6 +160,7 @@ export function PriceTrackerRule({
 								<InputNumber
 									placeholder="Price"
 									formatter={(value) => `$${value}`}
+									disabled={loading}
 								/>
 							</Form.Item>
 
@@ -174,6 +179,7 @@ export function PriceTrackerRule({
 									]}
 									placeholder="Package"
 									getPopupContainer={(e) => e}
+									disabled={loading}
 								></Select>
 							</Form.Item>
 						</Space.Compact>
@@ -199,6 +205,7 @@ export function PriceTrackerRule({
 											e.stopPropagation()
 										}}
 										aria-label="cancel edititing"
+										disabled={loading}
 									>
 										<CloseOutlined />
 									</UnstyledButton>
@@ -210,6 +217,7 @@ export function PriceTrackerRule({
 											onConfirm: onDeleteClick,
 										}}
 										aria-label="delete price tracker rule"
+										disabled={loading}
 									>
 										<DeleteOutlined />
 									</UnstyledButton>

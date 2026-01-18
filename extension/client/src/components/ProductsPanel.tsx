@@ -4,7 +4,7 @@ import { usePriceTracker } from "@src/hooks/usePriceTracker"
 import { useCallback, useEffect, useState } from "react"
 import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
-
+import CaretDownOutlined from "@ant-design/icons/CaretDownOutlined"
 import { css } from "@emotion/react"
 import { ConfigProvider, Splitter } from "antd"
 import { MatchTable } from "./PriceTrackerRule/MatchTable"
@@ -103,7 +103,6 @@ export function ProductsPanel() {
 				mode="edit"
 			/>
 		),
-		showArrow: false,
 		children: <MatchTable matches={rule.matches} />,
 	}))
 	return (
@@ -151,6 +150,15 @@ export function ProductsPanel() {
 						<Collapse
 							items={ruleItems}
 							collapsible={"icon"}
+							expandIcon={(panelProps) => (
+								<CaretDownOutlined
+									style={{
+										transform: panelProps.isActive
+											? "rotate(-90deg)"
+											: undefined,
+									}}
+								/>
+							)}
 						></Collapse>
 					</div>
 				</Splitter.Panel>
