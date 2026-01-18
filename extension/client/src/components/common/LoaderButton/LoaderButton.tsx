@@ -9,7 +9,7 @@ export interface LoaderButtonProps extends Omit<
 	ButtonProps,
 	"onClick" | "icon" | "loading" | "children" | "type"
 > {
-	onClick: React.MouseEventHandler<HTMLElement> | undefined
+	onClick?: React.MouseEventHandler<HTMLElement>
 	icon?: ReactNode
 	loading?: boolean
 	label: string

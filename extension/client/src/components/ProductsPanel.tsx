@@ -148,7 +148,10 @@ export function ProductsPanel() {
 							margin-top: 16px;
 						`}
 					>
-						<Collapse items={ruleItems}></Collapse>
+						<Collapse
+							items={ruleItems}
+							collapsible={"icon"}
+						></Collapse>
 					</div>
 				</Splitter.Panel>
 			</Splitter>

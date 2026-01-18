@@ -35,7 +35,7 @@ export function PriceTrackerRule({
 		rule: IPriceTracker.Rule,
 		resetFields: (fields?: any[] | undefined) => void,
 		mode: "create" | "edit",
-	) => void
+	) => Promise<void>
 	loading?: boolean
 	showHelp?: boolean
 	mode?: "create" | "edit"
@@ -53,13 +53,15 @@ export function PriceTrackerRule({
 
 	const [form] = useForm()
 
-	const onSubmit = useCallback(() => {
-		setLoading(true)
+	const onSubmit = useCallback(async () => {
+		if (!loading) {
+			console.log("submitting")
+			setLoading(true)
 
-		form.validateFields().then((fields) => {
+			const fields = form.getFieldsValue()
 			console.log({ fields })
-			setLoading(false)
-			onSubmitParam?.(
+
+			await onSubmitParam?.(
 				{
 					...fields,
 					id: rule?.id,
@@ -67,8 +69,9 @@ export function PriceTrackerRule({
 				form.resetFields,
 				mode,
 			)
+			setLoading(false)
 			setEditing(editingParam)
-		})
+		}
 	}, [form, onSubmitParam, setLoading, editingParam, mode])
 
 	const onEditClick = useCallback(
@@ -215,8 +218,8 @@ export function PriceTrackerRule({
 
 							<LoaderButton
 								type={editing ? "primary" : "unstyled"}
-								htmlType="button"
-								onClick={editing ? onSubmit : onEditClick}
+								htmlType="submit"
+								onClick={editing ? undefined : onEditClick}
 								label={buttonLabel}
 								loading={loading}
 								icon={editing ? undefined : <EditOutlined />}
