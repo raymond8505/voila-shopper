@@ -6,7 +6,7 @@ import { PriceTracker } from "@src/types/product/price-tracker"
 import Collapse from "antd/es/collapse/Collapse"
 import CaretDownOutlined from "@ant-design/icons/CaretDownOutlined"
 import { css } from "@emotion/react"
-import { ConfigProvider, Splitter } from "antd"
+import { ConfigProvider } from "antd"
 import { MatchTable } from "./PriceTrackerRule/MatchTable"
 
 export function ProductsPanel() {
@@ -123,17 +123,26 @@ export function ProductsPanel() {
 				},
 			}}
 		>
-			<Splitter orientation="vertical">
-				<Splitter.Panel resizable={false} min={12} size={12}>
-					<PriceTrackerRule
-						editing={true}
-						loading={createRuleLoading}
-						onSubmit={handleCreatePriceTrackerSubmit}
-						showHelp
-						mode="create"
-					/>
-				</Splitter.Panel>
-				<Splitter.Panel size={88}>
+			<div
+				css={css`
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-template-rows: auto 1fr;
+					height: 100%;
+				`}
+			>
+				<PriceTrackerRule
+					editing={true}
+					loading={createRuleLoading}
+					onSubmit={handleCreatePriceTrackerSubmit}
+					showHelp
+					mode="create"
+				/>
+				<div
+					css={css`
+						overflow: auto;
+					`}
+				>
 					{ruleError ? (
 						<Alert
 							type="error"
@@ -161,8 +170,8 @@ export function ProductsPanel() {
 							)}
 						></Collapse>
 					</div>
-				</Splitter.Panel>
-			</Splitter>
+				</div>
+			</div>
 		</ConfigProvider>
 	)
 }

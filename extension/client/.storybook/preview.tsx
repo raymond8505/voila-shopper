@@ -15,9 +15,9 @@ import { CacheProvider } from "@emotion/react"
 import { StyleProvider } from "@ant-design/cssinjs"
 import { GlobalStyles } from "../src/components/common/styles/GlobalStyles"
 import GlobalStylesPortal from "../src/GlobalStylesPortal"
-import ConfigProvider from "antd/es/config-provider"
 import { AntConfigProvider } from "../src/AntConfigProvider"
-
+import { CLIENT_WIDTH_CSS } from "../src/components/Client.styles"
+import "./global.css"
 initializeMSW()
 
 const queryClient = new QueryClient()
@@ -32,6 +32,19 @@ const preview: Preview = {
 		},
 		msw: {
 			handlers: mswHandlers,
+		},
+
+		viewport: {
+			options: {
+				client: {
+					name: "Client",
+					styles: {
+						width: CLIENT_WIDTH_CSS,
+						height: "100%",
+					},
+				},
+			},
+			defaultViewport: "client",
 		},
 	},
 	globalTypes: {

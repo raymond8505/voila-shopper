@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
 
+export const CLIENT_WIDTH_CSS = "25vw"
 export const Wrapper = styled.div<{ drawerOpen: boolean }>`
-	width: 25vw;
+	width: ${CLIENT_WIDTH_CSS};
 	height: 100vh;
 	min-width: 360px;
 	position: fixed;

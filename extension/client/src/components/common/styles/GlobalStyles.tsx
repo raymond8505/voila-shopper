@@ -29,6 +29,32 @@ export const GlobalStyles = () => {
           padding-bottom: 8px;
           margin-bottom: 16px;
         }
+
+        /* SCROLLBAR STYLES */
+        
+        /* For Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #888 #f1f1f1;
+
+        /* For Chrome, Edge, Safari */
+        &::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
     `}
 		/>
 	)
