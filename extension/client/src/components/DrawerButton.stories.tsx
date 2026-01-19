@@ -4,7 +4,7 @@ import { useEffect } from "react"
 
 export default {
 	component: DrawerButton,
-	title: "DrawerButton",
+	title: "Client/DrawerButton",
 	decorators: [
 		(Story) => {
 			const { drawerOpen } = useStore()

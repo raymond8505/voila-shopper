@@ -24,7 +24,7 @@ const mockRule: IPriceTracker.Rule = {
 
 export default {
 	component: PriceTrackerRule,
-	title: "PriceTrackerRule",
+	title: "Client/PriceTrackerRule",
 	args: {
 		onSubmit: fn(),
 	},

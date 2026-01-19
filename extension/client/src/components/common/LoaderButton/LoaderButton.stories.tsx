@@ -3,7 +3,7 @@ import { fn } from "storybook/test"
 import ShoppingCartOutlined from "@ant-design/icons/ShoppingCartOutlined"
 export default {
 	component: LoaderButton,
-	title: "common/LoaderButton",
+	title: "Client/common/LoaderButton",
 	args: {
 		onClick: fn() as LoaderButtonProps["onClick"],
 		label: "Click me",

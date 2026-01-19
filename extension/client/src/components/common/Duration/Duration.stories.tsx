@@ -1,7 +1,7 @@
 import { Duration } from "./Duration"
 
 export default {
-	title: "common/Duration",
+	title: "Client/common/Duration",
 	component: Duration,
 }
 

@@ -5,7 +5,7 @@ import { Recipe } from "../../../types/recipe/index"
 import { recipe } from "../fixtures/index"
 import { supabaseRequest } from "@src/api/supabase"
 export default {
-	title: "recipe/RecipeModal",
+	title: "Client/recipe/RecipeModal",
 	component: RecipeModal,
 	decorators: [
 		(Story, { parameters }) => {
