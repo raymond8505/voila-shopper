@@ -43,7 +43,7 @@ export function PriceDifferenceArrow({
 
 	return (
 		<UnstyledButton
-			title={`${formatCurrency(productDiff.percent * 100)}% (compared to $${formatCurrency(comparePrice)})`}
+			title={`${Math.round(productDiff.percent * 100)}% (compared to ${formatCurrency(comparePrice)})`}
 		>
 			{Icon}
 		</UnstyledButton>

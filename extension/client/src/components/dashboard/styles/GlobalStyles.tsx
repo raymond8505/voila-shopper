@@ -23,13 +23,6 @@ export const GlobalStyles = () => {
           font-weight: bold;
         }
 
-        fieldset
-        {
-          border-bottom: 1px solid rgba(0,0,0,0.1);
-          padding-bottom: 8px;
-          margin-bottom: 16px;
-        }
-
         /* SCROLLBAR STYLES */
         
         /* For Firefox */

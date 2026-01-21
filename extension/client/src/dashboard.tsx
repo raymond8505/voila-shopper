@@ -8,6 +8,8 @@ import {
 	QueryClientProvider,
 } from "@tanstack/react-query"
 import { Dashboard } from "./components/dashboard/Dashboard.tsx"
+import { GlobalStyles } from "./components/dashboard/styles/GlobalStyles.tsx"
+import { HashRouter } from "react-router-dom"
 
 async function enableMocking() {
 	if (process.env.NODE_ENV !== "development") {
@@ -37,10 +39,13 @@ enableMocking().then(() => {
 			<QueryClientProvider client={queryClient}>
 				<CacheProvider value={emotionCache}>
 					<StyleProvider container={root}>
-						<Dashboard />
+						<HashRouter>
+							<Dashboard />
+						</HashRouter>
+						<GlobalStyles />
 					</StyleProvider>
 				</CacheProvider>
 			</QueryClientProvider>
-		</React.StrictMode>
+		</React.StrictMode>,
 	)
 })
