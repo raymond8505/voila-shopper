@@ -10,6 +10,7 @@ import { Wrapper } from "./Client.styles"
 import { useEffect } from "react"
 import { useProducts } from "@src/hooks/useProducts"
 import { isGA3ImpressionEvent } from "@src/integrations/voila/helpers"
+import DashboardOutlined from "@ant-design/icons/DashboardOutlined"
 
 const originalPush = window.dataLayer?.push
 /**
@@ -52,6 +53,7 @@ export function Client() {
 			icon: <SettingOutlined />,
 		},
 	]
+
 	return (
 		<Wrapper drawerOpen={drawerOpen}>
 			<div>

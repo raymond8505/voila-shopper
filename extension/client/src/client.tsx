@@ -46,6 +46,6 @@ enableMocking().then(() => {
 					</StyleProvider>
 				</CacheProvider>
 			</QueryClientProvider>
-		</React.StrictMode>
+		</React.StrictMode>,
 	)
 })

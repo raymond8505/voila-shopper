@@ -26,6 +26,10 @@
       "resources": ["client/dist/dispatchInitialState.js","client/dist/client.js","client/dist/chunk/*.js"], 
       "matches": ["https://voila.ca/*"] ,
       "type":"module"
+    },
+    {
+      "resources": ["client/dist/dashboard/index.html","client/dist/dashboard.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

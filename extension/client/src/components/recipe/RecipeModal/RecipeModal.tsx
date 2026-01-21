@@ -26,7 +26,6 @@ export function RecipeModal() {
 	} = useStore()
 
 	const recipe = useMemo(() => {
-		console.log(recipeMeta)
 		return recipeMeta?.schema
 	}, [recipeMeta])
 
@@ -83,7 +82,7 @@ export function RecipeModal() {
 										children: recipe?.recipeYield,
 									},
 								].filter(
-									(i) => i.value !== undefined
+									(i) => i.value !== undefined,
 								) as unknown as DescriptionsItemType[]
 							}
 						/>
@@ -98,7 +97,7 @@ export function RecipeModal() {
 										<li key={i}>
 											{decodeHtmlEntities(ingredient)}
 										</li>
-									)
+									),
 								)}
 							</ul>
 						) : null}
@@ -117,7 +116,7 @@ export function RecipeModal() {
 											/>
 										) : (
 											<HowToStep key={i} step={stepOrSection} />
-										)
+										),
 								)}
 							</ol>
 						) : (
@@ -141,8 +140,8 @@ export function RecipeModal() {
 									value: recipe?.nutrition?.calories,
 									children: recipe?.nutrition?.calories
 										? `${trimUnit(
-												recipe?.nutrition?.calories
-										  )}kcal`
+												recipe?.nutrition?.calories,
+											)}kcal`
 										: "unknown",
 								},
 								{
@@ -151,7 +150,7 @@ export function RecipeModal() {
 									value: recipe?.nutrition?.carbohydrateContent,
 									children: `${
 										trimUnit(
-											recipe?.nutrition?.carbohydrateContent
+											recipe?.nutrition?.carbohydrateContent,
 										) ?? "unknown"
 									}g`,
 								},
@@ -170,7 +169,7 @@ export function RecipeModal() {
 									value: recipe?.nutrition?.proteinContent,
 									children: `${
 										trimUnit(
-											recipe?.nutrition?.proteinContent
+											recipe?.nutrition?.proteinContent,
 										) ?? "unknown"
 									}g`,
 								},

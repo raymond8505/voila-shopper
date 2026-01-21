@@ -5,3 +5,6 @@
 **framework**: vitest with mock service worker
 - if a test is failing because the component is throwing an error, never supress the error as a solution. Always prompt me to investigate
 - **only** ever edit the given test file when writing tests. If a test is failing because of an issue in the component or project, prompt me to investigate
+
+# Story Writing for Storybook
+- any UI component of sufficient complexity should have stories for all of its states.

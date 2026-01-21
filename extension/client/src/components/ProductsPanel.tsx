@@ -31,12 +31,6 @@ export function ProductsPanel() {
 				(r) => r.matches === undefined,
 			)
 
-			console.log({
-				latestMatches,
-				latestMatchesLoading,
-				rulesWithoutMatches,
-			})
-
 			getLatestMatches(rulesWithoutMatches)
 				.then((rules) => {
 					console.log("returned rules", rules)
