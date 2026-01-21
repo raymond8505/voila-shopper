@@ -2,6 +2,7 @@ import Menu from "antd/es/menu"
 import Layout, { Content, Header } from "antd/es/layout/layout"
 
 import { Route, Routes, useNavigate } from "react-router-dom"
+import { ProductList } from "./views/ProductList/ProductList"
 
 export function Dashboard() {
 	const navigate = useNavigate()
@@ -31,15 +32,12 @@ export function Dashboard() {
 						},
 					]}
 					mode="horizontal"
-				></Menu>
+				/>
 			</Header>
-			<Content>
+			<Content style={{ padding: "8px" }}>
 				<Routes>
 					<Route path="/" element={<div>home</div>} />
-					<Route
-						path="/products"
-						element={<div>products</div>}
-					/>
+					<Route path="/products" element={<ProductList />} />
 					<Route
 						path="/product/:productId"
 						element={<div>single product</div>}

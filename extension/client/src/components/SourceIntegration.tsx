@@ -1,4 +1,4 @@
-import { useProducts } from "@src/hooks/useProducts"
+import { useSourceProducts } from "@src/hooks/useSourceProducts"
 
 import { createPortal } from "react-dom"
 import { PriceIntelligence } from "./integration/PriceIntelligence"
@@ -11,7 +11,7 @@ const priceTargetParentSelectors = (externalId: string) => [
 	`[data-test="fop-wrapper:${externalId}"] [data-test="fop-price-wrapper"]`,
 ]
 export function SourceIntegration() {
-	const { products } = useProducts()
+	const { products } = useSourceProducts()
 
 	const [portalTargets, setPortalTargets] = useState<
 		Map<string, HTMLElement[]>
@@ -26,15 +26,15 @@ export function SourceIntegration() {
 			if (storeProduct.full && fullProductId) {
 				priceTargetParentSelectors(
 					storeProduct.full.price_intelligence.current
-						.external_id
+						.external_id,
 				).forEach((parentSelector) => {
 					const parentElements = Array.from(
-						document.querySelectorAll(parentSelector)
+						document.querySelectorAll(parentSelector),
 					)
 
 					parentElements.forEach((parent) => {
 						const existingWrapper = parent.querySelector(
-							".vs-price-intelligence"
+							".vs-price-intelligence",
 						) as HTMLElement
 
 						if (!existingWrapper) {
@@ -73,8 +73,8 @@ export function SourceIntegration() {
 				return targets.map((target) =>
 					createPortal(
 						<PriceIntelligence productId={fullProductId} />,
-						target
-					)
+						target,
+					),
 				)
 			})}
 		</>

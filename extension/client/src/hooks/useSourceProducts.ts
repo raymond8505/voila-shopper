@@ -16,7 +16,7 @@ function voilaProductURL(product: Voila.Product): string {
 	}`
 }
 function normalizeVoilaProduct(
-	rawProduct: Voila.Product
+	rawProduct: Voila.Product,
 ): Product.RawProduct {
 	const rawPrice = rawProduct.promoPrice ?? rawProduct.price
 
@@ -41,10 +41,10 @@ function normalizeVoilaProduct(
 		url: voilaProductURL(rawProduct),
 	}
 }
-export function useProducts() {
+export function useSourceProducts() {
 	const { addProducts, products, ignoredVariants } =
 		useProductsStore()
-	const { getProducts } = useVoila()
+	const { getProducts: getVoilaProducts } = useVoila()
 	const { call: createProducts } = useWorkflow<{
 		products: Product.WithPriceIntelligence[]
 	}>({
@@ -63,16 +63,16 @@ export function useProducts() {
 					(newProduct) =>
 						!products.some(
 							(existingProduct) =>
-								existingProduct.raw?.name === newProduct.name
-						)
+								existingProduct.raw?.name === newProduct.name,
+						),
 				)
 
-			const newVoilaProducts = await getProducts(
-				newProducts.map((p) => p.productId as string)
+			const newVoilaProducts = await getVoilaProducts(
+				newProducts.map((p) => p.productId as string),
 			)
 
 			const productsToCreate = newVoilaProducts.products.map(
-				normalizeVoilaProduct
+				normalizeVoilaProduct,
 			)
 
 			createProducts<{
@@ -100,15 +100,15 @@ export function useProducts() {
 										(raw) =>
 											raw.sourceId ===
 											hydrated.price_intelligence.current
-												.external_id // Assuming gtin maps to sourceId
+												.external_id, // Assuming gtin maps to sourceId
 									) as Product.RawProduct,
 								}
-							})
+							}),
 						)
 					}
 				})
 		},
-		[addProducts, products, getProducts, ignoredVariants]
+		[addProducts, products, getVoilaProducts, ignoredVariants],
 	)
 
 	return { hydrateProducts, products }

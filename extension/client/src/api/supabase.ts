@@ -4,11 +4,11 @@ export function supabaseRequest({
 	opts,
 }: {
 	table: string
-	tableParams: Record<string, string | number>
+	tableParams: Record<string, string | number | boolean>
 	opts?: RequestInit
 }) {
 	const url = new URL(
-		`${import.meta.env.VITE_SUPABASE_URL}${table}`
+		`${import.meta.env.VITE_SUPABASE_URL}${table}`,
 	)
 
 	tableParams &&

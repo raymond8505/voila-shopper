@@ -8,7 +8,7 @@ import { useStore } from "@store/client"
 import { DrawerButton } from "./DrawerButton"
 import { Wrapper } from "./Client.styles"
 import { useEffect } from "react"
-import { useProducts } from "@src/hooks/useProducts"
+import { useSourceProducts } from "@src/hooks/useSourceProducts"
 import { isGA3ImpressionEvent } from "@src/integrations/voila/helpers"
 import DashboardOutlined from "@ant-design/icons/DashboardOutlined"
 
@@ -18,7 +18,7 @@ const originalPush = window.dataLayer?.push
  */
 export function Client() {
 	const { drawerOpen } = useStore()
-	const { hydrateProducts } = useProducts()
+	const { hydrateProducts } = useSourceProducts()
 
 	useEffect(() => {
 		/**
