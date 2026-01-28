@@ -30,7 +30,7 @@ export function SettingsPanel() {
 			tableParams: {},
 		}).then(async (resp) => {
 			const rawVariants: string[] = (await resp.json()).map(
-				(v) => v.variant
+				(v) => v.variant,
 			)
 
 			setAllVariants(rawVariants)
@@ -38,8 +38,6 @@ export function SettingsPanel() {
 	}, [setAllVariants])
 
 	const variantSelectRef = useRef<HTMLDivElement>(null)
-
-	//console.log({ ignoredVariants })
 
 	return (
 		<div>

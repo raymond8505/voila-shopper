@@ -19,7 +19,7 @@ export interface ProductsStore {
 	deletePriceTrackerRule: (rule: PriceTracker.Rule) => void
 }
 const localStorageStore = getLocalStorageStore()
-console.log(localStorageStore.products)
+
 export const useStore = create<ProductsStore>()(
 	subscribeWithSelector((set) => ({
 		allVariants: [],
@@ -37,13 +37,13 @@ export const useStore = create<ProductsStore>()(
 							index ===
 							self.findIndex((t) => t.full?.id === p.full?.id)
 						)
-					}
+					},
 				),
 			})),
 		removeProducts: (products) =>
 			set((state) => ({
 				products: state.products.filter(
-					(product) => !products.includes(product)
+					(product) => !products.includes(product),
 				),
 			})),
 		priceTrackerRules:
@@ -58,13 +58,13 @@ export const useStore = create<ProductsStore>()(
 					(r) => {
 						console.log(
 							{ r, rule },
-							JSON.stringify(r) !== JSON.stringify(rule)
+							JSON.stringify(r) !== JSON.stringify(rule),
 						)
 						return JSON.stringify(r) !== JSON.stringify(rule)
-					}
+					},
 				),
 			})),
-	}))
+	})),
 )
 
 useStore.subscribe(
@@ -79,5 +79,5 @@ useStore.subscribe(
 			matches: undefined,
 		})),
 	}),
-	(state) => setLocalStorageStore(state, "products")
+	(state) => setLocalStorageStore(state, "products"),
 )

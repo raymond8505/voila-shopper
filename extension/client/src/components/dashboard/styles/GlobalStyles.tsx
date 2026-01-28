@@ -10,6 +10,16 @@ export const GlobalStyles = () => {
 			styles={`
         ${CSS_RESET}
 
+        h1
+        {
+          font-size: 2em;
+        }
+
+        h2
+        {
+          font-size: 1.5em;
+        }
+
         dl
         {
           display: grid;
@@ -47,6 +57,11 @@ export const GlobalStyles = () => {
 
         &::-webkit-scrollbar-thumb:hover {
           background: #555;
+        }
+
+        .ant-col
+        {
+          padding: 4px;
         }
     `}
 		/>

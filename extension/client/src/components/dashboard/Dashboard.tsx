@@ -3,6 +3,7 @@ import Layout, { Content, Header } from "antd/es/layout/layout"
 
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { ProductList } from "./views/ProductList/ProductList"
+import { SingleProduct } from "./views/SingleProduct/SingleProduct"
 
 export function Dashboard() {
 	const navigate = useNavigate()
@@ -34,13 +35,13 @@ export function Dashboard() {
 					mode="horizontal"
 				/>
 			</Header>
-			<Content style={{ padding: "8px" }}>
+			<Content style={{ padding: "16px" }}>
 				<Routes>
 					<Route path="/" element={<div>home</div>} />
 					<Route path="/products" element={<ProductList />} />
 					<Route
 						path="/product/:productId"
-						element={<div>single product</div>}
+						element={<SingleProduct />}
 					/>
 				</Routes>
 			</Content>

@@ -9,10 +9,11 @@ import { useNavigate } from "react-router-dom"
 export function ProductList() {
 	const [tableParams, setTableParams] =
 		useState<TablePaginationConfig>({
-			pageSize: 10,
+			pageSize: 20,
 			current: 1,
 			total: 1,
 		})
+	// TODO add types for product rows and pagination
 	const { data, isLoading, isPending } = useQuery({
 		queryFn: async () => {
 			const dbResp = await supabaseRequest({
@@ -27,6 +28,7 @@ export function ProductList() {
 
 			const json = await dbResp.json()
 
+			// TODO move out to state with useEffect to update
 			setTableParams((prev) => {
 				return {
 					...prev,
@@ -36,13 +38,27 @@ export function ProductList() {
 			return json
 		},
 		queryKey: [tableParams.current, tableParams.pageSize],
+		staleTime: 15 * 60 * 1000,
 	})
 
 	const navigate = useNavigate()
 	return (
 		<Table
+			size="small"
 			loading={isLoading || isPending}
 			columns={[
+				{
+					title: "",
+					render: (row) => {
+						return (
+							<UnstyledButtonElement>
+								<BarChartOutlined
+									onClick={() => navigate(`/product/${row.id}`)}
+								/>
+							</UnstyledButtonElement>
+						)
+					},
+				},
 				{
 					dataIndex: "id",
 					title: "ID",
@@ -60,19 +76,6 @@ export function ProductList() {
 				{
 					dataIndex: "updated_at",
 					title: "Updated At",
-				},
-				{
-					title: "",
-					render: (row) => {
-						console.log(row)
-						return (
-							<UnstyledButtonElement>
-								<BarChartOutlined
-									onClick={() => navigate(`/product/${row.id}`)}
-								/>
-							</UnstyledButtonElement>
-						)
-					},
 				},
 			]}
 			dataSource={data?.data ?? []}

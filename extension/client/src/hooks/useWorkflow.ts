@@ -45,8 +45,11 @@ export function useWorkflow<T = Job.UnknownData>({
 				timeout,
 				workflowLiveMode,
 			]
+			// safely hash the query by converting to UTF-8 before hashing
 			const hashedKey = `price-tracker${btoa(
-				JSON.stringify(queryKey),
+				String.fromCodePoint(
+					...new TextEncoder().encode(JSON.stringify(queryKey)),
+				),
 			)}`
 			return queryClient.fetchQuery({
 				queryKey,

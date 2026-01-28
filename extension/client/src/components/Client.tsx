@@ -10,7 +10,6 @@ import { Wrapper } from "./Client.styles"
 import { useEffect } from "react"
 import { useSourceProducts } from "@src/hooks/useSourceProducts"
 import { isGA3ImpressionEvent } from "@src/integrations/voila/helpers"
-import DashboardOutlined from "@ant-design/icons/DashboardOutlined"
 
 const originalPush = window.dataLayer?.push
 /**
