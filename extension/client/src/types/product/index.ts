@@ -1,3 +1,5 @@
+import { ProductView } from "./product-view"
+
 export namespace Product {
 	/**
 	 * A product containing all the relevant information
@@ -159,6 +161,6 @@ export namespace Product {
 
 	export type StoreProduct = {
 		raw: RawProduct
-		full?: WithPriceIntelligence
+		full?: ProductView.ProductView
 	}
 }

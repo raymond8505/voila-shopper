@@ -35,7 +35,9 @@ export const useStore = create<ProductsStore>()(
 					(p, index, self) => {
 						return (
 							index ===
-							self.findIndex((t) => t.full?.id === p.full?.id)
+							self.findIndex(
+								(t) => t.full?.product.id === p.full?.product.id,
+							)
 						)
 					},
 				),

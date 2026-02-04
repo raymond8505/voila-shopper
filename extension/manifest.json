@@ -4,11 +4,23 @@
   "version": "1.0.0",
   "description": "Loads client/dist/client.js as a content script.",
   "permissions": [],
+  "icons": {
+    "16": "client/dist/icons/shopper_icon_16.png",
+    "32": "client/dist/icons/shopper_icon_32.png",
+    "48": "client/dist/icons/shopper_icon_48.png",
+    "128": "client/dist/icons/shopper_icon_128.png"
+  },
   "host_permissions": [
     "<all_urls>"
   ],
    "action": {
-    "default_title": "Open Shopper Dashboard"
+    "default_title": "Open Shopper Dashboard",
+    "default_icon": {
+      "16": "client/dist/icons/shopper_icon_16.png",
+      "32": "client/dist/icons/shopper_icon_32.png",
+      "48": "client/dist/icons/shopper_icon_48.png",
+      "128": "client/dist/icons/shopper_icon_128.png"
+    }
   },
   "background": {
     "service_worker": "client/dist/background.js"

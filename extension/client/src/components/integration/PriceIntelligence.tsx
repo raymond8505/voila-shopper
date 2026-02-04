@@ -10,22 +10,22 @@ export function PriceIntelligence({
 }) {
 	const product = useStoreProduct(productId)
 
-	if (!product?.full?.price_intelligence) return null
+	if (!product?.full?.price_stats) return null
 
 	const avgRegProductPrice =
-		product.full.price_intelligence.product_history
+		product.full.price_stats
 			.avg_regular_price
 	const avgSaleProductPrice =
-		product.full.price_intelligence.product_history
+		product.full.price_stats
 			.avg_sale_price
-	const isSale = product.full.price_intelligence.current.is_sale
+	const isSale = product.full.latest_prices[0].is_sale
 
 	const shouldShowProductArrow = isSale
 		? !!avgSaleProductPrice
 		: !!avgRegProductPrice
 
 	const avgRegCommodityPrice =
-		product.full.price_intelligence.commodity_stats
+		product.full.commodity_stats
 			.avg_regular_price
 	const avgSaleCommodityPrice =
 		product.full.price_intelligence.commodity_stats
@@ -48,9 +48,7 @@ export function PriceIntelligence({
 				<div>
 					<BarcodeOutlined />
 					<PriceDifferenceArrow
-						currentPrice={
-							product.full.price_intelligence.current.price
-						}
+						currentPrice={product.full.latest_prices[0].price}
 						comparePrice={
 							isSale ? avgSaleProductPrice! : avgRegProductPrice!
 						}
@@ -61,9 +59,7 @@ export function PriceIntelligence({
 				<div>
 					<GoldOutlined />
 					<PriceDifferenceArrow
-						currentPrice={
-							product.full.price_intelligence.current.price
-						}
+						currentPrice={product.full.latest_prices[0].price}
 						comparePrice={
 							isSale
 								? avgSaleCommodityPrice!

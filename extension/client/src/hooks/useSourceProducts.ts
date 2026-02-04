@@ -6,6 +6,7 @@ import { useVoila } from "./useVoila"
 import { useWorkflow } from "./useWorkflow"
 import { isCreateProductsResponse } from "@src/types/helpers"
 import { slugify } from "@src/helpers"
+import { ProductView } from "@src/types/product/product-view"
 
 function voilaProductURL(product: Voila.Product): string {
 	// Voila single product view selects by retailerProductId
@@ -46,7 +47,7 @@ export function useSourceProducts() {
 		useProductsStore()
 	const { getProducts: getVoilaProducts } = useVoila()
 	const { call: createProducts } = useWorkflow<{
-		products: Product.WithPriceIntelligence[]
+		products: ProductView.ProductView[]
 	}>({
 		url: import.meta.env.VITE_WORKFLOW_CREATE_PRODUCTS,
 		auth: {
@@ -54,6 +55,13 @@ export function useSourceProducts() {
 			password: import.meta.env.VITE_WORKFLOW_PWD,
 		},
 	})
+
+	const getProductByFullId = useCallback(
+		(id: string) => {
+			return products.find((p) => p.full?.product.id === id)
+		},
+		[products],
+	)
 
 	const hydrateProducts = useCallback(
 		async (productsToHydrate: Partial<Voila.Product>[]) => {
@@ -99,8 +107,7 @@ export function useSourceProducts() {
 									raw: productsToCreate.find(
 										(raw) =>
 											raw.sourceId ===
-											hydrated.price_intelligence.current
-												.external_id, // Assuming gtin maps to sourceId
+											hydrated.latest_prices[0].source_id,
 									) as Product.RawProduct,
 								}
 							}),
@@ -111,5 +118,5 @@ export function useSourceProducts() {
 		[addProducts, products, getVoilaProducts, ignoredVariants],
 	)
 
-	return { hydrateProducts, products }
+	return { hydrateProducts, products, getProductByFullId }
 }

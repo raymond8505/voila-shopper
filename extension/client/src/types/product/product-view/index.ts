@@ -70,6 +70,7 @@ export namespace ProductView {
 		product_count: number
 		total_observations: number
 		avg_unit_price: number | null
+		avg_regular_price: number | null
 		min_unit_price: number | null
 		max_unit_price: number | null
 		avg_regular_unit_price: number | null

@@ -2,7 +2,10 @@ import { useSourceProducts } from "@src/hooks/useSourceProducts"
 
 import { createPortal } from "react-dom"
 import { PriceIntelligence } from "./integration/PriceIntelligence"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { UnstyledButton } from "./common/UnstyledButton"
+import PlusSquareOutlined from "@ant-design/icons/PlusSquareOutlined"
+import { useStore } from "@src/store/client"
 
 /**
  * every place on the source page that needs to house a PriceIntelligence component
@@ -11,7 +14,9 @@ const priceTargetParentSelectors = (externalId: string) => [
 	`[data-test="fop-wrapper:${externalId}"] [data-test="fop-price-wrapper"]`,
 ]
 export function SourceIntegration() {
-	const { products } = useSourceProducts()
+	const { products, getProductByFullId } = useSourceProducts()
+
+	const { setRecipeCriteria } = useStore()
 
 	const [portalTargets, setPortalTargets] = useState<
 		Map<string, HTMLElement[]>
@@ -21,12 +26,11 @@ export function SourceIntegration() {
 		// ... DOM injection logic, but store the target elements not the portals
 		products.forEach((storeProduct) => {
 			const wrappers: HTMLElement[] = []
-			const fullProductId = storeProduct.full?.id
+			const fullProductId = storeProduct.full?.product.id
 
 			if (storeProduct.full && fullProductId) {
 				priceTargetParentSelectors(
-					storeProduct.full.price_intelligence.current
-						.external_id,
+					storeProduct.full.latest_prices[0].source_id,
 				).forEach((parentSelector) => {
 					const parentElements = Array.from(
 						document.querySelectorAll(parentSelector),
@@ -59,10 +63,18 @@ export function SourceIntegration() {
 		})
 	}, [products, setPortalTargets])
 
+	const onAddIngredientClick = useCallback(
+		(fullId: string) => {
+			const product = getProductByFullId(fullId)
+			console.log({ product })
+		},
+		[setRecipeCriteria, getProductByFullId],
+	)
+
 	return (
 		<>
 			{products.flatMap((storeProduct) => {
-				const fullProductId = storeProduct.full?.id
+				const fullProductId = storeProduct.full?.product.id
 
 				if (!fullProductId) return []
 
@@ -72,7 +84,21 @@ export function SourceIntegration() {
 
 				return targets.map((target) =>
 					createPortal(
-						<PriceIntelligence productId={fullProductId} />,
+						<div
+							style={{
+								display: "flex",
+								gap: "8px",
+							}}
+						>
+							<PriceIntelligence productId={fullProductId} />
+							<UnstyledButton
+								onClick={() =>
+									onAddIngredientClick(fullProductId)
+								}
+							>
+								<PlusSquareOutlined />
+							</UnstyledButton>
+						</div>,
 						target,
 					),
 				)

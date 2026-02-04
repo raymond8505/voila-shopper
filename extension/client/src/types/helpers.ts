@@ -1,6 +1,6 @@
-import { Product } from "./product"
 import type { Voila } from "./voila"
 import { Recipe } from "./recipe/index"
+import { ProductView } from "./product/product-view"
 
 /**
  * Type guard to check if an object is a Voila.Product.
@@ -8,7 +8,7 @@ import { Recipe } from "./recipe/index"
  * @returns True if the object is a Voila.Product, false otherwise.
  */
 export function isVoilaProduct(
-	obj: unknown
+	obj: unknown,
 ): obj is Voila.Product {
 	if (typeof obj !== "object" || obj === null) {
 		return false
@@ -33,14 +33,14 @@ export function isVoilaProduct(
  * @returns True if the object is an array of Voila.Product, false otherwise.
  */
 export function isVoilaProductArray(
-	obj: unknown
+	obj: unknown,
 ): obj is Voila.Product[] {
 	return Array.isArray(obj) && obj.every(isVoilaProduct)
 }
 
 export function isCreateProductsResponse(
-	response: unknown
-): response is { products: Product.WithPriceIntelligence[] } {
+	response: unknown,
+): response is { products: ProductView.ProductView[] } {
 	if (typeof response !== "object" || response === null) {
 		return false
 	}
@@ -55,7 +55,7 @@ export function isCreateProductsResponse(
 }
 
 export function isHowToSection(
-	section: unknown
+	section: unknown,
 ): section is Recipe.HowToSection {
 	if (
 		!section ||
@@ -69,7 +69,7 @@ export function isHowToSection(
 }
 
 export function isHowToStep(
-	section: unknown
+	section: unknown,
 ): section is Recipe.HowToStep {
 	if (
 		!section ||
